@@ -1,14 +1,16 @@
+import imp
 from flask import Flask, request
 import datetime
 import time
 import pause
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler  
 import atexit
 import requests
 import json
 import urllib.request
 
 app = Flask(__name__)
+app.app_context().push()
 
 users = dict()
     
@@ -42,26 +44,9 @@ def runserver():
 
 
     print(users)
-    return 'Hello, World!'
+    return "Hello, World!"
 
 chapter_shlokas = [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 34, 27, 20, 24, 28, 78]
-
-def send_message():
-    for phone_no in users.keys():
-        user_data = users[phone_no];
-        if(user_data[1]):
-            ch, sh = getChSh(user_data[0]);
-            URL = 'https://bhagavadgitaapi.in/slok/{}/{}'.format(ch, sh)
-            page = requests.get(URL)
-
-            result = json.loads(page.text)
-
-            message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['sankar']['author'] + '\n\n' + result['sankar']['et'] + '\n\n' + result['sankar']['ht']
-
-            return_webhook_url = 'https://betablaster.in/api/send.php?number=919606807941&type=text&message={}&instance_id=62680FA67B740&access_token=f308a4f4a94bfd9ba008a559c5019d41'.format(message_text)
-            urllib.request.urlopen(return_webhook_url)
-
-
 
 def getChSh(n):
     ch = 1
@@ -73,18 +58,33 @@ def getChSh(n):
     return (ch, n);
 
 
-        
+def print_date_time():
+    for phone_no in users.keys():
+        user_data = users[phone_no];
+        if(user_data[1]):
+            ch, sh = getChSh(user_data[0]);
+            URL = 'https://bhagavadgitaapi.in/slok/{}/{}'.format(ch, sh)
+            print(URL)
+            page = requests.get(URL)
+
+            result = json.loads(page.text)
+
+            message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['sankar']['author'] + '\n\n' + result['sankar']['et'] + '\n\n' + result['sankar']['ht']
+
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62680FA67B740&access_token=f308a4f4a94bfd9ba008a559c5019d41'.format(phone_no, message_text).replace(' ', '+').replace('\n', '%0D%0A')
+            # request.post(return_webhook_url)
+            # sendurl(return_webhook_url)
+            # print(return_webhook_url)
+            users[phone_no][0] = users[phone_no][0] + 1
 
 
-
-
-scheduler = BackgroundScheduler()
-scheduler.add_job(func='send_message', trigger="interval", seconds=25)
-
-# Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
+def sendurl(url):
+    request.post(url)
 
 if __name__ == "__main__":
+    sched = BackgroundScheduler()
+    sched.start()
+    sched.add_job(print_date_time, 'interval', seconds=10)
     app.run(debug=True)
+    
 
-scheduler.start()
