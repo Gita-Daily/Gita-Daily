@@ -69,10 +69,13 @@ def print_date_time():
 
             result = json.loads(page.text)
 
-            message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['sankar']['author'] + '\n\n' + result['sankar']['et'] + '\n\n' + result['sankar']['ht']
-
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62680FA67B740&access_token=f308a4f4a94bfd9ba008a559c5019d41'.format(phone_no, message_text).replace(' ', '+').replace('\n', '%0D%0A')
+            # message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['sankar']['author'] + '\n\n' + result['sankar']['et'] + '\n\n' + result['sankar']['ht']
+            message_text = 'hi I am samartg'
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62680FA67B740&access_token=f308a4f4a94bfd9ba008a559c5019d41'.format(phone_no, message_text)
             # request.post(return_webhook_url)
+            ulr = urllib.quote(return_webhook_url)
+            print(ulr)
+            # urllib3.request.urlopen(return_webhook_url)
             # sendurl(return_webhook_url)
             # print(return_webhook_url)
             users[phone_no][0] = users[phone_no][0] + 1
