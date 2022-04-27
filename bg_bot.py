@@ -86,7 +86,19 @@ def print_date_time():
 
             result = json.loads(page.text)
 
-            message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\n' + result['siva']['et'] + '\n\n' + result['siva']['ec']
+            wrd_by_wrd_translation = ''
+            commentary = ''
+            message_text = ''
+            if('No Commentary' in result['siva']['ec']):
+                wrd_by_wrd_translation = result['siva']['ec'][:(result['siva']['ec'].find('No Commentary'))].replace('?', '')   
+                message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\nTranslation: ' + wrd_by_wrd_translation
+
+                
+            else:
+                wrd_by_wrd_translation = result['siva']['ec'][:(result['siva']['ec'].find('Commentary'))].replace('?', '')                
+                commentary =  result['siva']['ec'][(result['siva']['ec'].find('Commentary')) + (11) : ].replace('?', '')   
+                message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\nTranslation: ' + wrd_by_wrd_translation + '\n\nCommentary: ' + commentary
+
             encoded_msg = urllib.parse.quote(message_text)
             return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
             print(return_webhook_url)
