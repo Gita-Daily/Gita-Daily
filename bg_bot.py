@@ -1,12 +1,7 @@
 # coding=utf-8
 
-import imp
 from flask import Flask, request
-import datetime
-import time
-import pause
-from apscheduler.schedulers.background import BackgroundScheduler  
-import atexit
+from apscheduler.schedulers.background import BackgroundScheduler  # to run the code in background
 import requests
 import json
 import urllib.request
@@ -32,31 +27,35 @@ def runserver():
     res_data = request.json['data']
     # print(type(res_data))
 
-    if type(res_data) is dict:
-        # print(res_data.keys())
-        msg_lst = res_data['messages']
-        msg = msg_lst[0]
-        name = msg['pushName']
-        msg_text = msg['message']['conversation']
-        phone_no = msg['key']['remoteJid'][:12]
+    try:
+        if type(res_data) is dict:
+            # print(res_data.keys())
+            msg_lst = res_data['messages']
+            msg = msg_lst[0]
+            name = msg['pushName']
+            msg_text = msg['message']['conversation']
+            phone_no = msg['key']['remoteJid'][:12]
 
-        if phone_no not in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
-            users[phone_no] = [1, True, name]
-            encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
-            urllib.request.urlopen(return_webhook_url)
+            if phone_no not in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
+                users[phone_no] = [1, True, name]
+                encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
+                urllib.request.urlopen(return_webhook_url)
 
-        elif phone_no in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
-            users[phone_no] = [users[phone_no][0], True, name]
-            encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
-            urllib.request.urlopen(return_webhook_url)
+            elif phone_no in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
+                users[phone_no] = [users[phone_no][0], True, name]
+                encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
+                urllib.request.urlopen(return_webhook_url)
 
-        elif phone_no in users.keys() and msg_text.lower().strip() == 'unsubscribe':
-            users[phone_no][1] = False
-            encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
-            urllib.request.urlopen(return_webhook_url)
+            elif phone_no in users.keys() and msg_text.lower().strip() == 'unsubscribe':
+                users[phone_no][1] = False
+                encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
+                urllib.request.urlopen(return_webhook_url)
+
+    except:
+        pass
 
 
 
