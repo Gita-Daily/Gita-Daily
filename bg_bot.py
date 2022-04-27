@@ -16,8 +16,6 @@ users = dict()
 def hello():
     return "Hello, World!"
 
-users = dict()
-
 # dict_keys(['instance_id', 'event', 'data'])
 
 @app.route("/test", methods=['POST'])
@@ -73,7 +71,7 @@ def getChSh(n):
     
     return (ch, n);
 
-
+@app.route("/init", methods=['GET'])
 def print_date_time():
     for phone_no in users.keys():
         user_data = users[phone_no];
@@ -104,14 +102,13 @@ def print_date_time():
             urllib.request.urlopen(return_webhook_url)
             users[phone_no][0] = users[phone_no][0] + 1
 
+    return ""
 
-def sendurl(url):
-    request.post(url)
 
 if __name__ == "__main__":
-    sched = BackgroundScheduler()
-    sched.start()
-    sched.add_job(print_date_time, 'interval', seconds=40)
+    # sched = BackgroundScheduler()
+    # sched.start()
+    # sched.add_job(print_date_time, 'interval', seconds=40)
     app.run(debug=True)
     
 
