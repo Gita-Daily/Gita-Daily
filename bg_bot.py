@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import imp
 from flask import Flask, request
 import datetime
@@ -8,6 +10,7 @@ import atexit
 import requests
 import json
 import urllib.request
+import urllib.parse
 
 app = Flask(__name__)
 app.app_context().push()
@@ -39,7 +42,21 @@ def runserver():
 
         if phone_no not in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
             users[phone_no] = [1, True, name]
+            encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
+            urllib.request.urlopen(return_webhook_url)
 
+        elif phone_no in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
+            users[phone_no] = [users[phone_no][0], True, name]
+            encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
+            urllib.request.urlopen(return_webhook_url)
+
+        elif phone_no in users.keys() and msg_text.lower().strip() == 'unsubscribe':
+            users[phone_no][1] = False
+            encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
+            urllib.request.urlopen(return_webhook_url)
 
 
 
@@ -69,15 +86,11 @@ def print_date_time():
 
             result = json.loads(page.text)
 
-            # message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['sankar']['author'] + '\n\n' + result['sankar']['et'] + '\n\n' + result['sankar']['ht']
-            message_text = 'hi I am samartg'
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62680FA67B740&access_token=f308a4f4a94bfd9ba008a559c5019d41'.format(phone_no, message_text)
-            # request.post(return_webhook_url)
-            ulr = urllib.quote(return_webhook_url)
-            print(ulr)
-            # urllib3.request.urlopen(return_webhook_url)
-            # sendurl(return_webhook_url)
-            # print(return_webhook_url)
+            message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\n' + result['siva']['et'] + '\n\n' + result['siva']['ec']
+            encoded_msg = urllib.parse.quote(message_text)
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=6268CD836C83B&access_token=dfcd47b5105a80e08c6d5e7d8d2bfa60'.format(phone_no, encoded_msg)
+            print(return_webhook_url)
+            urllib.request.urlopen(return_webhook_url)
             users[phone_no][0] = users[phone_no][0] + 1
 
 
@@ -87,7 +100,7 @@ def sendurl(url):
 if __name__ == "__main__":
     sched = BackgroundScheduler()
     sched.start()
-    sched.add_job(print_date_time, 'interval', seconds=10)
+    sched.add_job(print_date_time, 'interval', seconds=40)
     app.run(debug=True)
     
 
