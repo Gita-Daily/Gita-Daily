@@ -49,9 +49,15 @@ def runserver():
             msg_text = msg['message']['conversation']
             phone_no = msg['key']['remoteJid'][:12]
 
+            doc_ref = db.collection(u'users').stream()
+            user = dict()
+            for doc in doc_ref:
+                document = db.collection(u'users').document(doc.id)
+                user[doc.id] = [document.get().to_dict()]
+
             if phone_no not in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
-                doc_ref = db.collection(u'users').document(phone_no)
-                doc_ref.set({
+                doc_ref_internal = db.collection(u'users').document(phone_no)
+                doc_ref_internal.set({
                     u'name': name,
                     u'subscribe': True,
                     u'shlok': 1
@@ -64,8 +70,12 @@ def runserver():
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
 
-            elif phone_no in users.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
-                users[phone_no] = [users[phone_no][0], True, name]
+            elif phone_no in user.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
+                db.collection(u'users').document(phone_no).set({
+                    u'name': user[phone_no]['name'],
+                    u'subscribe': True,
+                    u'shlok': user[phone_no]['shlok']
+                })
                 encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626A3E916DE40&access_token=5a30cf125df4e52a36ce4daa0403885f'.format(phone_no, encoded_msg)
                 print(return_webhook_url)
@@ -73,8 +83,12 @@ def runserver():
                 print(r.data)
 
 
-            elif phone_no in users.keys() and msg_text.lower().strip() == 'unsubscribe':
-                users[phone_no][1] = False
+            elif phone_no in user.keys() and msg_text.lower().strip() == 'unsubscribe':
+                db.collection(u'users').document(phone_no).set({
+                    u'name': user[phone_no]['name'],
+                    u'subscribe': False,
+                    u'shlok': user[phone_no]['shlok']
+                })                
                 encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626A3E916DE40&access_token=5a30cf125df4e52a36ce4daa0403885f'.format(phone_no, encoded_msg)
                 print(return_webhook_url)
