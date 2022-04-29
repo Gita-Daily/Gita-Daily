@@ -64,7 +64,7 @@ def runserver():
                 })
                 users[phone_no] = [1, True, name]
                 encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
-                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626AA5B8F2C2F&access_token=ada2b327a9c757f313bdedc9f424ac7c'.format(phone_no, encoded_msg)
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626B504F46E91&access_token=9ea7753996bd194ccf093c844162fc41'.format(phone_no, encoded_msg)
                 print(return_webhook_url)
                 # urllib.request.urlopen(return_webhook_url)
                 r=http.request('GET', return_webhook_url)
@@ -77,7 +77,7 @@ def runserver():
                     u'shlok': user[phone_no][0]
                 })
                 encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
-                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626AA5B8F2C2F&access_token=ada2b327a9c757f313bdedc9f424ac7c'.format(phone_no, encoded_msg)
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626B504F46E91&access_token=9ea7753996bd194ccf093c844162fc41'.format(phone_no, encoded_msg)
                 print(return_webhook_url)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
@@ -90,7 +90,7 @@ def runserver():
                     u'shlok': user[phone_no][0]
                 })                
                 encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
-                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626AA5B8F2C2F&access_token=ada2b327a9c757f313bdedc9f424ac7c'.format(phone_no, encoded_msg)
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626B504F46E91&access_token=9ea7753996bd194ccf093c844162fc41'.format(phone_no, encoded_msg)
                 print(return_webhook_url)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
@@ -144,7 +144,7 @@ def print_date_time():
                 message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\nTranslation: ' + result['siva']['et'] + '\n\nWord By Word Meaning:' + wrd_by_wrd_translation + '\n\nCommentary: ' + commentary
 
             encoded_msg = urllib.parse.quote(message_text)
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626AA5B8F2C2F&access_token=ada2b327a9c757f313bdedc9f424ac7c'.format(doc.id, encoded_msg)
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626B504F46E91&access_token=9ea7753996bd194ccf093c844162fc41'.format(doc.id, encoded_msg)
             print(return_webhook_url)
             r=http.request('GET', return_webhook_url)
             print(r.data)
