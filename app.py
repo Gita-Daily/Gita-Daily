@@ -9,6 +9,7 @@ import urllib3
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import datetime
 
 http = urllib3.PoolManager()
 
@@ -51,10 +52,12 @@ def runserver():
 
             doc_ref = db.collection(u'users').stream()
             user = dict()
+            print('Starting get data ' + str(datetime.now()))
             for doc in doc_ref:
                 document = db.collection(u'users').document(doc.id)
                 user[doc.id] = [document.get().to_dict()['shlok'], document.get().to_dict()['name'], document.get().to_dict()['subscribe']]
                 print(user[doc.id])
+            print('Ending get data ' + str(datetime.now()))
             if phone_no not in user.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
                 doc_ref_internal = db.collection(u'users').document(phone_no)
                 doc_ref_internal.set({
