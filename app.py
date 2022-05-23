@@ -52,12 +52,12 @@ def runserver():
 
             doc_ref = db.collection(u'users').stream()
             user = dict()
-            print('Starting get data ' + str(datetime.now()))
+            print('Starting get data ' + str(datetime.datetime.now()))
             for doc in doc_ref:
                 document = db.collection(u'users').document(doc.id)
                 user[doc.id] = [document.get().to_dict()['shlok'], document.get().to_dict()['name'], document.get().to_dict()['subscribe']]
                 print(user[doc.id])
-            print('Ending get data ' + str(datetime.now()))
+            print('Ending get data ' + str(datetime.datetime.now()))
             if phone_no not in user.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
                 doc_ref_internal = db.collection(u'users').document(phone_no)
                 doc_ref_internal.set({
