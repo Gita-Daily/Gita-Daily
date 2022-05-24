@@ -71,7 +71,7 @@ def runserver():
 
             elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
                 data[phone_no][2] = False
-                encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number. \n\n We thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\n Please help us by sharing your feedback here 👉  https://forms.gle/pLm2fczXNfKXk8dn7')
+                encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending "hare krishna" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7')
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
@@ -82,7 +82,6 @@ def runserver():
 
 
 
-    print(users)
     return "Hello, World!"
 
 chapter_shlokas = [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 34, 27, 20, 24, 28, 78]
