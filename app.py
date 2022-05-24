@@ -6,12 +6,20 @@ import json
 import urllib.request
 import urllib.parse
 import urllib3
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
 app = Flask(__name__)
 app.app_context().push()
 
 http = urllib3.PoolManager()
 requests.packages.urllib3.disable_warnings()
+
+cred = credentials.Certificate('gita-daily-ee5f6-25032c526a9d.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 
 #Adds whatsapp format of italics to shlok
@@ -43,6 +51,7 @@ def runserver():
             data = {}
             with open('data.json') as json_file:
                 data = json.load(json_file)
+            print(data)
 
             #New user not in data.json => add user
             if phone_no not in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
@@ -53,8 +62,11 @@ def runserver():
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
-                with open("data.txt", "w") as outfile:
-                    outfile.write(data)
+                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref.set({
+                    u'data' : data
+                })
+
                         
             #User in data.json => resubscribe
             elif phone_no in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
@@ -65,8 +77,10 @@ def runserver():
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
-                with open("data.txt", "w") as outfile:
-                    outfile.write(data)                        
+                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref.set({
+                    u'data' : data
+                })                       
 
             #unsubscribe user
             elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
@@ -77,8 +91,11 @@ def runserver():
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
-                with open("data.txt", "w") as outfile:
-                    outfile.write(data)                        
+                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref.set({
+                    u'data' : data
+                })                        
+                     
     except:
         pass
 
@@ -105,6 +122,7 @@ def send_shlok():
     data = {}
     with open('data.json') as json_file:
         data = json.load(json_file) 
+    print(data)
     #iterate through all users and send them shlokas   
     for phone_no in data.keys():
         user_data = data[phone_no];
@@ -146,8 +164,11 @@ def send_shlok():
 
     with open("data.json", "w") as outfile:
         json.dump(data, outfile)
-    with open("data.txt", "w") as outfile:
-        outfile.write(data)        
+    doc_ref = db.collection(u'json').document('data.json')
+    doc_ref.set({
+        u'data' : data
+    })        
+     
     return ""
 
 
