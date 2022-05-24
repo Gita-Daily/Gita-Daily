@@ -53,6 +53,8 @@ def runserver():
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
+                with open("data.txt", "w") as outfile:
+                    outfile.write(data)
                         
             #User in data.json => resubscribe
             elif phone_no in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
@@ -63,6 +65,8 @@ def runserver():
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
+                with open("data.txt", "w") as outfile:
+                    outfile.write(data)                        
 
             #unsubscribe user
             elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
@@ -73,6 +77,8 @@ def runserver():
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
+                with open("data.txt", "w") as outfile:
+                    outfile.write(data)                        
     except:
         pass
 
@@ -140,6 +146,8 @@ def send_shlok():
 
     with open("data.json", "w") as outfile:
         json.dump(data, outfile)
+    with open("data.txt", "w") as outfile:
+        outfile.write(data)        
     return ""
 
 
