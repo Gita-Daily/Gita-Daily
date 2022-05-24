@@ -56,28 +56,28 @@ def runserver():
             #New user not in data.json => add user
             if phone_no not in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
                 data[phone_no] = [name, 1, True]
-                encoded_msg = urllib.parse.quote('🦚*Hare Krishna {}!*🦚 \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏'.format(name))
+                encoded_msg = urllib.parse.quote('*🦚Hare Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏'.format(name))
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
-                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref = db.collection(u'json').document()
                 doc_ref.set({
                     u'data' : data
                 })
 
                         
             #User in data.json => resubscribe
-            elif phone_no in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
+            elif phone_no in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna') and data[phone_no][2] == False:
                 data[phone_no] = [name, data[phone_no][1], True]
-                encoded_msg = urllib.parse.quote('🦚*Hare Krishna {}!*🦚 \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏'.format(name))
+                encoded_msg = urllib.parse.quote('*🦚Hare Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏'.format(name))
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
-                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref = db.collection(u'json').document()
                 doc_ref.set({
                     u'data' : data
                 })                       
@@ -91,7 +91,7 @@ def runserver():
                 print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
-                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref = db.collection(u'json').document()
                 doc_ref.set({
                     u'data' : data
                 })                        
@@ -164,7 +164,7 @@ def send_shlok():
 
     with open("data.json", "w") as outfile:
         json.dump(data, outfile)
-    doc_ref = db.collection(u'json').document('data.json')
+    doc_ref = db.collection(u'json').document()
     doc_ref.set({
         u'data' : data
     })        
