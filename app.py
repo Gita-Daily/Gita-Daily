@@ -1,16 +1,20 @@
 # coding=utf-8
 
 from flask import Flask, request
-from apscheduler.schedulers.background import BackgroundScheduler  # to run the code in background
 import requests
 import json
 import urllib.request
 import urllib.parse
+import urllib3
 
 app = Flask(__name__)
 app.app_context().push()
 
 users = dict()
+
+http = urllib3.PoolManager()
+requests.packages.urllib3.disable_warnings()
+
     
 @app.route("/")
 def hello():
@@ -41,24 +45,27 @@ def runserver():
             if phone_no not in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
                 data[phone_no] = [name, 1, True]
                 encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
-                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626A3E916DE40&access_token=5a30cf125df4e52a36ce4daa0403885f'.format(phone_no, encoded_msg)
-                urllib.request.urlopen(return_webhook_url)
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
+                r=http.request('GET', return_webhook_url)
+                print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
                         
             elif phone_no in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
                 data[phone_no] = [name, data[phone_no][1], True]
                 encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
-                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626A3E916DE40&access_token=5a30cf125df4e52a36ce4daa0403885f'.format(phone_no, encoded_msg)
-                urllib.request.urlopen(return_webhook_url)
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
+                r=http.request('GET', return_webhook_url)
+                print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
 
             elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
                 data[phone_no][2] = False
                 encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
-                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626A3E916DE40&access_token=5a30cf125df4e52a36ce4daa0403885f'.format(phone_no, encoded_msg)
-                urllib.request.urlopen(return_webhook_url)
+                return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
+                r=http.request('GET', return_webhook_url)
+                print(r.data)
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
     except:
@@ -109,9 +116,10 @@ def print_date_time():
                 message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\nTranslation: ' + result['siva']['et'] + '\n\nWord By Word Meaning:' + wrd_by_wrd_translation + '\n\nCommentary: ' + commentary
 
             encoded_msg = urllib.parse.quote(message_text)
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=626A3E916DE40&access_token=5a30cf125df4e52a36ce4daa0403885f'.format(phone_no, encoded_msg)
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
             print(return_webhook_url)
-            urllib.request.urlopen(return_webhook_url)
+            r=http.request('GET', return_webhook_url)
+            print(r.data)
             data[phone_no][1] = data[phone_no][1] + 1
 
     with open("data.json", "w") as outfile:
