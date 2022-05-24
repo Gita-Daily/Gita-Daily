@@ -65,6 +65,10 @@ def runserver():
                 doc_ref = db.collection(u'json').document()
                 doc_ref.set({
                     u'data' : data
+                }) 
+                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref.set({
+                    u'data' : data
                 })
 
                         
@@ -80,6 +84,10 @@ def runserver():
                 doc_ref = db.collection(u'json').document()
                 doc_ref.set({
                     u'data' : data
+                }) 
+                doc_ref = db.collection(u'json').document('data.json')
+                doc_ref.set({
+                    u'data' : data
                 })                       
 
             #unsubscribe user
@@ -92,6 +100,10 @@ def runserver():
                 with open("data.json", "w") as outfile:
                         json.dump(data, outfile)
                 doc_ref = db.collection(u'json').document()
+                doc_ref.set({
+                    u'data' : data
+                }) 
+                doc_ref = db.collection(u'json').document('data.json')
                 doc_ref.set({
                     u'data' : data
                 })                        
@@ -165,6 +177,10 @@ def send_shlok():
     with open("data.json", "w") as outfile:
         json.dump(data, outfile)
     doc_ref = db.collection(u'json').document()
+    doc_ref.set({
+        u'data' : data
+    }) 
+    doc_ref = db.collection(u'json').document('data.json')
     doc_ref.set({
         u'data' : data
     })        
