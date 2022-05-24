@@ -15,7 +15,16 @@ users = dict()
 http = urllib3.PoolManager()
 requests.packages.urllib3.disable_warnings()
 
-    
+
+def italify(result):
+    slok_r = result['slok'].split('\n')
+    slok=''
+    for s in slok_r:
+        slok = slok + '_' + str(s) + '_\n'
+    return slok
+
+
+
 @app.route("/")
 def hello():
     return "Hello, World!"
@@ -44,7 +53,7 @@ def runserver():
 
             if phone_no not in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
                 data[phone_no] = [name, 1, True]
-                encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
+                encoded_msg = urllib.parse.quote('🦚*Hare Krishna {}!*🦚 \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏'.format(name))
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
@@ -53,7 +62,7 @@ def runserver():
                         
             elif phone_no in data.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
                 data[phone_no] = [name, data[phone_no][1], True]
-                encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
+                encoded_msg = urllib.parse.quote('🦚*Hare Krishna {}!*🦚 \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏'.format(name))
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
@@ -62,7 +71,7 @@ def runserver():
 
             elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
                 data[phone_no][2] = False
-                encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
+                encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number. \n\n We thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\n Please help us by sharing your feedback here 👉  https://forms.gle/pLm2fczXNfKXk8dn7')
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
@@ -107,13 +116,13 @@ def print_date_time():
             message_text = ''
             if('No Commentary' in result['siva']['ec']):
                 wrd_by_wrd_translation = result['siva']['ec'][:(result['siva']['ec'].find('No Commentary'))].replace('?', '')   
-                message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\nTranslation: ' + result['siva']['et'] + '\n\nWord By Word Meaning:' + wrd_by_wrd_translation
+                message_text = italify(result) + '\n\n*Transliteration:* ' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\n*Translation:* ' + result['siva']['et'] + '\n\n*Word By Word Meaning:* ' + wrd_by_wrd_translation
 
                 
             else:
                 wrd_by_wrd_translation = result['siva']['ec'][:(result['siva']['ec'].find('Commentary'))].replace('?', '')                
                 commentary =  result['siva']['ec'][(result['siva']['ec'].find('Commentary')) + (11) : ].replace('?', '')   
-                message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\nTranslation: ' + result['siva']['et'] + '\n\nWord By Word Meaning:' + wrd_by_wrd_translation + '\n\nCommentary: ' + commentary
+                message_text = italify(result) + '\n\n*Transliteration:* ' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\n*Translation:* ' + result['siva']['et'] + '\n\n*Word By Word Meaning:* ' + wrd_by_wrd_translation + '\n\n*Commentary* : ' + commentary
 
             encoded_msg = urllib.parse.quote(message_text)
             return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
