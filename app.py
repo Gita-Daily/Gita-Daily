@@ -6,20 +6,14 @@ import json
 import urllib.request
 import urllib.parse
 import urllib3
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-import datetime
+import pandas as pd
 
 http = urllib3.PoolManager()
 
-cred = credentials.Certificate('gita-daily-ee5f6-25032c526a9d.json')
-firebase_admin.initialize_app(cred)
 
 
-db = firestore.client()
-# r = http.request('GET', 'http://docs.python.org')
-# htmlSource = r.data
+
+
 
 requests.packages.urllib3.disable_warnings()
 
@@ -50,21 +44,13 @@ def runserver():
             msg_text = msg['message']['conversation']
             phone_no = msg['key']['remoteJid'][:12]
 
-            doc_ref = db.collection(u'users').stream()
-            user = dict()
-            print('Starting get data ' + str(datetime.datetime.now()))
-            for doc in doc_ref:
-                document = db.collection(u'users').document(doc.id)
-                user[doc.id] = [document.get().to_dict()['shlok'], document.get().to_dict()['name'], document.get().to_dict()['subscribe']]
-                print(user[doc.id])
-            print('Ending get data ' + str(datetime.datetime.now()))
-            if phone_no not in user.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
-                doc_ref_internal = db.collection(u'users').document(phone_no)
-                doc_ref_internal.set({
-                    u'name': name,
-                    u'subscribe': True,
-                    u'shlok': 1
-                })
+            user_data = pd.read_csv('data.csv')
+            phoneNumbers = user_data["Phone Number"]
+
+            
+            if phone_no not in phoneNumbers and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
+                newData = pd.DataFrame({'Phone Number' : phone_no, 'Name' : name, 'Shlok' : 1, 'Subscribe' : True})
+                newData.to_csv('data.csv', mode='a', index = False, header = False)
                 users[phone_no] = [1, True, name]
                 encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
@@ -73,12 +59,10 @@ def runserver():
                 r=http.request('GET', return_webhook_url)
                 print(r.data)
 
-            elif phone_no in user.keys() and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
-                db.collection(u'users').document(phone_no).set({
-                    u'name': user[phone_no][1],
-                    u'subscribe': True,
-                    u'shlok': user[phone_no][0]
-                })
+            elif phone_no in phoneNumbers and ( msg_text.lower().strip() == 'hare krishna' or msg_text.lower().strip() == 'hare krisna' or msg_text.lower().strip() == 'hare krsna'):
+                user_index = user_data.index[user_data["Phone Number"] == phone_no]
+                user_data.loc[user_index,['Subscribe']] = [True]
+                user_data.to_csv('data.csv')
                 encoded_msg = urllib.parse.quote('*Hare Krishna {}!* \n\nYou are now subscribed to receive daily Bhagvad Gita shlokas. \n\nYou will receive a message every day at 5:00 AM. \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now.'.format(name))
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 print(return_webhook_url)
@@ -86,12 +70,10 @@ def runserver():
                 print(r.data)
 
 
-            elif phone_no in user.keys() and msg_text.lower().strip() == 'unsubscribe':
-                db.collection(u'users').document(phone_no).set({
-                    u'name': user[phone_no][1],
-                    u'subscribe': False,
-                    u'shlok': user[phone_no][0]
-                })                
+            elif phone_no in phoneNumbers and msg_text.lower().strip() == 'unsubscribe':
+                user_index = user_data.index[user_data["Phone Number"] == phone_no]
+                user_data.loc[user_index,['Subscribe']] = [False]      
+                user_data.to_csv('data.csv')          
                 encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications. \n\nYou can resubscribe anytime by sending "hare krishna" to this number.')
                 return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
                 print(return_webhook_url)
@@ -120,13 +102,11 @@ def getChSh(n):
 
 @app.route("/init", methods=['GET'])
 def print_date_time():
-    doc_ref = db.collection(u'users').stream()
-    for doc in doc_ref:
-        document = db.collection(u'users').document(doc.id)
-        print('user keys {}'.format(document))
-        user_data = document.get().to_dict()
-        if(user_data['subscribe']):
-            ch, sh = getChSh(user_data['shlok'])
+    user_data = pd.read_csv('data.csv')
+    new_user_data = pd.DataFrame()
+    for index, row in user_data.iterrows():
+        if(row['Subscribe']):
+            ch, sh = getChSh(row['Shlok'])
             URL = 'https://bhagavadgitaapi.in/slok/{}/{}'.format(ch, sh)
             print(URL)
             page = requests.get(URL)
@@ -147,16 +127,13 @@ def print_date_time():
                 message_text = result['slok'] + '\n\n' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\nTranslation: ' + result['siva']['et'] + '\n\nWord By Word Meaning:' + wrd_by_wrd_translation + '\n\nCommentary: ' + commentary
 
             encoded_msg = urllib.parse.quote(message_text)
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(doc.id, encoded_msg)
+            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(row['Phone Number'], encoded_msg)
             print(return_webhook_url)
             r=http.request('GET', return_webhook_url)
             print(r.data)
-            db.collection(u'users').document(doc.id).set({
-                u'name': user_data['name'],
-                u'subscribe': user_data['subscribe'],
-                u'shlok': user_data['shlok']+1
-            })
+            new_user_data.append([row['Phone Number'], row['Name'], row['Shlok'] +1, row['Subscribe']])
 
+    new_user_data.to_csv('data.csv')
     return ""
 
 
