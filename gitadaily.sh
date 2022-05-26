@@ -1,0 +1,1 @@
+ssh -i "gita-daily-1.pem" ubuntu@ec2-3-108-110-165.ap-south-1.compute.amazonaws.com
