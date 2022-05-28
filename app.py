@@ -59,6 +59,10 @@ def runserver():
         # print(phone_no)
 
         #New user not in data.json => add user
+        if msg_text.lower().strip() == 'buyrbyur76457ur74y7':
+            print('sending shlok')
+            send_shlok()
+
         if phone_no not in data.keys() and ( 'hare krishna' in msg_text.lower().strip() or 'hare krsna' in msg_text.lower().strip() or 'hare krisna' in msg_text.lower().strip()):
             data[phone_no] = [name, 1, True]
             encoded_msg = urllib.parse.quote('*🦚Hare​ Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml'.format(name))
@@ -142,7 +146,7 @@ def getChSh(n):
     return (ch, n);
 
 
-@app.route("/sendshlok", methods=['GET'])
+# @app.route("/sendshlok", methods=['GET'])
 def send_shlok():
     data = {}
     with open('data.json') as json_file:
@@ -204,5 +208,5 @@ def send_shlok():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
-    # app.run()
+    # app.run(host='0.0.0.0', port=80)
+    app.run()
