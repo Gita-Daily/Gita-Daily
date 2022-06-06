@@ -9,6 +9,8 @@ import urllib3
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from apscheduler.schedulers.background import BackgroundScheduler  
+
 
 app = Flask(__name__)
 app.app_context().push()
@@ -206,7 +208,15 @@ def send_shlok():
      
     return ""
 
+def bringOnline():
+    return_webhook_url = 'https://betablaster.in/api/reconnect.php?instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'
+    r=http.request('GET', return_webhook_url)
+    print(r.data)
+
 
 if __name__ == "__main__":
+    sched = BackgroundScheduler()
+    sched.start()
+    sched.add_job(bringOnline, 'interval', seconds=180)
     app.run(host='0.0.0.0', port=80)
     # app.run()
