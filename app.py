@@ -166,10 +166,12 @@ def send_shlok():
                 shlok_data = json.load(json_file) 
 
             message_text = ''
+            shlok_data_audio = shlok_data['audio']
+            shlok_data_audio = 'https://www.gitadaily.ml/' + shlok_data_audio[shlok_data_audio.index('audio'):]
             if(shlok_data['commentary'] == 'NONE'):
-                message_text = italify(shlok_data['verse'][:-1]) + '\n\n*Transliteration*\n' + shlok_data['transliteration'] + '\n\n*Word Meanings*' + shlok_data['word meanings'] + '\n\n*Translation*' + shlok_data['translation'] + '\n\n*Listen to this shlok here:*\n' + shlok_data['audio']
+                message_text = italify(shlok_data['verse'][:-1]) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + shlok_data['transliteration'] + '\n\n*Word Meanings*' + shlok_data['word meanings'] + '\n\n*Translation*' + shlok_data['translation'] 
             else:
-                message_text = italify(shlok_data['verse'][:-1]) + '\n\n*Transliteration*\n' + shlok_data['transliteration'] + '\n\n*Word Meanings*' + shlok_data['word meanings'] + '\n\n*Translation*' + shlok_data['translation'] + '\n\n*Commentary*' + shlok_data['commentary'] + '\n\n*Listen to this shlok here:*\n' + shlok_data['audio']
+                message_text = italify(shlok_data['verse'][:-1]) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + shlok_data['transliteration'] + '\n\n*Word Meanings*' + shlok_data['word meanings'] + '\n\n*Translation*' + shlok_data['translation'] + '\n\n*Commentary*' + shlok_data['commentary'] 
             
 
             message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Ha​re Krsna" to +917348895108 🦚🦚\n\nhttps://www.gitadaily.ml'
