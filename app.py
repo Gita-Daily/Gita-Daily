@@ -159,27 +159,15 @@ def send_shlok():
         user_data = data[phone_no];
         if(user_data[2]):
             ch, sh = getChSh(user_data[1]);
-            URL = 'https://bhagavadgitaapi.in/slok/{}/{}'.format(ch, sh)
-            # print(URL)
-            page = requests.get(URL)
+            with open(str(ch) + '/' + str(sh) + '.json') as json_file:
+                data = json.load(json_file) 
 
-            result = json.loads(page.text)
-
-            wrd_by_wrd_translation = ''
-            commentary = ''
             message_text = ''
-
-            #Format message differently for 'no commentary' and 'with commentary'
-
-            if('No Commentary' in result['siva']['ec']):
-                wrd_by_wrd_translation = result['siva']['ec'][:(result['siva']['ec'].find('No Commentary'))].replace('?', '')   
-                message_text = italify(result) + '\n\n*Transliteration:* ' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\n*Translation:* ' + result['siva']['et'] + '\n\n*Word By Word Meaning:* ' + wrd_by_wrd_translation
-
-                
+            if(data['commentary'] == 'NONE'):
+                message_text = italify(data['verse']) + '\n\n*Transliteration* ' + data['transliteration'] + '\n\n*Word Meanings* ' + data['word meanings'] + '\n\n*Translation* ' + data['translation'] + '\n\n*Listen to this shlok here:* ' + data['audio']
             else:
-                wrd_by_wrd_translation = result['siva']['ec'][:(result['siva']['ec'].find('Commentary'))].replace('?', '')                
-                commentary =  result['siva']['ec'][(result['siva']['ec'].find('Commentary')) + (11) : ].replace('?', '')   
-                message_text = italify(result) + '\n\n*Transliteration:* ' + result['transliteration'] + '\n\nCommentary by ' + result['siva']['author'] + '\n\n*Translation:* ' + result['siva']['et'] + '\n\n*Word By Word Meaning:* ' + wrd_by_wrd_translation + '\n\n*Commentary* : ' + commentary
+                message_text = italify(data['verse']) + '\n\n*Transliteration* ' + data['transliteration'] + '\n\n*Word Meanings* ' + data['word meanings'] + '\n\n*Translation* ' + data['translation'] + '\n\n*Commentary* ' + data['commentary'] + '\n\n*Listen to this shlok here:* ' + data['audio']
+            
 
             message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Ha​re Krsna" to +917348895108 🦚🦚\n\nhttps://www.gitadaily.ml'
 
@@ -191,7 +179,7 @@ def send_shlok():
             # print(r.data)
 
             #Append user shlok number by 1
-            data[phone_no][1] = data[phone_no][1] + 1
+            data[phone_no][1] = data[phone_no][1] + data['next shlok'] - sh
 
     with open("data.json", "w") as outfile:
         json.dump(data, outfile)
