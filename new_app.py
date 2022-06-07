@@ -22,7 +22,13 @@ for sub_link in sub_links:
     response = requests.get(url)
 
     soup = BeautifulSoup(response.content)
-    verse = soup.find('div', attrs={'id' : 'originalVerse'}).find('p').text
+    verses = soup.find('div', attrs={'id' : 'originalVerse'}).findAll('p')
+    result = ''
+    for verse in verses:
+        for line in str(verse)[3:-4].split('<br/>'):
+            result += line + '\n'
+    verse = result
+    print(verse)
     transliteration = soup.find('div', attrs={'id' : 'transliteration'}).find('p').text
     audio = 'https://www.holy-bhagavad-gita.org' + str(soup.find('div', attrs={'id' : 'verseAudio'}).find('audio').get_attribute_list('src')[0])
     word_meanings = soup.find('div', attrs={'id' : 'wordMeanings'}).text
