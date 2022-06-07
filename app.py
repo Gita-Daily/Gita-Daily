@@ -144,6 +144,8 @@ def getChSh(n):
         if(n-n_schlokas > 0):
             n = n - n_schlokas
             ch = ch + 1
+        else:
+            break
     
     return (ch, n); 
 
@@ -165,9 +167,9 @@ def send_shlok():
 
             message_text = ''
             if(shlok_data['commentary'] == 'NONE'):
-                message_text = '_' + shlok_data['verse'] + '_\n\n*Transliteration* ' + shlok_data['transliteration'] + '\n\n*Word Meanings* ' + shlok_data['word meanings'] + '\n\n*Translation* ' + shlok_data['translation'] + '\n\n*Listen to this shlok here:* ' + shlok_data['audio']
+                message_text = italify(shlok_data['verse'][:-1]) + '\n\n*Transliteration*\n' + shlok_data['transliteration'] + '\n\n*Word Meanings*' + shlok_data['word meanings'] + '\n\n*Translation*' + shlok_data['translation'] + '\n\n*Listen to this shlok here:*\n' + shlok_data['audio']
             else:
-                message_text = '_' + shlok_data['verse'] + '_\n\n*Transliteration* ' + shlok_data['transliteration'] + '\n\n*Word Meanings* ' + shlok_data['word meanings'] + '\n\n*Translation* ' + shlok_data['translation'] + '\n\n*Commentary* ' + shlok_data['commentary'] + '\n\n*Listen to this shlok here:* ' + shlok_data['audio']
+                message_text = italify(shlok_data['verse'][:-1]) + '\n\n*Transliteration*\n' + shlok_data['transliteration'] + '\n\n*Word Meanings*' + shlok_data['word meanings'] + '\n\n*Translation*' + shlok_data['translation'] + '\n\n*Commentary*' + shlok_data['commentary'] + '\n\n*Listen to this shlok here:*\n' + shlok_data['audio']
             
 
             message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Ha​re Krsna" to +917348895108 🦚🦚\n\nhttps://www.gitadaily.ml'
@@ -207,5 +209,5 @@ if __name__ == "__main__":
     sched = BackgroundScheduler()
     sched.start()
     sched.add_job(bringOnline, 'interval', seconds=180)
-    # app.run(host='0.0.0.0', port=80)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80)
+    # app.run(debug=True)
