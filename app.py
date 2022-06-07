@@ -26,7 +26,7 @@ db = firestore.client()
 
 #Adds whatsapp format of italics to shlok
 def italify(result):
-    slok_r = result['slok'].split('\n')
+    slok_r = result.split('\n')
     slok=''
     for s in slok_r:
         slok = slok + '_' + str(s) + '_\n'
@@ -44,7 +44,7 @@ def runserver():
     # print(res_data)
     # print(type(res_data))
     try:
-        
+            
 
         msg_lst = res_data['messages']
         msg = msg_lst[0]
@@ -145,7 +145,7 @@ def getChSh(n):
             n = n - n_schlokas
             ch = ch + 1
     
-    return (ch, n);
+    return (ch, n); 
 
 
 # @app.route("/sendshlok", methods=['GET'])
@@ -157,20 +157,21 @@ def send_shlok():
     #iterate through all users and send them shlokas   
     for phone_no in data.keys():
         user_data = data[phone_no];
+        print(user_data)
         if(user_data[2]):
             ch, sh = getChSh(user_data[1]);
             with open(str(ch) + '/' + str(sh) + '.json') as json_file:
-                data = json.load(json_file) 
+                shlok_data = json.load(json_file) 
 
             message_text = ''
-            if(data['commentary'] == 'NONE'):
-                message_text = italify(data['verse']) + '\n\n*Transliteration* ' + data['transliteration'] + '\n\n*Word Meanings* ' + data['word meanings'] + '\n\n*Translation* ' + data['translation'] + '\n\n*Listen to this shlok here:* ' + data['audio']
+            if(shlok_data['commentary'] == 'NONE'):
+                message_text = '_' + shlok_data['verse'] + '_\n\n*Transliteration* ' + shlok_data['transliteration'] + '\n\n*Word Meanings* ' + shlok_data['word meanings'] + '\n\n*Translation* ' + shlok_data['translation'] + '\n\n*Listen to this shlok here:* ' + shlok_data['audio']
             else:
-                message_text = italify(data['verse']) + '\n\n*Transliteration* ' + data['transliteration'] + '\n\n*Word Meanings* ' + data['word meanings'] + '\n\n*Translation* ' + data['translation'] + '\n\n*Commentary* ' + data['commentary'] + '\n\n*Listen to this shlok here:* ' + data['audio']
+                message_text = '_' + shlok_data['verse'] + '_\n\n*Transliteration* ' + shlok_data['transliteration'] + '\n\n*Word Meanings* ' + shlok_data['word meanings'] + '\n\n*Translation* ' + shlok_data['translation'] + '\n\n*Commentary* ' + shlok_data['commentary'] + '\n\n*Listen to this shlok here:* ' + shlok_data['audio']
             
 
             message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Ha​re Krsna" to +917348895108 🦚🦚\n\nhttps://www.gitadaily.ml'
-
+            print(message_text)
             encoded_msg = urllib.parse.quote(message_text)
             return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=628BC501C0151&access_token=444a724cf48b16b83aff3d7fada6270a'.format(phone_no, encoded_msg)
 
@@ -179,7 +180,7 @@ def send_shlok():
             # print(r.data)
 
             #Append user shlok number by 1
-            data[phone_no][1] = data[phone_no][1] + data['next shlok'] - sh
+            data[phone_no][1] = data[phone_no][1] + shlok_data['next shlok'] - sh
 
     with open("data.json", "w") as outfile:
         json.dump(data, outfile)
@@ -206,5 +207,5 @@ if __name__ == "__main__":
     sched = BackgroundScheduler()
     sched.start()
     sched.add_job(bringOnline, 'interval', seconds=180)
-    app.run(host='0.0.0.0', port=80)
-    # app.run()
+    # app.run(host='0.0.0.0', port=80)
+    app.run(debug=True)
