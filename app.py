@@ -10,6 +10,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from apscheduler.schedulers.background import BackgroundScheduler  
+import time
 
 
 app = Flask(__name__)
@@ -41,93 +42,92 @@ def hello():
 @app.route("/startserver", methods=['POST'])
 def runserver():
     res_data = request.json['data']
-    # print(res_data)
-    # print(type(res_data))
-    try:
+    # try:
             
 
-        msg_lst = res_data['messages']
-        msg = msg_lst[0]
-        name = msg['pushName']
-        try:
-            msg_text = msg['message']['conversation']
-        except:
-            msg_text = msg['message']['extendedTextMessage']['text']
-        phone_no = msg['key']['remoteJid'][:12]
+    msg_lst = res_data['messages']
+    msg = msg_lst[0]
+    name = msg['pushName']
+    try:
+        msg_text = msg['message']['conversation']
+    except:
+        msg_text = msg['message']['extendedTextMessage']['text']
+    phone_no = msg['key']['remoteJid'][:12]
 
-        data = {}
-        with open('data.json') as json_file:
-            data = json.load(json_file)
-        # print(phone_no)
+    data = {}
+    with open('data.json') as json_file:
+        data = json.load(json_file)
+    # print(phone_no)
 
-        #New user not in data.json => add user
-        if msg_text.lower().strip() == 'buyrbyur76457ur74y7':
-            print('sending shlok')
-            send_shlok()
+    #New user not in data.json => add user
+    if msg_text.lower().strip() == 'buyrbyur76457ur74y7':
+        print('sending shlok')
+        send_shlok()
 
-        if phone_no not in data.keys() and ( 'hare krishna' in msg_text.lower().strip() or 'hare krsna' in msg_text.lower().strip() or 'hare krisna' in msg_text.lower().strip() or 'harekrishna' in msg_text.lower().strip()):
-            data[phone_no] = [name, 1, True]
-            encoded_msg = urllib.parse.quote('*🦚Hare​ Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml'.format(name))
-            return_webhook_url = 'https://fast.betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62E3AAF6A89C7&access_token=ffcc69269b8544d57b32eb296538ee94'.format(phone_no, encoded_msg)
-            r=http.request('GET', return_webhook_url)
-            # print(r.data)
-            with open("data.json", "w") as outfile:
-                    json.dump(data, outfile)
-            doc_ref = db.collection(u'json').document('data.json')
-            doc_ref.set({
-                u'data' : data
-            })
-            with open("data_r.json", "w") as outfile:
-                    json.dump(data, outfile)
-            doc_ref = db.collection(u'json').document('data_r.json')
-            doc_ref.set({
-                u'data' : data
-            })
+    if phone_no not in data.keys() and ( 'hare krishna' in msg_text.lower().strip() or 'hare krsna' in msg_text.lower().strip() or 'hare krisna' in msg_text.lower().strip() or 'harekrishna' in msg_text.lower().strip()):
+        data[phone_no] = [name, 1, True]
+        encoded_msg = urllib.parse.quote('*🦚Hare​ Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml'.format(name))
+        return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
+        requests.get(return_webhook_url, verify=False)
+        # r=http.request('GET', return_webhook_url)
+        # print(r.data)
+        with open("data.json", "w") as outfile:
+                json.dump(data, outfile)
+        doc_ref = db.collection(u'json').document('data.json')
+        doc_ref.set({
+            u'data' : data
+        })
+        with open("data_r.json", "w") as outfile:
+                json.dump(data, outfile)
+        doc_ref = db.collection(u'json').document('data_r.json')
+        doc_ref.set({
+            u'data' : data
+        })
 
-                    
-        #User in data.json => resubscribe
-        elif phone_no in data.keys() and ('harekrishna' in msg_text.lower().strip() or 'hare krishna' in msg_text.lower().strip() or 'hare krsna' in msg_text.lower().strip() or 'hare krisna' in msg_text.lower().strip()) and data[phone_no][2] == False:
-            data[phone_no] = [name, data[phone_no][1], True]
-            encoded_msg = urllib.parse.quote('*🦚Hare​ Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml'.format(name))
-            return_webhook_url = 'https://fast.betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62E3AAF6A89C7&access_token=ffcc69269b8544d57b32eb296538ee94'.format(phone_no, encoded_msg)
-            r=http.request('GET', return_webhook_url)
-            # print(r.data)
-            with open("data.json", "w") as outfile:
-                    json.dump(data, outfile)
-            doc_ref = db.collection(u'json').document('data.json')
-            doc_ref.set({
-                u'data' : data
-            })
-            with open("data_r.json", "w") as outfile:
-                    json.dump(data, outfile)
-            doc_ref = db.collection(u'json').document('data_r.json')
-            doc_ref.set({
-                u'data' : data
-            })                    
+                
+    #User in data.json => resubscribe
+    elif phone_no in data.keys() and ('harekrishna' in msg_text.lower().strip() or 'hare krishna' in msg_text.lower().strip() or 'hare krsna' in msg_text.lower().strip() or 'hare krisna' in msg_text.lower().strip()) and data[phone_no][2] == False:
+        data[phone_no] = [name, data[phone_no][1], True]
+        encoded_msg = urllib.parse.quote('*🦚Hare​ Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml'.format(name))
+        return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
+        requests.get(return_webhook_url, verify=False)
+        # print(r.data)
+        with open("data.json", "w") as outfile:
+                json.dump(data, outfile)
+        doc_ref = db.collection(u'json').document('data.json')
+        doc_ref.set({
+            u'data' : data
+        })
+        with open("data_r.json", "w") as outfile:
+                json.dump(data, outfile)
+        doc_ref = db.collection(u'json').document('data_r.json')
+        doc_ref.set({
+            u'data' : data
+        })                    
 
-        #unsubscribe user
-        elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
-            data[phone_no][2] = False
-            encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending "hare​ krishna" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7')
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
-            r=http.request('GET', return_webhook_url)
-            # print(r.data)
-            with open("data.json", "w") as outfile:
-                    json.dump(data, outfile)
-            doc_ref = db.collection(u'json').document('data.json')
-            doc_ref.set({
-                u'data' : data
-            })
-            with open("data_r.json", "w") as outfile:
-                    json.dump(data, outfile)
-            doc_ref = db.collection(u'json').document('data_r.json')
-            doc_ref.set({
-                u'data' : data
-            })                        
+    #unsubscribe user
+    elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
+        data[phone_no][2] = False
+        encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending "hare​ krishna" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7')
+        return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
+        requests.get(return_webhook_url, verify=False)
+        # print(r.data)
+        with open("data.json", "w") as outfile:
+                json.dump(data, outfile)
+        doc_ref = db.collection(u'json').document('data.json')
+        doc_ref.set({
+            u'data' : data
+        })
+        with open("data_r.json", "w") as outfile:
+                json.dump(data, outfile)
+        doc_ref = db.collection(u'json').document('data_r.json')
+        doc_ref.set({
+            u'data' : data
+        })                        
                      
-    except Exception as e:
-        print(e)
-        return "Error"
+    # except Exception as e:
+    #     print(e)
+    #     return "Error"
         
 
 
@@ -180,7 +180,7 @@ def send_shlok():
             return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
 
             # print(return_webhook_url)
-            r=http.request('GET', return_webhook_url)
+            requests.get(return_webhook_url, verify=False)
             # print(r.data)
 
             #Append user shlok number by 1
@@ -203,13 +203,16 @@ def send_shlok():
 
 def bringOnline():
     return_webhook_url = 'https://betablaster.in/api/reconnect.php?instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'
-    r=http.request('GET', return_webhook_url)
+    requests.get(return_webhook_url, verify=False)
     print(r.data)
 
 
 if __name__ == "__main__":
-    # sched = BackgroundScheduler()
-    # sched.start()
-    # sched.add_job(bringOnline, 'interval', seconds=180)
-    app.run(port=5000)
-    # app.run(debug=True)
+    time.sleep((16 * 60 * 60) + (11 * 60))
+    send_shlok()
+    sched = BackgroundScheduler()
+    sched.start()
+    sched.add_job(send_shlok, 'interval', seconds=(24*60*60))
+    app.run(host='0.0.0.0', port=5000)
+
+# https://betablaster.in/api/setwebhook.php?webhook_url=http://3.109.31.196:5000/startserver&enable=true&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463    
