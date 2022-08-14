@@ -208,11 +208,10 @@ def bringOnline():
 
 
 if __name__ == "__main__":
-    time.sleep((16 * 60 * 60) + (11 * 60))
-    send_shlok()
+   # time.sleep((16 * 60 * 60) + (11 * 60))
     sched = BackgroundScheduler()
     sched.start()
-    sched.add_job(send_shlok, 'interval', seconds=(24*60*60))
+    sched.add_job(bringOnline, 'interval', seconds=120)
     app.run(host='0.0.0.0', port=5000)
 
-# https://betablaster.in/api/setwebhook.php?webhook_url=http://3.109.31.196:5000/startserver&enable=true&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463    
+# https://betablaster.in/api/setwebhook.php?webhook_url=http://3.109.31.196:5000/startserver&enable=true&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463
