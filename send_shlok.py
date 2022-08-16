@@ -78,4 +78,6 @@ def send_shlok():
 while True:
     if(datetime.now(timezone("Asia/Kolkata")).hour == 5):
         send_shlok()
-        time.sleep((24 * 60 * 60))
+        minute = datetime.now(timezone("Asia/Kolkata")).minute
+        time_to_sleep = (24 * 60 * 60) - (minute * 60)
+        time.sleep(time_to_sleep)
