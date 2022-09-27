@@ -67,7 +67,7 @@ def runserver():
     if phone_no not in data.keys() and ( 'hare krishna' in msg_text.lower().strip() or 'hare krsna' in msg_text.lower().strip() or 'hare krisna' in msg_text.lower().strip() or 'harekrishna' in msg_text.lower().strip()):
         data[phone_no] = [name, 1, True]
         encoded_msg = urllib.parse.quote('*🦚Hare​ Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml'.format(name))
-        return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
+        return_webhook_url = 'https://apibuddy.in/api/send.php?number={}&type=text&message={}&instance_id=633334FC32C17&access_token=6a9bf714c31f21ef0c5522bd6465e759'.format(phone_no, encoded_msg)
         requests.get(return_webhook_url, verify=False)
         # r=http.request('GET', return_webhook_url)
         # print(r.data)
@@ -89,7 +89,7 @@ def runserver():
     elif phone_no in data.keys() and ('harekrishna' in msg_text.lower().strip() or 'hare krishna' in msg_text.lower().strip() or 'hare krsna' in msg_text.lower().strip() or 'hare krisna' in msg_text.lower().strip()) and data[phone_no][2] == False:
         data[phone_no] = [name, data[phone_no][1], True]
         encoded_msg = urllib.parse.quote('*🦚Hare​ Krishna {}!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending "unsubscribe" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml'.format(name))
-        return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
+        return_webhook_url = 'https://apibuddy.in/api/send.php?number={}&type=text&message={}&instance_id=633334FC32C17&access_token=6a9bf714c31f21ef0c5522bd6465e759'.format(phone_no, encoded_msg)
         requests.get(return_webhook_url, verify=False)
         # print(r.data)
         with open("data.json", "w") as outfile:
@@ -109,7 +109,7 @@ def runserver():
     elif phone_no in data.keys() and msg_text.lower().strip() == 'unsubscribe':
         data[phone_no][2] = False
         encoded_msg = urllib.parse.quote('You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending "hare​ krishna" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7')
-        return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
+        return_webhook_url = 'https://apibuddy.in/api/send.php?number={}&type=text&message={}&instance_id=633334FC32C17&access_token=6a9bf714c31f21ef0c5522bd6465e759'.format(phone_no, encoded_msg)
         requests.get(return_webhook_url, verify=False)
         # print(r.data)
         with open("data.json", "w") as outfile:
@@ -177,7 +177,7 @@ def send_shlok():
             message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Ha​re Krsna" to +917348895108 🦚🦚\n\nhttps://www.gitadaily.ml'
             print(message_text)
             encoded_msg = urllib.parse.quote(message_text)
-            return_webhook_url = 'https://betablaster.in/api/send.php?number={}&type=text&message={}&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'.format(phone_no, encoded_msg)
+            return_webhook_url = 'https://apibuddy.in/api/send.php?number={}&type=text&message={}&instance_id=633334FC32C17&access_token=6a9bf714c31f21ef0c5522bd6465e759'.format(phone_no, encoded_msg)
 
             # print(return_webhook_url)
             requests.get(return_webhook_url, verify=False)
@@ -202,9 +202,9 @@ def send_shlok():
     return ""
 
 def bringOnline():
-    return_webhook_url = 'https://betablaster.in/api/reconnect.php?instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463'
+    return_webhook_url = 'https://apibuddy.in/api/reconnect.php?instance_id=633334FC32C17&access_token=6a9bf714c31f21ef0c5522bd6465e759'
     requests.get(return_webhook_url, verify=False)
-    print(r.data)
+    # print(r.data)
 
 
 if __name__ == "__main__":
@@ -214,4 +214,4 @@ if __name__ == "__main__":
     sched.add_job(bringOnline, 'interval', seconds=120)
     app.run(host='0.0.0.0', port=5000)
 
-# https://betablaster.in/api/setwebhook.php?webhook_url=http://3.109.31.196:5000/startserver&enable=true&instance_id=62F4BD3B3D6C9&access_token=c35e340ec7db479e682bf99e5b3d1463
+# https://apibuddy.in/api/setwebhook.php?webhook_url=http://3.109.31.196:5000/startserver&enable=true&instance_id=633334FC32C17&access_token=6a9bf714c31f21ef0c5522bd6465e759
