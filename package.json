@@ -1,0 +1,24 @@
+{
+  "name": "gita-daily",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gita-Daily/Gita-Daily.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gita-Daily/Gita-Daily/issues"
+  },
+  "homepage": "https://github.com/Gita-Daily/Gita-Daily#readme",
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.19.2"
+  }
+}
