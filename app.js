@@ -89,7 +89,6 @@ sendShlok();
 
 client.on('message', message => {
     var data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
-    console.log(message);
     const userID = message.from;
     const messageBody = message.body;
     const name = message._data.notifyName;
