@@ -83,8 +83,7 @@ function sendShlok() {
 // date.setUTCHours(5+5.5,0,0,0);
 // let timeUntil5am = date.getTime() - Date.now();
 // setTimeout(sendShlok, timeUntil5am);
-sendShlok();
-
+setTimeout(sendShlok, 300000);
 
 
 client.on('message', message => {
