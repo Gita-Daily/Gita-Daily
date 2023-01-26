@@ -1,12 +1,16 @@
-const qrcode = require('qrcode-terminal');
-const { Client, LocalAuth } = require('whatsapp-web.js');
-const client = new Client({ authStrategy: new LocalAuth() });
-client.initialize();
+const { Client } = require('whatsapp-web.js');
+const puppeteer = require('puppeteer-core');
+
+const client = new Client({
+    puppeteer: {
+      args: ['--no-sandbox']
+    },
+  });client.initialize();
 const fs = require('fs');
 
-
-client.on('qr', qr => {
-    qrcode.generate(qr, {small: true});
+client.on('qr', (qr) => {
+    // Generate and scan this code with your phone
+    console.log('QR RECEIVED', qr);
 });
 
 client.on('ready', () => {
@@ -69,7 +73,7 @@ function sendShlok() {
             } else {
                 message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + jsonData['word meanings'] + '\n\n*Translation*' + jsonData['translation'] + '\n\n*Commentary*' + jsonData['commentary'] 
             }
-            message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Haree Krsna" to +917348895108 🦚🦚\n\nhttps://www.gitadaily.ml';
+            message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Haree Krsna" to +917348895108 ��🦚\n\nhttps://www.gitadaily.ml';
             sendMessage(uniqueID, message_text)
             data[uniqueID][1] = data[uniqueID][1] + jsonData['next shlok'] - sh;
         }
