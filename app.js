@@ -1,11 +1,13 @@
-const { Client } = require('whatsapp-web.js');
+const { Client, LocalAuth  } = require('whatsapp-web.js');
 const puppeteer = require('puppeteer-core');
 
 const client = new Client({
     puppeteer: {
       args: ['--no-sandbox']
     },
-  });client.initialize();
+    authStrategy: new LocalAuth(),
+  });
+client.initialize();
 const fs = require('fs');
 
 client.on('qr', (qr) => {
@@ -103,15 +105,16 @@ let date = new Date();
 date.setUTCHours(5+5.5,0,0,0);
 let timeUntil5am = date.getTime() - Date.now();
 setTimeout(sendShlok, timeUntil5am);
-setTimeout(sendGeneralMessage, 240000);
+// setTimeout(sendGeneralMessage, 240000);
 
 
 client.on('message', message => {
+try{
     var data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
     const userID = message.from;
     const messageBody = message.body;
     const name = message._data.notifyName;
-
+    console.log(messageBody)
     const spellings = ["hare krishna", "hare krsna", "hare krishn", "hare krisna", "harekrishna"];
     if (spellings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
         if(!checkPhoneNoExists(userID, data)) {
@@ -128,4 +131,7 @@ client.on('message', message => {
         message_text = 'Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shlok 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at manasbam.com or samarth.ml . Thank you for choosing to embark on this journey with us. Hare Krishna!'
         client.sendMessage(message.from, message_text);
     }
+} catch (e) {
+	console.log(e)
+}
 });

@@ -1,3 +1,5 @@
-2023/01/26-15:13:34.581 a203 Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Local Storage/leveldb/MANIFEST-000001
-2023/01/26-15:13:34.581 a203 Recovering log #3
-2023/01/26-15:13:34.581 a203 Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Local Storage/leveldb/000003.log 
+2023/01/26-12:41:41.314 1741 Recovering log #3
+2023/01/26-12:41:41.314 1741 Level-0 table #3: started
+2023/01/26-12:41:41.318 1741 Level-0 table #3: 3199 bytes OK
+2023/01/26-12:41:41.326 1741 Delete type=3 #1
+2023/01/26-12:41:41.326 1741 Delete type=0 #3
