@@ -1,29 +1,40 @@
-2023/01/26-12:41:42.566 1745 Recovering log #63
-2023/01/26-12:41:42.759 1745 Level-0 table #69: started
-2023/01/26-12:41:42.814 1745 Level-0 table #69: 706051 bytes OK
-2023/01/26-12:41:42.824 1745 Delete type=3 #1
-2023/01/26-12:41:42.824 1745 Delete type=0 #63
-2023/01/26-12:41:44.726 173d Moved #69 to level-1 706051 bytes OK: files[ 0 1 3 0 0 0 0 ]
-2023/01/26-12:41:54.419 1745 Compacting 1@1 + 3@2 files
-2023/01/26-12:41:54.547 1745 Generated table #71@1: 14758 keys, 2180617 bytes
-2023/01/26-12:41:54.796 1745 Generated table #72@1: 39422 keys, 2207768 bytes
-2023/01/26-12:41:54.925 1745 Generated table #73@1: 66910 keys, 1425875 bytes
-2023/01/26-12:41:54.925 1745 Compacted 1@1 + 3@2 files => 5814260 bytes
-2023/01/26-12:41:54.927 1745 compacted to: files[ 0 0 3 0 0 0 0 ]
-2023/01/26-12:41:54.927 1745 Delete type=2 #65
-2023/01/26-12:41:54.927 1745 Delete type=2 #67
-2023/01/26-12:41:54.927 1745 Delete type=2 #69
-2023/01/26-12:41:54.927 1745 Delete type=2 #66
-2023/01/26-12:42:16.350 1743 Level-0 table #75: started
-2023/01/26-12:42:16.448 1743 Level-0 table #75: 1224014 bytes OK
-2023/01/26-12:42:16.450 1743 Delete type=0 #70
-2023/01/26-12:42:16.455 173d Compacting 1@1 + 3@2 files
-2023/01/26-12:42:16.522 173d Generated table #76@1: 21661 keys, 2192209 bytes
-2023/01/26-12:42:16.636 173d Generated table #77@1: 19959 keys, 2189261 bytes
-2023/01/26-12:42:16.760 173d Generated table #78@1: 89343 keys, 1981811 bytes
-2023/01/26-12:42:16.760 173d Compacted 1@1 + 3@2 files => 6363281 bytes
-2023/01/26-12:42:16.762 173d compacted to: files[ 0 0 3 0 0 0 0 ]
-2023/01/26-12:42:16.762 173d Delete type=2 #73
-2023/01/26-12:42:16.762 173d Delete type=2 #72
-2023/01/26-12:42:16.762 173d Delete type=2 #71
-2023/01/26-12:42:16.762 173d Delete type=2 #75
+2023/01/26-20:54:34.862 11503 Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/26-20:54:34.862 11503 Recovering log #78
+2023/01/26-20:54:34.866 11503 Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000078.log 
+2023/01/26-20:54:35.054 11503 Level-0 table #87: started
+2023/01/26-20:54:35.101 11503 Level-0 table #87: 2111074 bytes OK
+2023/01/26-20:54:35.141 11503 Delete type=0 #78
+2023/01/26-20:54:35.143 11503 Level-0 table #89: started
+2023/01/26-20:54:35.189 11503 Level-0 table #89: 2018197 bytes OK
+2023/01/26-20:54:35.231 11503 Delete type=0 #86
+2023/01/26-20:54:45.522 ac03 Compacting 2@0 + 5@1 files
+2023/01/26-20:54:45.581 ac03 Generated table #90@0: 21955 keys, 2150630 bytes
+2023/01/26-20:54:45.671 ac03 Generated table #91@0: 38645 keys, 2201097 bytes
+2023/01/26-20:54:45.721 ac03 Generated table #92@0: 10904 keys, 2149801 bytes
+2023/01/26-20:54:45.805 ac03 Generated table #93@0: 91166 keys, 2238544 bytes
+2023/01/26-20:54:45.852 ac03 Generated table #94@0: 39513 keys, 973536 bytes
+2023/01/26-20:54:45.852 ac03 Compacted 2@0 + 5@1 files => 9713608 bytes
+2023/01/26-20:54:45.893 ac03 compacted to: files[ 0 5 1 0 0 0 0 ]
+2023/01/26-20:55:00.649 1f903 Level-0 table #96: started
+2023/01/26-20:55:00.688 1f903 Level-0 table #96: 937513 bytes OK
+2023/01/26-20:55:00.729 1f903 Delete type=2 #89
+2023/01/26-20:55:00.729 1f903 Delete type=0 #88
+2023/01/26-20:55:00.729 1f903 Delete type=2 #80
+2023/01/26-20:55:00.729 1f903 Delete type=2 #81
+2023/01/26-20:55:00.729 1f903 Delete type=2 #83
+2023/01/26-20:55:00.729 1f903 Delete type=2 #82
+2023/01/26-20:55:00.729 1f903 Delete type=2 #87
+2023/01/26-20:55:00.729 1f903 Delete type=2 #84
+2023/01/26-20:55:02.728 ac03 Compacting 1@0 + 5@1 files
+2023/01/26-20:55:02.841 ac03 Generated table #97@0: 72638 keys, 2251390 bytes
+2023/01/26-20:55:02.890 ac03 Generated table #98@0: 7130 keys, 2147239 bytes
+2023/01/26-20:55:02.973 ac03 Generated table #99@0: 89439 keys, 2234691 bytes
+2023/01/26-20:55:03.029 ac03 Generated table #100@0: 45558 keys, 1119049 bytes
+2023/01/26-20:55:03.029 ac03 Compacted 1@0 + 5@1 files => 7752369 bytes
+2023/01/26-20:55:03.069 ac03 compacted to: files[ 0 4 1 0 0 0 0 ]
+2023/01/26-20:55:03.070 ac03 Delete type=2 #94
+2023/01/26-20:55:03.070 ac03 Delete type=2 #96
+2023/01/26-20:55:03.070 ac03 Delete type=2 #92
+2023/01/26-20:55:03.070 ac03 Delete type=2 #93
+2023/01/26-20:55:03.070 ac03 Delete type=2 #91
+2023/01/26-20:55:03.070 ac03 Delete type=2 #90

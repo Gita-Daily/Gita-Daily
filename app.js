@@ -109,29 +109,29 @@ setTimeout(sendShlok, timeUntil5am);
 
 
 client.on('message', message => {
-try{
-    var data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
-    const userID = message.from;
-    const messageBody = message.body;
-    const name = message._data.notifyName;
-    console.log(messageBody)
-    const spellings = ["hare krishna", "hare krsna", "hare krishn", "hare krisna", "harekrishna"];
-    if (spellings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
-        if(!checkPhoneNoExists(userID, data)) {
+    try{
+        var data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+        const userID = message.from;
+        const messageBody = message.body;
+        const name = message._data.notifyName;
+        console.log(messageBody)
+        const spellings = ["hare krishna", "hare krsna", "hare krishn", "hare krisna", "harekrishna"];
+        if (spellings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
+            if(!checkPhoneNoExists(userID, data)) {
+                addUserToData(data, userID, name, 1, true);
+            } else {
+                addUserToData(data, userID, name, data[userID][1], true);
+            }
+            client.sendMessage(message.from, '*🦚Hare Krishna ' + name + '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending \"unsubscribe\" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml');
+        } else if(messageBody.toLowerCase().includes("unsubscribe")) {
+            addUserToData(data, userID, name, data[userID][1], false);
+            client.sendMessage(message.from, "You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending \"hare krishna\" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7");
+        } else if(messageBody.toLowerCase().includes("shlok 1")) {
             addUserToData(data, userID, name, 1, true);
-        } else {
-            addUserToData(data, userID, name, data[userID][1], true);
+            message_text = 'Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shlok 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at manasbam.com or samarth.ml . Thank you for choosing to embark on this journey with us. Hare Krishna!'
+            client.sendMessage(message.from, message_text);
         }
-        client.sendMessage(message.from, '*🦚Hare Krishna ' + name + '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending \"unsubscribe\" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml');
-    } else if(messageBody.toLowerCase().includes("unsubscribe")) {
-        addUserToData(data, userID, name, data[userID][1], false);
-        client.sendMessage(message.from, "You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending \"hare krishna\" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7");
-    } else if(messageBody.toLowerCase().includes("shlok 1")) {
-        addUserToData(data, userID, name, 1, true);
-        message_text = 'Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shlok 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at manasbam.com or samarth.ml . Thank you for choosing to embark on this journey with us. Hare Krishna!'
-        client.sendMessage(message.from, message_text);
+    } catch (e) {
+        console.log(e)
     }
-} catch (e) {
-	console.log(e)
-}
 });

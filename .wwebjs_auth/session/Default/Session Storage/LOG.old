@@ -1,3 +1,2 @@
-2023/01/26-15:13:35.899 11403 Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Session Storage/MANIFEST-000001
-2023/01/26-15:13:35.899 11403 Recovering log #3
-2023/01/26-15:13:35.900 11403 Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Session Storage/000003.log 
+2023/01/26-20:52:45.973 ae03 Creating DB /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Session Storage since it was missing.
+2023/01/26-20:52:46.037 ae03 Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Session Storage/MANIFEST-000001
