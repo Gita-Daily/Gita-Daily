@@ -1,0 +1,16 @@
+2023/01/26-15:13:39.668 1120b Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/26-15:13:39.668 1120b Recovering log #57
+2023/01/26-15:13:39.746 1120b Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000057.log 
+2023/01/26-15:13:40.127 a203 Level-0 table #64: started
+2023/01/26-15:13:40.168 a203 Level-0 table #64: 1189675 bytes OK
+2023/01/26-15:13:40.211 a203 Delete type=0 #57
+2023/01/26-15:13:41.670 fd03 Compacting 1@1 + 3@2 files
+2023/01/26-15:13:41.747 fd03 Generated table #65@1: 11715 keys, 2171276 bytes
+2023/01/26-15:13:41.821 fd03 Generated table #66@1: 49202 keys, 2218592 bytes
+2023/01/26-15:13:41.877 fd03 Generated table #67@1: 53094 keys, 1141419 bytes
+2023/01/26-15:13:41.877 fd03 Compacted 1@1 + 3@2 files => 5531287 bytes
+2023/01/26-15:13:41.917 fd03 compacted to: files[ 0 0 3 0 0 0 0 ]
+2023/01/26-15:13:41.917 fd03 Delete type=2 #61
+2023/01/26-15:13:41.917 fd03 Delete type=2 #60
+2023/01/26-15:13:41.917 fd03 Delete type=2 #64
+2023/01/26-15:13:41.917 fd03 Delete type=2 #59
