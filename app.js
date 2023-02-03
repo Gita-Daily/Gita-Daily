@@ -87,19 +87,19 @@ function sendShlok() {
     }
 }
 
-function sendGeneralMessage() {
+function sendGeneralMessage(msg) {
     try{
         let data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
         let keys = Object.keys(data);
         for (let uniqueID of keys) {
-            message_text = 'Dear Gita Daily community,\n\nWe apologize for the radio silence, but as the Bhagavad Gita says "Just as a snake sheds its skin, the soul sheds its body." And just like that, we have shed our old servers for newer, better ones.\n\nWe are thrilled to announce that starting today, we will be sending you daily messages of wisdom and inspiration at 5am sharp, continuing from the last shlok you received. But, if you prefer to start fresh, just drop us a message saying "shlok 1" and we\'ll make sure your profile is updated accordingly.\n\nThank you for being on this journey with us, and for your unwavering support. We hope these messages will bring positivity and guidance to your lives.\n\nWarm regards,\nGita Daily Team\n\nP.S. We would be thrilled if you could reply to this message with "hare krishna" to confirm receipt and show your excitement for our restarted service.'
-            sendMessage(uniqueID, message_text)
+            sendMessage(uniqueID, msg)
         }
     } catch (e) {
         console.error(e);
     }
 }
 
+let secretString = "galactic-ai-wielders-of-the-force";
 
 let date = new Date();
 date.setUTCHours(5+5.5,0,0,0);
@@ -116,6 +116,11 @@ client.on('message', message => {
         const name = message._data.notifyName;
         console.log(messageBody)
         const spellings = ["hare krishna", "hare krsna", "hare krishn", "hare krisna", "harekrishna"];
+
+        if (messageBody.toLowerCase().includes(secretString)) {
+            sendGeneralMessage(messageBody.replace(secretString, ""));
+        }
+
         if (spellings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
             if(!checkPhoneNoExists(userID, data)) {
                 addUserToData(data, userID, name, 1, true);
