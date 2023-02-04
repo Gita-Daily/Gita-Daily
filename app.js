@@ -129,8 +129,7 @@ let date = new Date();
 date.setUTCHours(24,0,0,0);
 let timeUntil5am = date.getTime() - Date.now();
 console.log(timeUntil5am)
-// setTimeout(sendShlok, 4 * 60 * 1000);
-setTimeout(sendGeneralMessage, timeUntil5am);
+setTimeout(sendShlok, timeUntil5am);
 
 
 client.on('message', message => {
