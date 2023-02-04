@@ -158,7 +158,7 @@ client.on('message', message => {
             } else {
                 addUserToData(data, userID, name, data[userID][1], true);
             }
-            client.sendMessage(message.from, '*🦚Hare Krishna ' + name + '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nYou can unsubscribe anytime by sending \"unsubscribe\" to this number. \n\nYour journey of self realisation starts now 🙏\n\nhttps://www.gitadaily.ml');
+            client.sendMessage(message.from, '*🦚Hare Krishna ' + name + '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nIn addition to daily messages, you can now also request for the next shlok by sending us "next shlok".\n\nWe would love to hear from you! If you have any feedback or suggestions, please send us "feedback: followed by your message".\n\nYou can unsubscribe anytime by sending \"unsubscribe\" to this number. \n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nhttps://www.gitadaily.ml');
         } else if(messageBody.toLowerCase().includes("unsubscribe")) {
             addUserToData(data, userID, name, data[userID][1], false);
             client.sendMessage(message.from, "You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending \"hare krishna\" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7");
