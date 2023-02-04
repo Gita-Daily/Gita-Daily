@@ -75,16 +75,39 @@ function sendShlok() {
                 } else {
                     message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] + '\n\n*Commentary*' + jsonData['commentary'] 
                 }
-                message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Haree Krsna" to +917348895108 ��🦚\n\nhttps://www.gitadaily.ml';
+                message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚🦚🦚\n\nhttps://www.gitadaily.ml';
                 sendMessage(uniqueID, message_text)
                 data[uniqueID][1] = data[uniqueID][1] + jsonData['next shlok'] - sh;
             }
         }
-        fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf8');            
-        setTimeout(sendShlok, 24 * 60 * 60 * 1000);
+        fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf8'); 
+        let date = new Date();
+        date.setUTCHours(0,0,0,0);
+        let timeUntil5am = date.getTime() - Date.now();   
+        console.log(timeUntil5am)                
+        setTimeout(sendShlok, timeUntil5am);
     } catch (e) {
         console.error(e);
     }
+}
+
+function nextShlok(uniqueID) {
+    let data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+    let user_data = data[uniqueID]
+    let [ch, sh] = getChSh(user_data[1]);
+    let jsonData = JSON.parse(fs.readFileSync(`${ch}/${sh}.json`, 'utf8'));
+    let message_text = '';
+    let shlok_data_audio = jsonData['audio'];
+    shlok_data_audio = 'https://www.gitadaily.ml/' + shlok_data_audio.slice(shlok_data_audio.indexOf('audio'));
+    if(jsonData['commentary'] === 'NONE') {
+        message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] 
+    } else {
+        message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] + '\n\n*Commentary*' + jsonData['commentary'] 
+    }
+    message_text += '\n\n\nThank you for reading the next shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚🦚🦚\n\nhttps://www.gitadaily.ml';
+    sendMessage(uniqueID, message_text)
+    data[uniqueID][1] = data[uniqueID][1] + jsonData['next shlok'] - sh;
+    fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf8');            
 }
 
 function sendGeneralMessage(msg) {
@@ -99,12 +122,13 @@ function sendGeneralMessage(msg) {
     }
 }
 
-let secretString = "galactic-ai-wielders-of-the-force";
+let secretString = "galactic-ai-wielders-of-the-force: ";
+let feedbackStrings = ["feedback", "feedback:", "feedback: "];
 
-let date = new Date();
-date.setUTCHours(5+5.5,0,0,0);
-let timeUntil5am = date.getTime() - Date.now();
-setTimeout(sendShlok, timeUntil5am);
+// let date = new Date();
+// date.setUTCHours(5-5.5,0,0,0);
+// let timeUntil5am = date.getTime() - Date.now();
+setTimeout(sendShlok, 4 * 60 * 1000);
 // setTimeout(sendGeneralMessage, 240000);
 
 
@@ -116,12 +140,18 @@ client.on('message', message => {
         const name = message._data.notifyName;
         console.log(messageBody)
         const spellings = ["hare krishna", "hare krsna", "hare krishn", "hare krisna", "harekrishna"];
+        const nxtShlok = ["next shlok", "next verse", "next slok"];
 
-        if (messageBody.toLowerCase().includes(secretString)) {
+
+        if (messageBody.toLowerCase().startsWith(secretString)) {
             sendGeneralMessage(messageBody.replace(secretString, ""));
-        }
-
-        if (spellings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
+        } else if(feedbackStrings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
+            sendMessage("919108006252@c.us", messageBody + "\n\n" + name + " " + userID);
+            sendMessage("917337610771@c.us", messageBody + "\n\n" + name + " " + userID);
+            sendMessage(userID, "Thank you for your valuable feedback! Your thoughts and opinions help us improve and better serve our community. As the Bhagavad Gita states, \"Karmanye vadhikaraste ma phaleshu kadachana\" (2.47), which means \"In actions, do as you will, but do not be attached to their results.\" Your feedback is a reminder for us to stay humble and continue our journey towards growth and improvement. Thank you again!");
+        } else if(nxtShlok.some(spelling => messageBody.toLowerCase().includes(spelling))) {
+            nextShlok(userID);
+        } else if (spellings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
             if(!checkPhoneNoExists(userID, data)) {
                 addUserToData(data, userID, name, 1, true);
             } else {
