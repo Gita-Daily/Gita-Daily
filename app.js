@@ -81,11 +81,11 @@ function sendShlok() {
             }
         }
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf8'); 
-        let date = new Date();
-        date.setUTCHours(0,0,0,0);
-        let timeUntil5am = date.getTime() - Date.now();   
-        console.log(timeUntil5am)                
-        setTimeout(sendShlok, timeUntil5am);
+        // let date = new Date();
+        // date.setUTCHours(0,0,0,0);
+        // let timeUntil5am = date.getTime() - Date.now();   
+        // console.log(timeUntil5am)                
+        setTimeout(sendShlok, 24 * 60 * 60 * 1000);
     } catch (e) {
         console.error(e);
     }
@@ -125,11 +125,12 @@ function sendGeneralMessage(msg) {
 let secretString = "galactic-ai-wielders-of-the-force: ";
 let feedbackStrings = ["feedback", "feedback:", "feedback: "];
 
-// let date = new Date();
-// date.setUTCHours(5-5.5,0,0,0);
-// let timeUntil5am = date.getTime() - Date.now();
-setTimeout(sendShlok, 4 * 60 * 1000);
-// setTimeout(sendGeneralMessage, 240000);
+let date = new Date();
+date.setUTCHours(5-5.5,0,0,0);
+let timeUntil5am = date.getTime() - Date.now();
+console.log(timeUntil5am)
+// setTimeout(sendShlok, 4 * 60 * 1000);
+setTimeout(sendGeneralMessage, timeUntil5am);
 
 
 client.on('message', message => {

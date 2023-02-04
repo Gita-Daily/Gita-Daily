@@ -1,34 +1,41 @@
-const fs = require('fs');
+let date = new Date();
+date.setUTCHours(5-5.5,0,0,0);
+let timeUntil5am = date.getTime() - Date.now();
+console.log(timeUntil5am)
 
-const chapter_shlokas = [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 34, 27, 20, 24, 28, 78];
 
-function getChSh(n) {
-    let ch = 1;
-    for(let n_schlokas of chapter_shlokas) {
-        if(n-n_schlokas > 0) {
-            n = n - n_schlokas;
-            ch = ch + 1;
-        } else {
-            break;
-        }
-    }
-    return [ch, n];
-}
 
-async function checkShlokExists(data) {
-  for (const [user, userData] of Object.entries(data)) {
-    const [ch, sh] = getChSh(userData[1]);
-    const filePath = `${ch}/${sh}.json`;
-    try {
-      await fs.promises.readFile(filePath, 'utf-8');
-    } catch (err) {
-      console.log(`File not found for user ${user}: ${filePath}`);
-    }
-  }
-}
+// const fs = require('fs');
 
-data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
-checkShlokExists(data);
+// const chapter_shlokas = [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 34, 27, 20, 24, 28, 78];
+
+// function getChSh(n) {
+//     let ch = 1;
+//     for(let n_schlokas of chapter_shlokas) {
+//         if(n-n_schlokas > 0) {
+//             n = n - n_schlokas;
+//             ch = ch + 1;
+//         } else {
+//             break;
+//         }
+//     }
+//     return [ch, n];
+// }
+
+// async function checkShlokExists(data) {
+//   for (const [user, userData] of Object.entries(data)) {
+//     const [ch, sh] = getChSh(userData[1]);
+//     const filePath = `${ch}/${sh}.json`;
+//     try {
+//       await fs.promises.readFile(filePath, 'utf-8');
+//     } catch (err) {
+//       console.log(`File not found for user ${user}: ${filePath}`);
+//     }
+//   }
+// }
+
+// data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+// checkShlokExists(data);
 
 // function getPrevShlok(shlokNum) {
 //     let [ch, sh] = getChSh(shlokNum);
