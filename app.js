@@ -126,7 +126,7 @@ let secretString = "galactic-ai-wielders-of-the-force: ";
 let feedbackStrings = ["feedback", "feedback:", "feedback: "];
 
 let date = new Date();
-date.setUTCHours(5-5.5,0,0,0);
+date.setUTCHours(24,0,0,0);
 let timeUntil5am = date.getTime() - Date.now();
 console.log(timeUntil5am)
 // setTimeout(sendShlok, 4 * 60 * 1000);
