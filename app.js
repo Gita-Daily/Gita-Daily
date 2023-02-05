@@ -60,6 +60,7 @@ function getChSh(n) {
 
 function sendShlok() {
     try {
+        let count = 0;
         let data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
         let keys = Object.keys(data);
         for (let uniqueID of keys) {
@@ -69,17 +70,20 @@ function sendShlok() {
                 let jsonData = JSON.parse(fs.readFileSync(`${ch}/${sh}.json`, 'utf8'));
                 let message_text = '';
                 let shlok_data_audio = jsonData['audio'];
-                shlok_data_audio = 'https://www.gitadaily.ml/' + shlok_data_audio.slice(shlok_data_audio.indexOf('audio'));
+                shlok_data_audio = 'https://gitadaily.ml/' + shlok_data_audio.slice(shlok_data_audio.indexOf('audio'));
                 if(jsonData['commentary'] === 'NONE') {
                     message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] 
                 } else {
                     message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] + '\n\n*Commentary*' + jsonData['commentary'] 
                 }
-                message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚🦚🦚\n\nhttps://www.gitadaily.ml';
+                message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚🦚🦚\n\nhttps://gitadaily.ml';
                 sendMessage(uniqueID, message_text)
                 data[uniqueID][1] = data[uniqueID][1] + jsonData['next shlok'] - sh;
             }
+            count = count + 1;
         }
+        sendMessage("919108006252@c.us", "No of Shloks sent today: " + count.toString());
+        sendMessage("917337610771@c.us", "No of Shloks sent today: " + count.toString());
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf8'); 
         // let date = new Date();
         // date.setUTCHours(0,0,0,0);
@@ -98,13 +102,13 @@ function nextShlok(uniqueID) {
     let jsonData = JSON.parse(fs.readFileSync(`${ch}/${sh}.json`, 'utf8'));
     let message_text = '';
     let shlok_data_audio = jsonData['audio'];
-    shlok_data_audio = 'https://www.gitadaily.ml/' + shlok_data_audio.slice(shlok_data_audio.indexOf('audio'));
+    shlok_data_audio = 'https://gitadaily.ml/' + shlok_data_audio.slice(shlok_data_audio.indexOf('audio'));
     if(jsonData['commentary'] === 'NONE') {
         message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] 
     } else {
         message_text = jsonData['verse'].slice(0,-1) + '\n\n*Listen to this shlok here:*\n' + shlok_data_audio + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] + '\n\n*Commentary*' + jsonData['commentary'] 
     }
-    message_text += '\n\n\nThank you for reading the next shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚🦚🦚\n\nhttps://www.gitadaily.ml';
+    message_text += '\n\n\nThank you for reading the next shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚🦚🦚\n\nhttps://gitadaily.ml';
     sendMessage(uniqueID, message_text)
     data[uniqueID][1] = data[uniqueID][1] + jsonData['next shlok'] - sh;
     fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf8');            
@@ -157,7 +161,7 @@ client.on('message', message => {
             } else {
                 addUserToData(data, userID, name, data[userID][1], true);
             }
-            client.sendMessage(message.from, '*🦚Hare Krishna ' + name + '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nIn addition to daily messages, you can now also request for the next shlok by sending us "next shlok".\n\nWe would love to hear from you! If you have any feedback or suggestions, please send us "feedback: followed by your message".\n\nYou can unsubscribe anytime by sending \"unsubscribe\" to this number. \n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nhttps://www.gitadaily.ml');
+            client.sendMessage(message.from, '*🦚Hare Krishna ' + name + '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nIn addition to daily messages, you can now also request for the next shlok by sending us "next shlok".\n\nWe would love to hear from you! If you have any feedback or suggestions, please send us "feedback: followed by your message".\n\nYou can unsubscribe anytime by sending \"unsubscribe\" to this number. \n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nhttps://gitadaily.ml');
         } else if(messageBody.toLowerCase().includes("unsubscribe")) {
             addUserToData(data, userID, name, data[userID][1], false);
             client.sendMessage(message.from, "You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending \"hare krishna\" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7");
