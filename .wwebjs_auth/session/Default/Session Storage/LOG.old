@@ -1,3 +1,13 @@
-2023/02/04-09:52:55.846 a803 Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Session Storage/MANIFEST-000001
-2023/02/04-09:52:55.846 a803 Recovering log #3
-2023/02/04-09:52:55.846 a803 Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Session Storage/000003.log 
+2023/02/07-03:40:36.125 4b9 Recovering log #10
+2023/02/07-03:40:36.126 4b9 Level-0 table #12: started
+2023/02/07-03:40:36.129 4b9 Level-0 table #12: 261 bytes OK
+2023/02/07-03:40:36.137 4b9 Delete type=3 #8
+2023/02/07-03:40:36.137 4b9 Delete type=0 #10
+2023/02/07-03:40:36.137 4bf Compacting 4@0 + 0@1 files
+2023/02/07-03:40:36.141 4bf Generated table #14@0: 18 keys, 706 bytes
+2023/02/07-03:40:36.141 4bf Compacted 4@0 + 0@1 files => 706 bytes
+2023/02/07-03:40:36.142 4bf compacted to: files[ 0 1 0 0 0 0 0 ]
+2023/02/07-03:40:36.143 4bf Delete type=2 #6
+2023/02/07-03:40:36.143 4bf Delete type=2 #9
+2023/02/07-03:40:36.143 4bf Delete type=2 #3
+2023/02/07-03:40:36.143 4bf Delete type=2 #12

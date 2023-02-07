@@ -1,3 +1,5 @@
-2023/02/04-11:08:47.961 b203 Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Service Worker/Database/MANIFEST-000001
-2023/02/04-11:08:47.961 b203 Recovering log #3
-2023/02/04-11:08:47.961 b203 Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/Service Worker/Database/000003.log 
+2023/02/07-03:42:12.594 554 Recovering log #13
+2023/02/07-03:42:12.595 554 Level-0 table #16: started
+2023/02/07-03:42:12.597 554 Level-0 table #16: 523 bytes OK
+2023/02/07-03:42:12.605 554 Delete type=0 #13
+2023/02/07-03:42:12.605 554 Delete type=3 #11
