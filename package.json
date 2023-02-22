@@ -18,7 +18,6 @@
     },
     "homepage": "https://github.com/Gita-Daily/Gita-Daily#readme",
     "dependencies": {
-        "concurrently": "^7.6.0",
         "puppeteer-core": "^19.5.2",
         "qrcode-terminal": "^0.12.0",
         "whatsapp-web.js": "^1.19.2"
