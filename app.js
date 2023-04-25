@@ -87,9 +87,9 @@ function sendShlok() {
                 // let shlok_data_audio = jsonData['audio'];
                 // shlok_data_audio = 'https://gitadaily.vercel.app/' + shlok_data_audio.slice(shlok_data_audio.indexOf('audio'));
                 if(jsonData['commentary'] === 'NONE') {
-                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation']
+                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation']
                 } else {
-                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] + '\n\n*Commentary*' + jsonData['commentary']
+                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation'] + '\n*Commentary*' + jsonData['commentary']
                 }
                 message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚��🦚\n\nhttps://gitadaily.vercel.app';
                 sendMessage(uniqueID, message_text)
@@ -119,9 +119,9 @@ function nextShlok(uniqueID) {
         let jsonData = JSON.parse(fs.readFileSync(`${ch}/${sh}.json`, 'utf8'));
         let message_text = '';
         if(jsonData['commentary'] === 'NONE') {
-            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation']
+            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation']
         } else {
-            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Translation*' + jsonData['translation'] + '\n\n*Commentary*' + jsonData['commentary']
+            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation'] + '\n*Commentary*' + jsonData['commentary']
         }
         message_text += '\n\n\nThank you for reading the next shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚��🦚\n\nhttps://gitadaily.vercel.app';
         sendMessage(uniqueID, message_text)

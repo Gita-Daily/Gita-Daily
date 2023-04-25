@@ -1,20 +1,15 @@
-import urllib.request
+from bark import SAMPLE_RATE, generate_audio, preload_models
+from IPython.display import Audio
 
+# download and load all models
+preload_models()
 
-def download_gita_audio():
-    shlok_num = 1
-    for chp_num in range(1, 19):
-        while (shlok_num < 81):
-            try:
-                url = f"https://www.gitasupersite.iitk.ac.in/sites/default/files/audio/CHAP{chp_num}/{chp_num}-{shlok_num}.MP3"
-                file_name = f"Audio/{chp_num}_{shlok_num}.mp3"
-                urllib.request.urlretrieve(url, file_name)
-                print(f"Downloaded {chp_num}_{shlok_num}.mp3")
-                shlok_num += 1
-            except:
-                print('Shloks in chapter were ', shlok_num - 1)
-                chp_num += 1
-                shlok_num = 1
-                continue
+# generate audio from text
+text_prompt = """
+     Hello, my name is Suno. And, uh — and I like pizza. [laughs] 
+     But I also have other interests such as playing tic tac toe.
+"""
+audio_array = generate_audio(text_prompt)
 
-download_gita_audio()
+# play text in notebook
+Audio(audio_array, rate=SAMPLE_RATE)
