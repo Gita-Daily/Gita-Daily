@@ -87,9 +87,9 @@ function sendShlok() {
                 // let shlok_data_audio = jsonData['audio'];
                 // shlok_data_audio = 'https://gitadaily.vercel.app/' + shlok_data_audio.slice(shlok_data_audio.indexOf('audio'));
                 if(jsonData['commentary'] === 'NONE') {
-                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation']
+                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + jsonData['word meanings'] + '\n\n*Translation*' + jsonData['translation']
                 } else {
-                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation'] + '\n*Commentary*' + jsonData['commentary']
+                    message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + jsonData['word meanings'] + '\n\n*Translation*' + jsonData['translation'] + '\n*Commentary*' + jsonData['commentary']
                 }
                 message_text += '\n\n\nThank you for reading today\'s shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚��🦚\n\nhttps://gitadaily.vercel.app';
                 sendMessage(uniqueID, message_text)
@@ -104,6 +104,7 @@ function sendShlok() {
         }
         sendMessage("6588646820@c.us", "No of Shloks sent today: " + count.toString());
         sendMessage("917337610771@c.us", "No of Shloks sent today: " + count.toString());
+        sendMessage("919845022084@c.us", "No of Shloks sent today: " + count.toString());
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf8');
         setTimeout(sendShlok, 24 * 60 * 60 * 1000);
     } catch (e) {
@@ -119,9 +120,9 @@ function nextShlok(uniqueID) {
         let jsonData = JSON.parse(fs.readFileSync(`${ch}/${sh}.json`, 'utf8'));
         let message_text = '';
         if(jsonData['commentary'] === 'NONE') {
-            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation']
+            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + jsonData['word meanings'] + '\n\n*Translation*' + jsonData['translation']
         } else {
-            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + json['word meanings'] + '\n\n*Translation*' + jsonData['translation'] + '\n*Commentary*' + jsonData['commentary']
+            message_text = jsonData['verse'].slice(0,-1) + '\n\n*Transliteration*\n' + jsonData['transliteration'] + '\n\n*Word Meanings*' + jsonData['word meanings'] + '\n\n*Translation*' + jsonData['translation'] + '\n*Commentary*' + jsonData['commentary']
         }
         message_text += '\n\n\nThank you for reading the next shlok🙏\nYou can encourage your friends and family to also start reading the Gita by sharing this message:\n🦚🦚 To receive daily Bhagavad Gita shlokas, click this link: https://api.whatsapp.com/send/?phone=917348895108&text=Hare%20Krishna or WhatsApp "Hare Krishna" to +917348895108 🦚��🦚\n\nhttps://gitadaily.vercel.app';
         sendMessage(uniqueID, message_text)
@@ -174,6 +175,7 @@ client.on('message', message => {
         } else if(feedbackStrings.some(spelling => messageBody.toLowerCase().includes(spelling))) {
             sendMessage("6588646820@c.us", messageBody + "\n\n" + name + " " + userID);
             sendMessage("917337610771@c.us", messageBody + "\n\n" + name + " " + userID);
+            sendMessage("919845022084@c.us", messageBody + "\n\n" + name + " " + userID);
             sendMessage(userID, "Thank you for your valuable feedback! Your thoughts and opinions help us improve and better serve our community. As the Bhagavad Gita states, \"Karmanye vadhikaraste ma phaleshu kadachana\" (2.47), which means \"In actions, do as you will, but do not be attached to their results.\" Your feedback is a reminder for us to stay humble and continue our journey towards growth and improvement. Thank you again!");
         } else if(nxtShlok.some(spelling => messageBody.toLowerCase().includes(spelling))) {
             nextShlok(userID);
@@ -189,7 +191,7 @@ client.on('message', message => {
             client.sendMessage(message.from, "You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending \"hare krishna\" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7");
         } else if(messageBody.toLowerCase().includes("shlok 1")) {
             addUserToData(data, userID, name, 1, true);
-            message_text = 'Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shlok 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at manasbam.com or samarth.ml . Thank you for choosing to embark on this journey with us. Hare Krishna!'
+            message_text = 'Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shlok 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at manasbam.com or samarth.ml or do.yoga . Thank you for choosing to embark on this journey with us. Hare Krishna!'
             client.sendMessage(message.from, message_text);
         }
     } catch (e) {
