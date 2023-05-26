@@ -1,3 +1,10 @@
-2023/04/24-00:12:33.042 11d0b Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/04/24-00:12:33.042 11d0b Recovering log #264
-2023/04/24-00:12:33.058 11d0b Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000264.log 
+2023/05/26-19:38:26.790 c77a Recovering log #11
+2023/05/26-19:38:27.022 c77a Level-0 table #16: started
+2023/05/26-19:38:27.065 c77a Level-0 table #16: 939533 bytes OK
+2023/05/26-19:38:27.071 c77a Delete type=0 #11
+2023/05/26-19:38:27.071 c77a Delete type=3 #2
+2023/05/26-19:38:28.853 c776 Moved #16 to level-1 939533 bytes OK: files[ 0 1 1 0 0 0 0 ]
+2023/05/26-19:38:39.130 c78f Compacting 1@1 + 1@2 files
+2023/05/26-19:38:39.282 c78f Generated table #18@1: 28841 keys, 1206860 bytes
+2023/05/26-19:38:39.282 c78f Compacted 1@1 + 1@2 files => 1206860 bytes
+2023/05/26-19:38:39.285 c78f compacted to: files[ 0 0 1 0 0 0 0 ]

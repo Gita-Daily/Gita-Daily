@@ -1,3 +1,2 @@
-2023/04/24-00:10:44.482 13a03 Reusing MANIFEST /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/File System/Origins/MANIFEST-000001
-2023/04/24-00:10:44.482 13a03 Recovering log #3
-2023/04/24-00:10:44.483 13a03 Reusing old log /Users/blackhole/Desktop/VS_Code.nosync/Python/Gita-Daily/.wwebjs_auth/session/Default/File System/Origins/000003.log 
+2023/05/26-18:47:58.354 c644 Creating DB /home/ubuntu/Gita-Daily/.wwebjs_auth/session/Default/File System/Origins since it was missing.
+2023/05/26-18:47:58.367 c644 Delete type=3 #1
