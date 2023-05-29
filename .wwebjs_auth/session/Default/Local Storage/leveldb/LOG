@@ -1,5 +1,5 @@
-2023/05/26-19:38:25.831 c77a Recovering log #3
-2023/05/26-19:38:25.831 c77a Level-0 table #5: started
-2023/05/26-19:38:25.834 c77a Level-0 table #5: 2921 bytes OK
-2023/05/26-19:38:25.840 c77a Delete type=3 #2
-2023/05/26-19:38:25.840 c77a Delete type=0 #3
+2023/05/29-06:04:26.616 f9e7 Recovering log #14
+2023/05/29-06:04:26.616 f9e7 Level-0 table #17: started
+2023/05/29-06:04:26.619 f9e7 Level-0 table #17: 288 bytes OK
+2023/05/29-06:04:26.629 f9e7 Delete type=0 #14
+2023/05/29-06:04:26.629 f9e7 Delete type=3 #12
