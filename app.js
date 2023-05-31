@@ -320,7 +320,7 @@ client.on("message", (message) => {
       } else if (messageBody.toLowerCase().includes("shloka 1")) {
         addUserToData(data, userID, name, 1, true);
         message_text =
-          "Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shloka 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at manasbam.com or samarth.ml or do.yoga \n\n Thank you for choosing to embark on this journey with us. Hare Krishna!";
+          "Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shloka 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at +917337610771 or hi@do.yoga \n\nThank you for choosing to embark on this journey with us. Hare Krishna!";
         client.sendMessage(message.from, message_text);
       }
     });
