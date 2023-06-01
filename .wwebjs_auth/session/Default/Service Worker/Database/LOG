@@ -1,5 +1,5 @@
-2023/05/31-03:18:55.632 1232e Recovering log #15
-2023/05/31-03:18:55.632 1232e Level-0 table #18: started
-2023/05/31-03:18:55.635 1232e Level-0 table #18: 531 bytes OK
-2023/05/31-03:18:55.640 1232e Delete type=3 #13
-2023/05/31-03:18:55.640 1232e Delete type=0 #15
+2023/06/01-12:17:15.844 162ce Recovering log #22
+2023/06/01-12:17:15.844 162ce Level-0 table #24: started
+2023/06/01-12:17:15.847 162ce Level-0 table #24: 535 bytes OK
+2023/06/01-12:17:15.852 162ce Delete type=0 #22
+2023/06/01-12:17:15.852 162ce Delete type=3 #20
