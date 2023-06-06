@@ -266,6 +266,9 @@ client.on("message", (message) => {
       ];
       const nxtShlok = ["next shlok", "next verse", "next slok", "next shloka"];
 
+      if (messageBody.toLowerCase().startsWith("tardis")) {
+       sendShlok();
+      }
       if (messageBody.toLowerCase().startsWith(secretString)) {
         sendGeneralMessage(messageBody.replace(secretString, ""));
       } else if (
