@@ -1,5 +1,14 @@
-2023/06/05-01:20:51.543 a0e Recovering log #56
-2023/06/05-01:20:51.543 a0e Level-0 table #58: started
-2023/06/05-01:20:51.547 a0e Level-0 table #58: 288 bytes OK
-2023/06/05-01:20:51.554 a0e Delete type=3 #54
-2023/06/05-01:20:51.554 a0e Delete type=0 #56
+2023/06/06-09:13:52.360 5fa Recovering log #62
+2023/06/06-09:13:52.365 5fa Level-0 table #64: started
+2023/06/06-09:13:52.369 5fa Level-0 table #64: 6162 bytes OK
+2023/06/06-09:13:52.375 5fa Delete type=0 #62
+2023/06/06-09:13:52.375 5fa Delete type=3 #60
+2023/06/06-09:13:52.376 5fa Compacting 4@0 + 1@1 files
+2023/06/06-09:13:52.383 5fa Generated table #66@0: 63 keys, 3630 bytes
+2023/06/06-09:13:52.383 5fa Compacted 4@0 + 1@1 files => 3630 bytes
+2023/06/06-09:13:52.385 5fa compacted to: files[ 0 1 0 0 0 0 0 ]
+2023/06/06-09:13:52.385 5fa Delete type=2 #61
+2023/06/06-09:13:52.385 5fa Delete type=2 #64
+2023/06/06-09:13:52.385 5fa Delete type=2 #55
+2023/06/06-09:13:52.385 5fa Delete type=2 #53
+2023/06/06-09:13:52.385 5fa Delete type=2 #58

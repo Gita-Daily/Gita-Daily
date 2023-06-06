@@ -1,5 +1,5 @@
-2023/06/05-01:22:27.622 a74 Recovering log #59
-2023/06/05-01:22:27.622 a74 Level-0 table #61: started
-2023/06/05-01:22:27.626 a74 Level-0 table #61: 287 bytes OK
-2023/06/05-01:22:27.633 a74 Delete type=3 #57
-2023/06/05-01:22:27.633 a74 Delete type=0 #59
+2023/06/06-09:26:15.702 6b0 Recovering log #65
+2023/06/06-09:26:15.702 6b0 Level-0 table #68: started
+2023/06/06-09:26:15.705 6b0 Level-0 table #68: 367 bytes OK
+2023/06/06-09:26:15.712 6b0 Delete type=3 #63
+2023/06/06-09:26:15.712 6b0 Delete type=0 #65

@@ -266,12 +266,12 @@ client.on("message", (message) => {
       ];
       const nxtShlok = ["next shlok", "next verse", "next slok", "next shloka"];
 
-      if (messageBody.toLowerCase().startsWith("tardis")) {
+      if (messageBody && messageBody.toLowerCase().startsWith("tardis")) {
        sendShlok();
       }
-      if (messageBody.toLowerCase().startsWith(secretString)) {
+      if (messageBody && messageBody.toLowerCase().startsWith(secretString)) {
         sendGeneralMessage(messageBody.replace(secretString, ""));
-      } else if (
+      } else if ( messageBody && 
         feedbackStrings.some((spelling) =>
           messageBody.toLowerCase().includes(spelling)
         )
@@ -292,13 +292,13 @@ client.on("message", (message) => {
           userID,
           'Thank you for your valuable feedback! Your thoughts and opinions help us improve and better serve our community. As the Bhagavad Gita states, "Karmanye vadhikaraste ma phaleshu kadachana" (2.47), which means "In actions, do as you will, but do not be attached to their results." Your feedback is a reminder for us to stay humble and continue our journey towards growth and improvement. Thank you again!'
         );
-      } else if (
+      } else if ( messageBody &&
         nxtShlok.some((spelling) =>
           messageBody.toLowerCase().includes(spelling)
         )
       ) {
         nextShlok(userID);
-      } else if (
+      } else if ( messageBody &&
         spellings.some((spelling) =>
           messageBody.toLowerCase().includes(spelling)
         )
@@ -314,13 +314,13 @@ client.on("message", (message) => {
             name +
             '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nIf you wish to start from the very beginning, simply message us with "shloka 1". To request the next shloka at any time, send us "next shloka".\n\nWe welcome and value your feedback. If you have any suggestions or comments, please message us "feedback: followed by your thoughts".\n\nShould you ever wish to unsubscribe, you can do so at any time by sending "unsubscribe" to this number.\n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nThis service was developed by the creative minds at Gita Daily and is brought to you in partnership with Do Yoga. To learn more about us, visit https://www.gitadaily.in and https://do.yoga/'
         );
-      } else if (messageBody.toLowerCase().includes("unsubscribe")) {
+      } else if (messageBody && messageBody.toLowerCase().includes("unsubscribe")) {
         addUserToData(data, userID, name, data[userID][1], false);
         client.sendMessage(
           message.from,
           'You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending "hare krishna" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7'
         );
-      } else if (messageBody.toLowerCase().includes("shloka 1")) {
+      } else if (messageBody && messageBody.toLowerCase().includes("shloka 1")) {
         addUserToData(data, userID, name, 1, true);
         message_text =
           "Great choice! You have decided to start fresh from the beginning of the Bhagavad Gita. Your profile has been updated and you will now receive daily messages starting from Shloka 1. We hope that this journey through the Bhagavad Gita will bring you wisdom, inspiration, and guidance in your life. If you have any questions or concerns, please do not hesitate to reach out to us at +917337610771 or hi@do.yoga \n\nThank you for choosing to embark on this journey with us. Hare Krishna!";
