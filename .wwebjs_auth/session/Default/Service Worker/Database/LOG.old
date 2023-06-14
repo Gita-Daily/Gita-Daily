@@ -1,5 +1,5 @@
-2023/06/06-09:13:52.442 5fa Recovering log #58
-2023/06/06-09:13:52.443 5fa Level-0 table #60: started
-2023/06/06-09:13:52.445 5fa Level-0 table #60: 533 bytes OK
-2023/06/06-09:13:52.452 5fa Delete type=0 #58
-2023/06/06-09:13:52.452 5fa Delete type=3 #56
+2023/06/11-07:20:12.490 5b2 Recovering log #71
+2023/06/11-07:20:12.490 5b2 Level-0 table #73: started
+2023/06/11-07:20:12.494 5b2 Level-0 table #73: 541 bytes OK
+2023/06/11-07:20:12.500 5b2 Delete type=3 #69
+2023/06/11-07:20:12.500 5b2 Delete type=0 #71

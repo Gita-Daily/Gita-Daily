@@ -232,7 +232,7 @@ let now = new Date();
 let target = new Date();
 
 // set target time to 5:00 AM (IST, i.e., UTC+5:30)
-target.setUTCHours(23, 30, 0, 0); // which is 5:00 AM next day IST
+target.setUTCHours(1, 30, 0, 0); // which is 5:00 AM next day IST
 
 if (now > target) {
   // If current time is past 5:00 AM, schedule for the next day
