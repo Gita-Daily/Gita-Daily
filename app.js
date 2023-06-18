@@ -160,6 +160,10 @@ function sendShlok() {
         "919845022084@c.us",
         "No of Shloks sent today: " + count.toString()
       );
+      sendMessage(
+	"918303566096@c.us",
+	"No of Shloks sent today: " + count.toString()
+      );
       fs.writeFileSync("data.json", JSON.stringify(data, null, 2), "utf8");
 
     });
@@ -312,7 +316,7 @@ client.on("message", (message) => {
           message.from,
           "*🦚Hare Krishna " +
             name +
-            '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message every day at *5:00 AM* ⏰ \n\nIf you wish to start from the very beginning, simply message us with "shloka 1". To request the next shloka at any time, send us "next shloka".\n\nWe welcome and value your feedback. If you have any suggestions or comments, please message us "feedback: followed by your thoughts".\n\nShould you ever wish to unsubscribe, you can do so at any time by sending "unsubscribe" to this number.\n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nThis service was developed by the creative minds at Gita Daily and is brought to you in partnership with Do Yoga. To learn more about us, visit https://www.gitadaily.in and https://do.yoga/'
+            '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\nYou will receive a message everyday at *7:00 AM* ⏰ \n\nIf you wish to start from the very beginning, simply message us with "shloka 1". To request the next shloka at any time, send us "next shloka".\n\nWe welcome and value your feedback. If you have any suggestions or comments, please message us "feedback: followed by your thoughts".\n\nShould you ever wish to unsubscribe, you can do so at any time by sending "unsubscribe" to this number.\n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nThis service was developed by the creative minds at Gita Daily and is brought to you in partnership with Do Yoga. To learn more about us, visit https://www.gitadaily.in and https://do.yoga/'
         );
       } else if (messageBody && messageBody.toLowerCase().includes("unsubscribe")) {
         addUserToData(data, userID, name, data[userID][1], false);
