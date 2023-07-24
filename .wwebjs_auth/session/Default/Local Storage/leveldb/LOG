@@ -1,5 +1,5 @@
-2023/07/18-00:00:06.272 1721c Recovering log #375
-2023/07/18-00:00:06.273 1721c Level-0 table #378: started
-2023/07/18-00:00:06.281 1721c Level-0 table #378: 1508 bytes OK
-2023/07/18-00:00:06.290 1721c Delete type=3 #373
-2023/07/18-00:00:06.290 1721c Delete type=0 #375
+2023/07/24-18:13:04.808 d3e Recovering log #11
+2023/07/24-18:13:04.811 d3e Level-0 table #13: started
+2023/07/24-18:13:04.815 d3e Level-0 table #13: 12823 bytes OK
+2023/07/24-18:13:04.822 d3e Delete type=3 #10
+2023/07/24-18:13:04.822 d3e Delete type=0 #11

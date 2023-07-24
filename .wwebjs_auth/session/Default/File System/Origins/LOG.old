@@ -1,3 +1,5 @@
-2023/07/17-18:13:05.952 16cbd Recovering log #126
-2023/07/17-18:13:05.965 16cbd Delete type=3 #125
-2023/07/17-18:13:05.965 16cbd Delete type=0 #126
+2023/07/24-18:08:48.844 cc1 Recovering log #8
+2023/07/24-18:08:48.844 cc1 Level-0 table #10: started
+2023/07/24-18:08:48.848 cc1 Level-0 table #10: 143 bytes OK
+2023/07/24-18:08:48.856 cc1 Delete type=3 #7
+2023/07/24-18:08:48.856 cc1 Delete type=0 #8
