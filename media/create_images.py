@@ -149,8 +149,9 @@ def overlay_text_on_random_image(shloka, translation, shloka_details, chapter_no
     # save the image
     os.makedirs(f"generated_images/{chapter_no}", exist_ok=True)
 
-    img.save(f"generated_images/{chapter_no}/{shloka_no}.png", "PNG")
-    print(f"Generated {chapter_no}/{shloka_no}.png")
+    img_rgb = img.convert("RGB")
+    img_rgb.save(f"generated_images/{chapter_no}/{shloka_no}.jpg", "JPEG")
+    print(f"Generated {chapter_no}/{shloka_no}.jpg")
 
 
 
@@ -160,7 +161,7 @@ all_chapters = [
 
 total_chapters = len(all_chapters)
 
-for chapter_no in range(16, total_chapters + 1):
+for chapter_no in range(1, total_chapters + 1):
     for shloka_no in range(1, all_chapters[chapter_no - 1] + 1):
         chapter_no = str(chapter_no)
         shloka_no = str(shloka_no)
