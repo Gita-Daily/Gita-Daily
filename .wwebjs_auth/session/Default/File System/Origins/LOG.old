@@ -1,5 +1,3 @@
-2023/07/24-18:08:48.844 cc1 Recovering log #8
-2023/07/24-18:08:48.844 cc1 Level-0 table #10: started
-2023/07/24-18:08:48.848 cc1 Level-0 table #10: 143 bytes OK
-2023/07/24-18:08:48.856 cc1 Delete type=3 #7
-2023/07/24-18:08:48.856 cc1 Delete type=0 #8
+2023/07/25-03:34:22.689 a7d Recovering log #30
+2023/07/25-03:34:22.809 a7d Delete type=3 #29
+2023/07/25-03:34:22.809 a7d Delete type=0 #30

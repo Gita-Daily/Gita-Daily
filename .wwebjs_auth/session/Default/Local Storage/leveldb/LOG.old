@@ -1,3 +1,5 @@
-2023/07/24-18:08:48.184 cbc Recovering log #9
-2023/07/24-18:08:48.194 cbc Delete type=0 #9
-2023/07/24-18:08:48.194 cbc Delete type=3 #7
+2023/07/25-03:34:05.737 a67 Recovering log #73
+2023/07/25-03:34:05.754 a67 Level-0 table #75: started
+2023/07/25-03:34:05.767 a67 Level-0 table #75: 1061 bytes OK
+2023/07/25-03:34:05.804 a67 Delete type=0 #73
+2023/07/25-03:34:05.804 a67 Delete type=3 #71

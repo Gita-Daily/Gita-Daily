@@ -46,16 +46,39 @@ async function sendAudioMessage(uniqueID, filePath) {
   }
 }
 
-function removeUnnecessarySpaces(str) {
-  // Split the string by '\r\n' to get an array of strings
-  let arr = str.split("\r\n");
 
-  // Iterate over the array and trim each string
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function sendImgMessage(uniqueID, filePath) {
+  try {
+    try {
+      const stats = fs.statSync(filePath);
+      const fileSizeInBytes = stats.size;
+      const fileSizeInMegabytes = fileSizeInBytes / (1024*1024);
+
+      if (fileSizeInMegabytes < 13) {
+        const msg = await client.sendMessage(
+          uniqueID,
+          MessageMedia.fromFilePath(filePath)
+        );     
+      }
+    } catch (err) {
+      console.error(`Error checking file size of ${filePath}: ${err}`);
+      await client.destroy();
+      await client.initialize();
+    }    
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function removeUnnecessarySpaces(str) {
+  let arr = str.split("\r\n");
   for (let i = 0; i < arr.length; i++) {
     arr[i] = arr[i].trim();
   }
-
-  // Join the array back into a single string with '\r\n' as the separator
   return arr.join("\r\n");
 }
 
@@ -82,6 +105,8 @@ function addUserToData(data, userID, name, number, booleanValue, language) {
   }
   return "User added successfully!";
 }
+
+
 
 const chapter_shlokas = [
   47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 34, 27, 20, 24, 28, 78,
@@ -111,7 +136,33 @@ async function getValidShlokNumber(n) {
   }
 }
 
-function sendShlok() {
+const fs3 = require('fs').promises; // use promises API
+
+async function sendAllImages() {
+  try {
+    let content = await fs3.readFile("data.json", "utf8");
+    let data = JSON.parse(content);
+    let keys = Object.keys(data);
+    for (let i = 0; i < keys.length; i++) {
+      let uniqueID = keys[i];
+      let user_data = data[uniqueID];
+      if (user_data[2]) {
+        let [ch, sh] = getChSh(user_data[1]);
+        let filePath = `/home/ubuntu/Gita-Daily/generated_images/${ch}/${sh}.jpg`;
+        await sendImgMessage(uniqueID, filePath);
+      }
+      
+      if (i !== 0 && i % 50 === 0) {
+        await client.destroy();
+        await client.initialize();
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function sendShlok() {
   try {
     let count = 0;
     fs.readFile("data.json", "utf8", async (err, content) => {
@@ -166,6 +217,7 @@ function sendShlok() {
               let audio_file = `Audio/${ch}_${i}.mp3`;
               await sendAudioMessage(uniqueID, audio_file);
             }
+            // await sendImgMessage(uniqueID, `/home/ubuntu/Gita-Daily-Images/${ch}/${sh}.png`);
             data[uniqueID][1] = data[uniqueID][1] + next_shlok - sh;
           } else {
             let [ch, sh] = getChSh(user_data[1]);
@@ -185,10 +237,11 @@ function sendShlok() {
               "\n*Commentary*" +
               jsonData["commentary"];
             message_text +=
-              '\nआज के श्लोक को पढ़ने के लिए धन्यवाद। आप इस संदेश को साझा करके अपने दोस्तों और परिवार को भी गीता पढ़ने के लिए प्रेरित कर सकते हैं:\n\n🦚🦚 रोजाना भगवद गीता के श्लोक प्राप्त करने के लिए, इस लिंक पर क्लिक करें: https://api.whatsapp.com/send/?phone=919036504927&text=Hare%20Krishna या WhatsApp पर "Hare Krishna" लिखकर +919036504927 पर भेजें 🦚🦚\n\nयह सेवा Gita Daily के रचनात्मक दिमागों त्वारा विकसित की गई है, और यह आपों लिए Do Yoga में साथ साझेदारी झे ��्र�्झेत की जा रही �्। हमसे अधिक जानझे के लिए https://www.gitadaily.in और https://do.yoga/ पर जाएं।';
+              '\nआज के श्लोक को पढ़ने के लिए धन्यवाद। आप इस संदेश को साझा करके अपने दोस्तों और परिवार को भी गीता पढ़ने के लिए प्रेरित कर सकते हैं:\n\n🦚🦚 रोजाना भगवद गीता के श्लोक प्राप्त करने के लिए, इस लिंक पर क्लिक करें: https://api.whatsapp.com/send/?phone=919036504927&text=Hare%20Krishna या WhatsApp पर "Hare Krishna" लिखकर +919036504927 पर भेजें 🦚🦚\n\nयह सेवा Gita Daily के रचना��्मक दिमागों त्वारा विकसित की गई है, और यह आपो��� लिए Do Yoga में साथ सामेंदारी झे ��्र�्झेत क��� जा रही �्। हमसे अधिक जानझे के लिए https://www.gitadaily.in और https://do.yoga/ पर जाएं।';
             await sendMessage(uniqueID, message_text);
             let audio_file = `Audio/${ch}_${sh}.mp3`;
             await sendAudioMessage(uniqueID, audio_file);
+            // await sendImgMessage(uniqueID, `/home/ubuntu/Gita-Daily-Images/${ch}/${sh}.png`);
             data[uniqueID][1] = data[uniqueID][1] + 1;
           }
         }
@@ -213,6 +266,7 @@ function sendShlok() {
       fs.writeFileSync("data.json", JSON.stringify(data, null, 2), "utf8");
     });
     // setTimeout(sendShlok, 24 * 60 * 60 * 1000);
+    //await sendAllImages();
   } catch (e) {
     console.error(e);
   }
@@ -267,6 +321,7 @@ async function nextShlok(uniqueID) {
           let audio_file = `Audio/${ch}_${i}.mp3`;
           await sendAudioMessage(uniqueID, audio_file);
         }
+        await sendImgMessage(uniqueID, `/home/ubuntu/Gita-Daily/generated_images/${ch}/${sh}.jpg`);
         data[uniqueID][1] = data[uniqueID][1] + next_shlok - sh;
       } else {
         let [ch, sh] = getChSh(user_data[1]);
@@ -287,10 +342,11 @@ async function nextShlok(uniqueID) {
           "\n*Commentary*" +
           jsonData["commentary"];
         message_text +=
-          '\nआज के श्लोक को पढ़ने के लिए धन्यवाद। आप इस संदेश को साझा करके अपने दोस्तों और परिवार को भी गीता पढ़ने के लिए प्रेरित कर सकते हैं:\n\n🦚🦚 रोजाना भगवद गीता के श्लोक प्राप्त करने के लिए, इस लिंक पर क्लिक करें: https://api.whatsapp.com/send/?phone=919036504927&text=Hare%20Krishna या WhatsApp पर "Hare Krishna" लिखकर +919036504927 पर भेजें 🦚🦚\n\nयह सेवा Gita Daily के रचनात्मक दिमागों त्वारा विकसित की गई है, और यह आपों लिए Do Yoga के साथ साझेदा���ी के झेरकेहैत की जा रह�� है। हमके अधिक जानके के लिए https://www.gitadaily.in और https://do.yoga/ पर जाएं।';
+          '\nआज के श्लोक को पढ़ने के लिए धन्यवाद। आप इस संदेश को साझा करके अपने दोस्तों और परिवार को भी गीता पढ़ने के लिए प्रेरित क��� सकते हैं:\n\n🦚🦚 रोजाना भगवद गीता के श्लोक प्राप्त करने के लिए, इस लिंक पर क्लिक करें: https://api.whatsapp.com/send/?phone=919036504927&text=Hare%20Krishna या WhatsApp पर "Hare Krishna" लिखकर +919036504927 पर भेजें 🦚🦚\n\nयह सेव�� Gita Daily के रचनात्मक दिमागों त्वा���ा विकसित की गई है, और यह आपों लिए Do Yoga के साथ साकेदा���ी के झेरकेहैत की जा रह�� है। हमके अधिक जानके के लिए https://www.gitadaily.in और https://do.yoga/ पर जाएं।';
         await sendMessage(uniqueID, message_text);
         let audio_file = `Audio/${ch}_${sh}.mp3`;
         await sendAudioMessage(uniqueID, audio_file);
+        await sendImgMessage(uniqueID, `/home/ubuntu/Gita-Daily/generated_images/${ch}/${sh}.jpg`);
         data[uniqueID][1] = data[uniqueID][1] + 1;
       }
     }
@@ -350,7 +406,7 @@ client.on("message", (message) => {
         "hare krisna",
         "harekrishna",
       ];
-      const nxtShlok = ["next shlok", "next verse", "next slok", "next shloka"];
+      const nxtShlok = ["next shlok", "next verse", "next slok", "next shloka", "next"];
 
       if(messageBody && messageBody.toLowerCase().startsWith("hindi")) {
         if (!checkPhoneNoExists(userID, data)) {
@@ -362,7 +418,7 @@ client.on("message", (message) => {
           message.from,
           "*🦚हरे कृष्णा " +
           name +
-          '!🦚* \n\nआप अब दैनिक *भगवद गीता* के श्लोक प्राप्त करने के लिए सब्सक्राइब कर चुके हैं ✅ \n\n If you want to receive messages in English, message us "english". आपको हर रोज सुबह *7:00 बदे* एक प्देश देरादेत होगा ⏰ \n\nयदि आप शुशुआत शु पशुना चाहहैं शु, तो हमें "shlok 1" र्जकर र्पर्क करें। किसी भी समय अगला श्लोक मश्गश् श् लिए, हश् "अगला श्लोक" भेजें।\n\nहम आपकी प्रतिक्रिया का स्वागत और मूल्यांकन करते मू। यदि आपते पास कोई सुझाव या टिकेपणियमें हैं, तो हैंपया हमू "feedback: इसके बाद आपके विचार" भेके।\n\nयदि आप कभी भी अनसब्सब्राइब करना चाहब् ब्, तो आप इहैं किसी भी समय "unsubscribe" भेजकर कर सकभे हैं।\n\nआपकी आभेम सारूषात्कार की यात्रा अब शुरू होती त् 🙏। चलिए, हम मिलकर भगवद गीता की गहराई में जाएँ।\n\nइस एँवा का विकास गीता एँली के सृजनात्मक दिमागके सृवारा किया गया था और यह आपको डू योगा के साथ साडूदारी में उपलब्ध कराई गई है। हमाब् बाडू में अधिक जानरे है लिए, जाएं https://www.gitadaily.in और https://do.yoga/'          
+          '!🦚* \n\nआप अब दैनिक *भगवद गीता* के श्लोक प्राप्त करने के लिए सब्सक्राइब कर चुके हैं ✅ \n\n If you want to receive messages in English, message us "english". आपको हर रोज सुबह *7:00 बदे* एक प्देश देरादेत होगा ⏰ \n\nयदि आप शुशुआत शु पशुना चाहहैं शु, तो हमें "shlok 1" र्जकर र्पर्क कर्। किसी भी समय अगला श्लोक मश्गश् श् लिए, हश् "अगला श्लोक" भेजें।\n\nहम आपकी प्रतिप्रिया का स्वागत और मूल्यांकन करते मू। यदि आपते पास कोई सुझाव या टिकेपणियमें है���, तो ��ैंपया हमू "feedback: इसके बाद आपके विचार" भेके।\n\nयदि आप कभी भी अनसब्सब्राइब करना चाहब् ब्, तो आप इहैं किसी भी समय "unsubscribe" भेजकर कर सकभे हैं।\n\nआपकी आभेम सारूषात्कार की यात्रा अब शुरू होती त् 🙏। चलिए, हम मिलकर भगवद गीता की गहराई में जाएँ।\n\nइस एँवा का विकास गीता एँली के सृजनात्मक दिमागके सृवारा किया गया था और यह आपको डू योगा के साथ साडूदारी में उपलब्ध कराई गई है। हमाब् बाडू में अधिक जानब् है लिए, जाएं https://www.gitadaily.in और https://do.yoga/'          
         );            
       } else if(messageBody && messageBody.toLowerCase().startsWith("english")) {
           if (!checkPhoneNoExists(userID, data)) {
@@ -375,9 +431,10 @@ client.on("message", (message) => {
             message.from,
             "*🦚Hare Krishna " +
               name +
-              '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\n यदि आप गीता दैनिक हिंदी में पढ़ना चाहते हैं तो हमें "hindi" message भेजें\n\nYou will receive a message everyday at *7:00 AM* ⏰ \n\nIf you wish to start from the very beginning, simply message us with "shloka 1". To request the next shloka at any time, send us "next shloka".\n\nWe welcome and value your feedback. If you have any suggestions or comments, please message us "feedback: followed by your thoughts".\n\nShould you ever wish to unsubscribe, you can do so at any time by sending "unsubscribe" to this number.\n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nThis service was developed by the creative minds at Gita Daily and is brought to you in partnership with Do Yoga. To learn more about us, visit https://www.gitadaily.in and https://do.yoga/'
+              '!🦚* \n\nYou have successfully changed the language to English. You are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\n यदि आप गीता दैनिक हिंदी में पढ़ना चाहते हैं तो हमें "hindi" message भेजें\n\nYou will receive a message everyday at *7:00 AM* ⏰ \n\nIf you wish to start from the very beginning, simply message us with "shloka 1". To request the next shloka at any time, send us "next shloka".\n\nWe welcome and value your feedback. If you have any suggestions or comments, please message us "feedback: followed by your thoughts".\n\nShould you ever wish to unsubscribe, you can do so at any time by sending "unsubscribe" to this number.\n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nThis service was developed by the creative minds at Gita Daily and is brought to you in partnership with Do Yoga. To learn more about us, visit https://www.gitadaily.in and https://do.yoga/'
           );        
       } else if (messageBody && messageBody.toLowerCase().startsWith("tardis")) {
+        // sendAllImages();
         sendShlok();
       } else if (messageBody && messageBody.toLowerCase().startsWith(secretString)) {
         sendGeneralMessage(messageBody.replace(secretString, ""));
@@ -410,23 +467,6 @@ client.on("message", (message) => {
         )
       ) {
         nextShlok(userID);
-      } else if (
-        messageBody &&
-        spellings.some((spelling) =>
-          messageBody.toLowerCase().includes(spelling)
-        )
-      ) {
-        if (!checkPhoneNoExists(userID, data)) {
-          addUserToData(data, userID, name, 1, true, "english");
-        } else {
-          addUserToData(data, userID, name, data[userID][1], true, data[userID][3]);
-        }
-        client.sendMessage(
-          message.from,
-          "*🦚Hare Krishna " +
-            name +
-            '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\n यदि आप गीता दैनिक हिंदी में पढ़ना चाहते हैं तो हमें "hindi" message भेजें\n\nYou will receive a message everyday at *7:00 AM* ⏰ \n\nIf you wish to start from the very beginning, simply message us with "shloka 1". To request the next shloka at any time, send us "next shloka".\n\nWe welcome and value your feedback. If you have any suggestions or comments, please message us "feedback: followed by your thoughts".\n\nShould you ever wish to unsubscribe, you can do so at any time by sending "unsubscribe" to this number.\n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nThis service was developed by the creative minds at Gita Daily and is brought to you in partnership with Do Yoga. To learn more about us, visit https://www.gitadaily.in and https://do.yoga/'
-        );
       } else if (
         messageBody &&
         messageBody.toLowerCase().includes("unsubscribe")

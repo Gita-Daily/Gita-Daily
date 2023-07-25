@@ -1,5 +1,5 @@
-2023/07/24-18:13:04.808 d3e Recovering log #11
-2023/07/24-18:13:04.811 d3e Level-0 table #13: started
-2023/07/24-18:13:04.815 d3e Level-0 table #13: 12823 bytes OK
-2023/07/24-18:13:04.822 d3e Delete type=3 #10
-2023/07/24-18:13:04.822 d3e Delete type=0 #11
+2023/07/25-06:13:31.678 e88 Recovering log #76
+2023/07/25-06:13:31.678 e88 Level-0 table #78: started
+2023/07/25-06:13:31.706 e88 Level-0 table #78: 1052 bytes OK
+2023/07/25-06:13:31.758 e88 Delete type=3 #74
+2023/07/25-06:13:31.758 e88 Delete type=0 #76

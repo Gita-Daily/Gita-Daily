@@ -1,13 +1,5 @@
-2023/07/24-18:13:05.282 d36 Recovering log #12
-2023/07/24-18:13:05.282 d36 Level-0 table #14: started
-2023/07/24-18:13:05.291 d36 Level-0 table #14: 277 bytes OK
-2023/07/24-18:13:05.297 d36 Delete type=3 #10
-2023/07/24-18:13:05.297 d36 Delete type=0 #12
-2023/07/24-18:13:05.297 d36 Compacting 4@0 + 0@1 files
-2023/07/24-18:13:05.301 d36 Generated table #16@0: 10 keys, 476 bytes
-2023/07/24-18:13:05.301 d36 Compacted 4@0 + 0@1 files => 476 bytes
-2023/07/24-18:13:05.303 d36 compacted to: files[ 0 1 0 0 0 0 0 ]
-2023/07/24-18:13:05.303 d36 Delete type=2 #8
-2023/07/24-18:13:05.303 d36 Delete type=2 #11
-2023/07/24-18:13:05.303 d36 Delete type=2 #14
-2023/07/24-18:13:05.303 d36 Delete type=2 #5
+2023/07/25-06:13:33.536 e8d Recovering log #74
+2023/07/25-06:13:33.615 e8d Level-0 table #76: started
+2023/07/25-06:13:33.618 e8d Level-0 table #76: 264 bytes OK
+2023/07/25-06:13:33.696 e8d Delete type=3 #72
+2023/07/25-06:13:33.696 e8d Delete type=0 #74
