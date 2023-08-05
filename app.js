@@ -498,12 +498,13 @@ client.on("message", (message) => {
         } else {
           addUserToData(data, userID, name, data[userID][1], true, data[userID][3]);
         }
-        client.sendMessage(
+        await client.sendMessage(
           message.from,
           "*🦚Hare Krishna " +
             name +
             '!🦚* \n\nYou are now subscribed to receive daily *Bhagvad Gita* shlokas ✅ \n\n यदि आप गीता दैनिक हिंदी में पढ़ना चाहते हैं तो हमें "hindi" message भेजें\n\nYou will receive a message everyday at *7:00 AM* ⏰ \n\nIf you wish to start from the very beginning, simply message us with "shloka 1". To request the next shloka at any time, send us "next shloka".\n\nWe welcome and value your feedback. If you have any suggestions or comments, please message us "feedback: followed by your thoughts".\n\nShould you ever wish to unsubscribe, you can do so at any time by sending "unsubscribe" to this number.\n\nYour journey of self realisation starts now 🙏. Let\'s delve deeper into the wisdom of the Bhagavad Gita together.\n\nThis service was developed by the creative minds at Gita Daily and is brought to you in partnership with Do Yoga. To learn more about us, visit https://www.gitadaily.in and https://do.yoga/'
         );        
+	await nextShlok(userID)
       }
     });
   } catch (e) {
