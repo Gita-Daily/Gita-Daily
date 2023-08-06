@@ -1,2 +1,5 @@
-2023/08/06-06:12:53.951 74f Creating DB /home/ubuntu/Gita-Daily/.wwebjs_auth/session/Default/Local Storage/leveldb since it was missing.
-2023/08/06-06:12:53.970 74f Delete type=3 #1
+2023/08/06-08:35:36.769 586 Recovering log #19
+2023/08/06-08:35:36.773 586 Level-0 table #21: started
+2023/08/06-08:35:36.779 586 Level-0 table #21: 1265 bytes OK
+2023/08/06-08:35:36.785 586 Delete type=3 #17
+2023/08/06-08:35:36.785 586 Delete type=0 #19

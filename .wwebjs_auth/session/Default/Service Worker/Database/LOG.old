@@ -1,2 +1,5 @@
-2023/08/06-06:12:56.551 748 Creating DB /home/ubuntu/Gita-Daily/.wwebjs_auth/session/Default/Service Worker/Database since it was missing.
-2023/08/06-06:12:56.568 748 Delete type=3 #1
+2023/08/06-08:35:36.861 586 Recovering log #19
+2023/08/06-08:35:36.861 586 Level-0 table #21: started
+2023/08/06-08:35:36.864 586 Level-0 table #21: 527 bytes OK
+2023/08/06-08:35:36.870 586 Delete type=3 #17
+2023/08/06-08:35:36.870 586 Delete type=0 #19
