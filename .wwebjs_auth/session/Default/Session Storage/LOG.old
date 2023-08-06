@@ -1,14 +1,2 @@
-2023/08/05-08:29:52.134 1d43 Recovering log #402
-2023/08/05-08:29:52.136 1d43 Level-0 table #404: started
-2023/08/05-08:29:52.140 1d43 Level-0 table #404: 267 bytes OK
-2023/08/05-08:29:52.147 1d43 Delete type=3 #400
-2023/08/05-08:29:52.147 1d43 Delete type=0 #402
-2023/08/05-08:29:52.147 1d43 Compacting 4@0 + 1@1 files
-2023/08/05-08:29:52.154 1d43 Generated table #406@0: 110 keys, 3533 bytes
-2023/08/05-08:29:52.154 1d43 Compacted 4@0 + 1@1 files => 3533 bytes
-2023/08/05-08:29:52.157 1d43 compacted to: files[ 0 1 0 0 0 0 0 ]
-2023/08/05-08:29:52.157 1d43 Delete type=2 #404
-2023/08/05-08:29:52.157 1d43 Delete type=2 #398
-2023/08/05-08:29:52.157 1d43 Delete type=2 #393
-2023/08/05-08:29:52.157 1d43 Delete type=2 #401
-2023/08/05-08:29:52.157 1d43 Delete type=2 #395
+2023/08/06-06:12:54.428 74c Creating DB /home/ubuntu/Gita-Daily/.wwebjs_auth/session/Default/Session Storage since it was missing.
+2023/08/06-06:12:54.446 74c Delete type=3 #1

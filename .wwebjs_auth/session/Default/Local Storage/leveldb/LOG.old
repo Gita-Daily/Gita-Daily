@@ -1,14 +1,2 @@
-2023/08/05-08:29:51.620 1d42 Recovering log #404
-2023/08/05-08:29:51.620 1d42 Level-0 table #406: started
-2023/08/05-08:29:51.624 1d42 Level-0 table #406: 843 bytes OK
-2023/08/05-08:29:51.631 1d42 Delete type=3 #402
-2023/08/05-08:29:51.631 1d42 Delete type=0 #404
-2023/08/05-08:29:51.632 1d42 Compacting 4@0 + 1@1 files
-2023/08/05-08:29:51.638 1d42 Generated table #408@0: 52 keys, 11041 bytes
-2023/08/05-08:29:51.638 1d42 Compacted 4@0 + 1@1 files => 11041 bytes
-2023/08/05-08:29:51.640 1d42 compacted to: files[ 0 1 0 0 0 0 0 ]
-2023/08/05-08:29:51.640 1d42 Delete type=2 #397
-2023/08/05-08:29:51.641 1d42 Delete type=2 #400
-2023/08/05-08:29:51.641 1d42 Delete type=2 #403
-2023/08/05-08:29:51.641 1d42 Delete type=2 #406
-2023/08/05-08:29:51.641 1d42 Delete type=2 #395
+2023/08/06-06:12:53.951 74f Creating DB /home/ubuntu/Gita-Daily/.wwebjs_auth/session/Default/Local Storage/leveldb since it was missing.
+2023/08/06-06:12:53.970 74f Delete type=3 #1

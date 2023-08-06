@@ -1,14 +1,2 @@
-2023/08/05-08:29:51.711 1d42 Recovering log #404
-2023/08/05-08:29:51.711 1d42 Level-0 table #406: started
-2023/08/05-08:29:51.715 1d42 Level-0 table #406: 534 bytes OK
-2023/08/05-08:29:51.732 1d42 Delete type=3 #402
-2023/08/05-08:29:51.732 1d42 Delete type=0 #404
-2023/08/05-08:29:51.732 1d43 Compacting 4@0 + 1@1 files
-2023/08/05-08:29:51.735 1d43 Generated table #408@0: 5 keys, 233 bytes
-2023/08/05-08:29:51.735 1d43 Compacted 4@0 + 1@1 files => 233 bytes
-2023/08/05-08:29:51.737 1d43 compacted to: files[ 0 1 0 0 0 0 0 ]
-2023/08/05-08:29:51.737 1d43 Delete type=2 #397
-2023/08/05-08:29:51.737 1d43 Delete type=2 #400
-2023/08/05-08:29:51.737 1d43 Delete type=2 #403
-2023/08/05-08:29:51.737 1d43 Delete type=2 #406
-2023/08/05-08:29:51.737 1d43 Delete type=2 #395
+2023/08/06-06:12:56.551 748 Creating DB /home/ubuntu/Gita-Daily/.wwebjs_auth/session/Default/Service Worker/Database since it was missing.
+2023/08/06-06:12:56.568 748 Delete type=3 #1

@@ -271,6 +271,8 @@ async function sendShlok() {
     //await sendAllImages();
   } catch (e) {
     console.error(e);
+    await client.destroy();
+    await client.initialize();
   }
 }
 
