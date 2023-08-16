@@ -463,9 +463,11 @@ client.on("message", (message) => {
 
       if(messageBody && messageBody.toLowerCase().startsWith("hindi")) {
         if (!checkPhoneNoExists(userID, data)) {
-          addUserToData(data, userID, name, 1, true, "hindi");
+          if(userID != "status@broadcast")
+            addUserToData(data, userID, name, 1, true, "hindi");
         } else {
-          addUserToData(data, userID, name, data[userID][1], true, "hindi");
+          if(userID != "status@broadcast")
+            addUserToData(data, userID, name, data[userID][1], true, "hindi");
         }        
         client.sendMessage(
           message.from,
@@ -477,10 +479,12 @@ client.on("message", (message) => {
         sendAllSignupMessages();
       } else if(messageBody && messageBody.toLowerCase().startsWith("english")) {
           if (!checkPhoneNoExists(userID, data)) {
-            addUserToData(data, userID, name, 1, true, "english");
+            if(userID != "status@broadcast")
+              addUserToData(data, userID, name, 1, true, "english");
           } else {
             shlok_number = await getValidShlokNumber(data[userID][1]);
-            addUserToData(data, userID, name, shlok_number, true, "english");
+            if(userID != "status@broadcast")
+              addUserToData(data, userID, name, shlok_number, true, "english");
           }
           client.sendMessage(
             message.from,
@@ -532,7 +536,8 @@ client.on("message", (message) => {
         messageBody &&
         messageBody.toLowerCase().includes("unsubscribe")
       ) {
-        addUserToData(data, userID, name, data[userID][1], false, "english");
+        if(userID != "status@broadcast")
+          addUserToData(data, userID, name, data[userID][1], false, "english");
         client.sendMessage(
           message.from,
           'You have been unsubscribed from Bhagavad Gita notifications.\n\nYou can resubscribe anytime by sending "hare krishna" to this number.\n\nWe thank you for taking the time in starting your journey of self realisation and we hope you will come back soon 🙏 \n\nPlease help us by sharing your feedback here 👇\nhttps://forms.gle/pLm2fczXNfKXk8dn7'
@@ -547,9 +552,11 @@ client.on("message", (message) => {
         client.sendMessage(message.from, message_text);
       } else {
         if (!checkPhoneNoExists(userID, data)) {
-          addUserToData(data, userID, name, 1, true, "english");
+          if(userID != "status@broadcast")
+            addUserToData(data, userID, name, 1, true, "english");
         } else {
-          addUserToData(data, userID, name, data[userID][1], true, data[userID][3]);
+          if(userID != "status@broadcast")
+            addUserToData(data, userID, name, data[userID][1], true, data[userID][3]);
         }
         await client.sendMessage(
           message.from,
