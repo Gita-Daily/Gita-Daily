@@ -34,6 +34,7 @@ async function sendMessage(uniqueID, message) {
     const msg = await client.sendMessage(uniqueID, message);
   } catch (e) {
     console.error(e);
+    console.error(uniqueID);
   }
 }
 
