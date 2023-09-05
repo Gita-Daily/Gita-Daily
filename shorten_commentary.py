@@ -5,7 +5,7 @@ import glob
 import openai
 import time
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 n = 0
 
@@ -101,17 +101,16 @@ for folder_number in range(1, 19):
             
             extra_fluff = "*Chapter 12 Verse 1*\n\n\n\n*Translation*\n\n*Commentary*\n\nCreated by www.gitadaily.in"
 
-            remaining_length = 1600 - len(verse) - len(translation) - len(extra_fluff) - 25
+            remaining_length = 1024 - len(verse) - len(translation) - len(extra_fluff) - 10
 
             remaning_words = remaining_length // 5
 
             if len(commentary) > remaining_length:
-                print(file_path)
-                print(remaining_length)
-                prompt = f"Summarise the given commentary of shloka(s) from the bhagavad gita in {remaning_words - 6} words: "
-                msg_text = f"Summarise the given commentary of shloka(s) from the bhagavad gita in {remaning_words - 6} words: \n\n{commentary}\n\n"
+                print(f'this file {file_path} has commentary length of {len(commentary)} / {remaining_length}')
+                prompt = f"Summarise the given commentary of shloka(s) from the bhagavad gita in {remaning_words - 3} words: "
+                msg_text = f"Summarise the given commentary of shloka(s) from the bhagavad gita in {remaning_words - 3} words: \n\n{commentary}\n\n"
                 summary = summarise(prompt, msg_text)
-                contents["new_commentary"] = summary  
+                contents["newest_commentary"] = summary  
                 print(len(summary))     
 
                 with open(file_path, 'w') as file:
