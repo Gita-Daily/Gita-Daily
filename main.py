@@ -1,6 +1,7 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import json
+from twilio.rest import Client
 
 app = Flask(__name__)
 
@@ -45,28 +46,44 @@ def remove_unnecessary_spaces(s):
     trimmed_lines = [line.strip() for line in lines]
     return "\r\n".join(trimmed_lines)
 
-def send_shloka(from_number):
-    filename = 'main-data.json'
-    try:
-        with open(filename, 'r') as file:
-            main_data = json.load(file)
-            
-            user_data = main_data[from_number]
-            print(user_data)
-            if user_data[2]:
-                if user_data[3] == "english":
-                    ch, sh = getChSh(user_data[1])
-                    file_shlok = str(ch) + '/' + str(sh) + '.json'
-                    with open(file_shlok, 'r') as file:
-                        shloka_data = json.load(file)
-                        message_text = "*Chapter " + str(ch) + " Verse " + str(sh) + "*\n\n" + shloka_data["verse"][:-1] + "\n*Translation*\n" +remove_unnecessary_spaces(shloka_data["translation"]) + "\n*Commentary*" + shloka_data["commentary"];
-                
-                        return message_text
-                elif user_data[3] == "hindi":
-                    shloka = "Hindi Shloka"
+def send_shloka():
+    account_sid = "AC4520b0754de8c21ed79789a37f9d49ec"
+    auth_token  = "c1e6f856e2655cc2bbd9d0bbf9dd5254"
 
-    except FileNotFoundError:
-        return False    
+    client = Client(account_sid, auth_token)
+
+    try:
+
+        with open('main-data.json', 'r') as file:
+            main_data = json.load(file)
+
+        for number in main_data:
+            user_data = main_data[number]
+            if user_data[2]:
+                ch, sh = getChSh(user_data[1])
+                file_shlok = str(ch) + '/' + str(sh) + '.json'
+                with open(file_shlok, 'r') as file:
+                    shloka_data = json.load(file)
+                    if shloka_data["new_commentary"] != "NONE":
+                        message_text = "*Chapter " + str(ch) + " Verse " + str(sh) + "*\n\n" + shloka_data["verse"][:-1] + "\n\n*Translation*\n" +remove_unnecessary_spaces(shloka_data["translation"].strip('\n')) + "\n*Commentary*\n" + shloka_data["new_commentary"].strip('\n');
+                    else:
+                        message_text = "*Chapter " + str(ch) + " Verse " + str(sh) + "*\n\n" + shloka_data["verse"][:-1] + "\n\n*Translation*\n" +remove_unnecessary_spaces(shloka_data["translation"].strip('\n'));
+                
+                message_image = client.messages.create(
+                    body=message_text,
+                    media_url=f"https://raw.githubusercontent.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images/main/{ch}/{sh}.png",
+                    from_="whatsapp:+14155238886",
+                    to=number
+                )
+
+                user_data[1] = user_data[1] + shloka_data['next shlok'] - sh
+                main_data[number] = user_data
+
+        with open('main-data.json', 'w') as file:
+            json.dump(main_data, file)
+    
+    except Exception as e:
+        print(e)
 
 @app.route('/main', methods=['POST'])
 def main():
@@ -74,25 +91,29 @@ def main():
     from_number = request.values.get('From', '')
     name = request.values.get('ProfileName')
 
-    if user_exists(from_number):
-        response = MessagingResponse()
-        reply = response.message()
+    if incoming_message == "send all":
+        send_shloka()
 
-        msg_body = send_shloka(from_number)
-        print(msg_body)
-        reply.body(msg_body)
-        print("sent")
-        print(response)
-        return str(response)
+        return "Done"
     else:
-        data = [name, 1, True, "english"]
-        save_number(from_number, data)
+        if user_exists(from_number):
+            response = MessagingResponse()
+            
+            reply_text = response.message()
+            msg_body = "Thank you for contacting Gita Daily. You will receive a shloka everyday. If you want to reach out to us, message us on +91xxxxxxxxxx"
+            reply_text.body(msg_body)
 
-        response = MessagingResponse()
-        reply = response.message()
+            return str(response)
+        
+        else:
+            data = [name, 1, True, "english"]
+            save_number(from_number, data)
 
-        reply.body("Thanks for contacting")
-        return str(response)
+            response = MessagingResponse()
+            reply = response.message()
+
+            reply.body("Thanks for contacting")
+            return str(response)
 
 if __name__ == '__main__':
     app.run(debug=True)
