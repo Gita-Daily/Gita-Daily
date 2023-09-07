@@ -73,7 +73,7 @@ def send_shloka(waId):
                     },
                     "buttons": [{ "text": "Next Shloka" }],
                     "footer": "www.gitadaily.in",
-                    "body": "message_text"
+                    "body": message_text
                 }
                 headers = {
                     "content-type": "text/json",
