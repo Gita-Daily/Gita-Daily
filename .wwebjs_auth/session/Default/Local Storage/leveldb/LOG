@@ -1,5 +1,5 @@
-2023/08/13-00:00:05.030 15d1 Recovering log #97
-2023/08/13-00:00:05.031 15d1 Level-0 table #99: started
-2023/08/13-00:00:05.042 15d1 Level-0 table #99: 1885 bytes OK
-2023/08/13-00:00:05.054 15d1 Delete type=3 #95
-2023/08/13-00:00:05.054 15d1 Delete type=0 #97
+2023/08/17-00:00:04.547 2cfe Recovering log #106
+2023/08/17-00:00:04.551 2cfe Level-0 table #109: started
+2023/08/17-00:00:04.555 2cfe Level-0 table #109: 2551 bytes OK
+2023/08/17-00:00:04.566 2cfe Delete type=0 #106
+2023/08/17-00:00:04.566 2cfe Delete type=3 #104
