@@ -20,13 +20,17 @@ for folder_number in range(1, 19):
 
                 total_files += 1
                 
-                if "newest_commentary" in contents:
-                    commentary = contents["newest_commentary"]
-                elif "new_commentary" in contents:
-                    commentary = contents["new_commentary"]
-                else:
-                    print(f"No suitable commentary found in file {file_path}")
-                    continue
+                # if "newest_commentary" in contents:
+                commentary = contents["newest_commentary"]
+                # elif "new_commentary" in contents:
+                #     commentary = contents["new_commentary"]
+                #     contents["newest_commentary"] = contents["new_commentary"]
+                    
+                #     with open(file_path, 'w') as file_to_write:
+                #         json.dump(contents, file_to_write, ensure_ascii=False, indent=4)
+                # else:
+                #     print(f"No suitable commentary found in file {file_path}")
+                #     continue
 
                 verse = contents.get("verse", "")
                 translation = contents.get("translation", "")
