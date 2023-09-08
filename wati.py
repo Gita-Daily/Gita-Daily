@@ -49,6 +49,54 @@ def remove_unnecessary_spaces(s):
     trimmed_lines = [line.strip() for line in lines]
     return "\r\n".join(trimmed_lines)
 
+def send_audio(waId, ch, sh):
+    url = f"https://live-server-114563.wati.io/api/v1/sendSessionFile/{waId}"
+    headers = {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ"
+    }
+    audio_file_path = f"Audio/{ch}_{sh}.mp3"
+    with open(audio_file_path, 'rb') as f:
+        file_data = f.read()
+
+    files = {'file': ('file.mp3', file_data, 'audio/mpeg')}
+
+    response = requests.post(url, headers=headers, files=files)
+
+    if response.status_code != 200:
+        print("Error sending audio. Sending again.")        
+        send_audio(waId, ch, sh)
+
+def send_main_shloka(waId, ch, sh, message_text):
+    api_url = f"https://live-server-114563.wati.io/api/v1/sendInteractiveButtonsMessage?whatsappNumber={waId}"
+    payload = {
+        "header": {
+            "media": { "url": f"https://github.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images/blob/main/{ch}_new/{sh}.png?raw=true" },
+            "type": "Image"
+        },
+        "buttons": [{ "text": "Next Shloka" }],
+        "footer": "www.gitadaily.in",
+        "body": message_text
+    }
+    headers = {
+        "content-type": "text/json",
+        "Authorization": access_token
+    }
+
+    response = requests.post(api_url, json=payload, headers=headers)    
+
+    if response.status_code != 200:
+        print("Error sending main shloka. Sending again.")
+        send_main_shloka(waId, ch, sh, message_text)
+    
+def send_commentary(waId, commentary_message):
+    url = f"https://live-server-114563.wati.io/api/v1/sendSessionMessage/{waId}?messageText={commentary_message}"
+    headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ"}
+    response = requests.post(url, headers=headers)  
+
+    if response.status_code != 200:
+        print("Error sending commentary. Sending again.")
+        send_commentary(waId, commentary_message)  
+
 def send_shloka(waId):
     try:
         with open('wati-data.json', 'r') as file:
@@ -60,43 +108,25 @@ def send_shloka(waId):
                 file_shlok = str(ch) + '/' + str(sh) + '.json'
                 with open(file_shlok, 'r') as file:
                     shloka_data = json.load(file)
-                    if shloka_data["new_commentary"] != "NONE":
-                        message_text = "*Chapter " + str(ch) + " Verse " + str(sh) + "*\n\n" + shloka_data["verse"][:-1] + "\n\n*Translation*\n" +remove_unnecessary_spaces(shloka_data["translation"].strip('\n')) + "\n*Commentary*\n" + shloka_data["new_commentary"].strip('\n');
+                    
+                    verse = shloka_data["verse"][:-1]
+                    translation = remove_unnecessary_spaces(shloka_data["translation"].strip('\n'))
+                    newest_commentary = shloka_data.get("newest_commentary", "NONE").strip('\n')
+                    
+                    if len(verse) + len(translation) + len(newest_commentary) + len("*Chapter 12* Verse 12*\n\n\n\n*Translation*\n\n*Commentary*\n") > 1024:
+                        commentary_message = "*Commentary*\n" + newest_commentary
+                        newest_commentary = "NONE"
+                    
+                    if newest_commentary != "NONE":
+                        message_text = f"*Chapter {ch} Verse {sh}*\n\n{verse}\n\n*Translation*\n{translation}\n*Commentary*\n{newest_commentary}"
                     else:
-                        message_text = "*Chapter " + str(ch) + " Verse " + str(sh) + "*\n\n" + shloka_data["verse"][:-1] + "\n\n*Translation*\n" +remove_unnecessary_spaces(shloka_data["translation"].strip('\n'));
-                
-                api_url = f"https://live-server-114563.wati.io/api/v1/sendInteractiveButtonsMessage?whatsappNumber={waId}"
-                payload = {
-                    "header": {
-                        "media": { "url": f"https://raw.githubusercontent.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images/main/1/1.png" },
-                        "type": "Image"
-                    },
-                    "buttons": [{ "text": "Next Shloka" }],
-                    "footer": "www.gitadaily.in",
-                    "body": message_text
-                }
-                headers = {
-                    "content-type": "text/json",
-                    "Authorization": access_token
-                }
+                        message_text = f"*Chapter {ch} Verse {sh}*\n\n{verse}\n\n*Translation*\n{translation}"
 
-                response = requests.post(api_url, json=payload, headers=headers)
-                print(response.text)         
+                send_main_shloka(waId, ch, sh, message_text)
+                send_audio(waId, ch, sh)       
 
-                url = "https://live-server-114563.wati.io/api/v1/sendSessionFile/6588646820"
-                headers = {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ"
-                }                
-                audio_file_path = f"Audio/{ch}_{sh}.mp3"
-                with open(audio_file_path, 'rb') as f:
-                    file_data = f.read()
-
-                files = {'file': ('file.mp3', file_data, 'audio/mpeg')}
-
-                response = requests.post(url, headers=headers, files=files)
-
-                print(response.text)                
-
+                if 'commentary_message' in locals():
+                    send_commentary(waId, commentary_message)
 
                 user_data[1] = user_data[1] + shloka_data['next shlok'] - sh
                 main_data[waId] = user_data
@@ -104,7 +134,7 @@ def send_shloka(waId):
             json.dump(main_data, file)
     
     except Exception as e:
-        print(e)
+        print('error: ' + str(e))
 
 app = Flask(__name__)
 
@@ -115,10 +145,6 @@ def respond():
     waId = request.json['waId']
 
     if user_exists(waId):
-        # msg_body = "Your message has been received. We will get back to you soon."
-        # url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
-        # reply = "Hare Krishna " + name + f"! {msg_body}"
-        # response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})     
         send_shloka(waId)   
 
         return jsonify(status="received"), 200
