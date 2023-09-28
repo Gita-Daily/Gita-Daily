@@ -1,0 +1,12 @@
+[Unit]
+Description=My Flask Application
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/Gita-Daily
+ExecStart=/usr/bin/python3 /home/ubuntu/Gita-Daily/wati.py
+
+[Install]
+WantedBy=multi-user.target
