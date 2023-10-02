@@ -1,5 +1,6 @@
 import razorpay
-client = razorpay.Client(auth=("rzp_test_3o4uCTy7o49u1o", "0I2hQKqbps97LEmNCBqBClpc"))
+# client = razorpay.Client(auth=("rzp_test_3o4uCTy7o49u1o", "0I2hQKqbps97LEmNCBqBClpc"))
+client = razorpay.Client(auth=("rzp_live_QqzWC0j38jO618", "gkq6eyHCkT1pvlx2Ma9IMV2v"))
 
 res = client.payment_link.create({
     "upi_link": False,

@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timedelta
 import razorpay
 
-client = razorpay.Client(auth=("rzp_test_3o4uCTy7o49u1o", "0I2hQKqbps97LEmNCBqBClpc"))
+client = razorpay.Client(auth=("rzp_live_QqzWC0j38jO618", "gkq6eyHCkT1pvlx2Ma9IMV2v"))
 
 
 access_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ'
@@ -110,6 +110,7 @@ def send_commentary(waId, commentary_message):
 #        send_commentary(waId, commentary_message)  
 
 def send_message(waId):
+    print('sending message to ' + waId + '...')
     try:
         with open('wati-data.json', 'r') as file:
             main_data = json.load(file)
@@ -140,8 +141,7 @@ def send_message(waId):
                 url = res['short_url']
                 send_pmt_link(waId, url)
 
-
-            if user_data[2]:
+            else:
                 ch, sh = getChSh(user_data[1])
                 file_shlok = str(ch) + '/' + str(sh) + '.json'
                 with open(file_shlok, 'r') as file:
@@ -180,6 +180,15 @@ app = Flask(__name__)
 def index():
     return "Hello World"
 
+@app.route('/pay', methods=['POST'])
+def respond():
+    try:
+        print('payment received')
+        ph_no = request.json['']
+        return jsonify(status="received"), 200
+    except Exception as e:
+        print('error: ' + str(e))
+
 @app.route('/webhook', methods=['POST'])
 def respond():
     name = request.json['senderName']
@@ -189,6 +198,7 @@ def respond():
 
     if user_exists(waId):
         send_message(waId)
+        print('message that was received was  ' + str(msg) + ' from ' + str(name) + '...')
 
         return jsonify(status="received"), 200
     
@@ -201,8 +211,8 @@ def respond():
         response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})
         print(response.json())
         send_message(waId)
-    return jsonify(status="received"), 200
+        return jsonify(status="received"), 200
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
