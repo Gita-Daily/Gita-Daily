@@ -3,9 +3,13 @@ import requests
 import json
 from datetime import datetime, timedelta
 import razorpay
+import queue
+import threading
+
 
 client = razorpay.Client(auth=("rzp_live_QqzWC0j38jO618", "gkq6eyHCkT1pvlx2Ma9IMV2v"))
 
+message_queue = queue.Queue(maxsize=100)
 
 access_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ'
 api_endpoint = "https://live-server-114563.wati.io"
@@ -181,7 +185,7 @@ def index():
     return "Hello World"
 
 @app.route('/pay', methods=['POST'])
-def respond():
+def respond2():
     try:
         print('payment received')
         ph_no = request.json['']
@@ -189,17 +193,29 @@ def respond():
     except Exception as e:
         print('error: ' + str(e))
 
+def process_queue():
+    print("Queue processing thread started")
+    while True:
+        try:
+            waId = message_queue.get(block=True)
+            print(f"Processing message for waId: {waId}")
+            send_message(waId)
+            message_queue.task_done()
+        except Exception as e:
+            print(f"Error processing message: {e}")
+
+
 @app.route('/webhook', methods=['POST'])
 def respond():
     name = request.json['senderName']
     msg = request.json['text']
     waId = request.json['waId']
-    print(msg)
+    print("the message is " + str(msg) + " from " + str(name) + "...")
 
     if user_exists(waId):
-        send_message(waId)
-        print('message that was received was  ' + str(msg) + ' from ' + str(name) + '...')
-
+        print(message_queue.qsize())
+        message_queue.put(waId)
+        # send_message(waId)
         return jsonify(status="received"), 200
     
     else:
@@ -215,4 +231,6 @@ def respond():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    processing_thread = threading.Thread(target=process_queue, daemon=True)
+    processing_thread.start()
+    app.run(host='0.0.0.0', port=5001, debug=False)
