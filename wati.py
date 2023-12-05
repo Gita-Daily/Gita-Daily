@@ -28,6 +28,50 @@ def save_number(number, data):
     with open(filename, 'w') as file:
         json.dump(main_data, file)
 
+def save_pmt_data(data, file_name="pmt-data.json"):
+    with open(file_name, 'w') as file:
+        json.dump(data, file, indent=4)
+
+def load_pmt_data(file_name="pmt-data.json"):
+    try:
+        with open(file_name, 'r') as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"phone_numbers": {}, "pmt_id_lookup": {}}
+    
+def add_pmt_id(phone_number, pmt_id):
+    data = load_pmt_data()
+    phone_numbers = data.get("phone_numbers", {})
+    pmt_id_lookup = data.get("pmt_id_lookup", {})    
+    # Add to main database
+    if phone_number in phone_numbers:
+        phone_numbers[phone_number].append(pmt_id)
+    else:
+        phone_numbers[phone_number] = [pmt_id]
+
+    # Update lookup database
+    pmt_id_lookup[pmt_id] = phone_number
+    save_pmt_data({"phone_numbers": phone_numbers, "pmt_id_lookup": pmt_id_lookup})
+
+def process_pmt(pmt_id):
+    data = load_pmt_data()
+    phone_numbers = data.get("phone_numbers", {})
+    pmt_id_lookup = data.get("pmt_id_lookup", {})      
+    # Find the phone number
+    phone_number = pmt_id_lookup.get(pmt_id)
+    if phone_number:
+        print(f"Phone Number: {phone_number}")
+
+        # Remove PMT ID from both databases
+        phone_numbers[phone_number].remove(pmt_id)
+        del pmt_id_lookup[pmt_id]
+    else:
+        print("PMT ID not found.")
+    
+    save_pmt_data({"phone_numbers": phone_numbers, "pmt_id_lookup": pmt_id_lookup})   
+    return phone_number 
+
+
 def user_exists(number):
     filename = 'wati-data.json'
     try:
@@ -95,6 +139,15 @@ def send_main_shloka(waId, ch, sh, message_text):
         print("Error sending main shloka. Sending again.")
 #        send_main_shloka(waId, ch, sh, message_text)
 
+def send_pmt_confirmed(waId):
+    msg = "Payment confirmed. You will continue receiving Gita Daily messages for the next 30 days."
+    url = f"https://live-server-114563.wati.io/api/v1/sendSessionMessage/{waId}?messageText={msg}"
+    headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ"}
+    response = requests.post(url, headers=headers)  
+
+    if response.status_code != 200:
+        print("Error sending payment confirmation. Sending again.")
+
 def send_pmt_link(waId, pmt_url):
     msg = "Please pay Rs. 108 to continue receiving Gita Daily messages. Click the link below to pay. \n\n" + pmt_url
     url = f"https://live-server-114563.wati.io/api/v1/sendSessionMessage/{waId}?messageText={msg}"
@@ -142,6 +195,10 @@ def send_message(waId):
                     "reminder_enable": False,
                 })  
 
+                print(res)
+                pm_id = (res['id'][6:])
+                add_pmt_id(waId, pm_id)
+
                 url = res['short_url']
                 send_pmt_link(waId, url)
 
@@ -185,10 +242,25 @@ def index():
     return "Hello World"
 
 @app.route('/pay', methods=['POST'])
-def respond2():
+def payment_handle():
     try:
         print('payment received')
-        ph_no = request.json['']
+        # ph_no = request.json['']
+        # print(ph_no)
+        res = (request.json)
+        print(res)
+        pmt_id = (res['payload']['payment']['entity']['description'][1:])
+        waId = process_pmt(pmt_id)
+
+        if waId:
+            with open('wati-data.json', 'r') as file:
+                main_data = json.load(file)
+                user_data = main_data[waId]
+                user_data[5] = str(datetime.now() + timedelta(days=31))
+                main_data[waId] = user_data
+            with open('wati-data.json', 'w') as file:
+                json.dump(main_data, file)
+            send_pmt_confirmed(waId)
         return jsonify(status="received"), 200
     except Exception as e:
         print('error: ' + str(e))
