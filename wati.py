@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import razorpay
 import queue
 import threading
+import time
 
 
 client = razorpay.Client(auth=("rzp_live_QqzWC0j38jO618", "gkq6eyHCkT1pvlx2Ma9IMV2v"))
@@ -178,6 +179,7 @@ def send_message(waId):
                 # Send payment link
                 # Check if paid
                 # If yes, set user_data[5] to datetime.now() + timedelta(days=31)
+                uid = int(time.time() * 1000)
                 res = client.payment_link.create({
                     "upi_link": True,
                     "amount": 108,
@@ -192,12 +194,15 @@ def send_message(waId):
                         "sms": True,
                         "email": True
                     },
+                    "notes": {
+                        "uid": uid
+                    },
                     "reminder_enable": False,
                 })  
 
                 print(res)
-                pm_id = (res['id'][6:])
-                add_pmt_id(waId, pm_id)
+                # pm_id = (res['id'][6:])
+                add_pmt_id(waId, uid)
 
                 url = res['short_url']
                 send_pmt_link(waId, url)
@@ -249,7 +254,7 @@ def payment_handle():
         # print(ph_no)
         res = (request.json)
         print(res)
-        pmt_id = (res['payload']['payment']['entity']['description'][1:])
+        pmt_id = res['payload']['payment']['entity']['notes']['uid']
         waId = process_pmt(pmt_id)
 
         if waId:
