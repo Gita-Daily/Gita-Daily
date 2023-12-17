@@ -256,7 +256,7 @@ def payment_handle():
             with open('wati-data.json', 'r') as file:
                 main_data = json.load(file)
                 user_data = main_data[waId]
-                user_data[5] = str(datetime.now() + timedelta(days=31))
+                user_data[5] = str(datetime.now() + timedelta(days=3))
                 main_data[waId] = user_data
             with open('wati-data.json', 'w') as file:
                 json.dump(main_data, file)
@@ -291,15 +291,17 @@ def respond():
         return jsonify(status="received"), 200
     
     else:
-        data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=7))]
-        save_number(waId, data)
+        if msg.lower().strip() == "hare krishna":
+            data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=2))]
+            save_number(waId, data)
 
-        url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
-        reply = "Hare Krishna " + name + "! Welcome to Gita Daily. We are an organisation aimed at sharing the knowledge of the Bhagavad Gita through easy to digest WhatsApp messages. You can read the shlokas at your own pace by clicking the \"Next Shloka\" button in our messages. Your first shloka is on its way!"
-        response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})
-        print(response.json())
-        send_message(waId)
+            url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
+            reply = "Hare Krishna " + name + "! Welcome to Gita Daily. We are an organisation aimed at sharing the knowledge of the Bhagavad Gita through easy to digest WhatsApp messages. You can read the shlokas at your own pace by clicking the \"Next Shloka\" button in our messages. Your first shloka is on its way!"
+            response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})
+            print(response.json())
+            send_message(waId)
         return jsonify(status="received"), 200
+        
 
 
 if __name__ == '__main__':
