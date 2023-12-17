@@ -179,7 +179,7 @@ def send_message(waId):
                 # Send payment link
                 # Check if paid
                 # If yes, set user_data[5] to datetime.now() + timedelta(days=31)
-                uid = int(time.time() * 1000)
+                uid = str(time.time() * 1000)
                 res = client.payment_link.create({
                     "upi_link": True,
                     "amount": 108,
@@ -254,7 +254,7 @@ def payment_handle():
         # print(ph_no)
         res = (request.json)
         print(res)
-        pmt_id = res['payload']['payment']['entity']['notes']['uid']
+        pmt_id = str(res['payload']['payment']['entity']['notes']['uid'])
         waId = process_pmt(pmt_id)
 
         if waId:
