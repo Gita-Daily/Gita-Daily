@@ -264,6 +264,7 @@ def payment_handle():
         return jsonify(status="received"), 200
     except Exception as e:
         print('error: ' + str(e))
+        return jsonify(status="not handled", message=str(e)), 200
 
 def process_queue():
     print("Queue processing thread started")
