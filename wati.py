@@ -123,7 +123,7 @@ def send_main_shloka(waId, ch, sh, message_text):
             "media": { "url": f"https://github.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images/blob/main/{ch}_new/{sh}.png?raw=true" },
             "type": "Image"
         },
-        "buttons": [{ "text": "Next Shloka" }],
+        "buttons": [{ "text": "I finished reading" }],
         "footer": "www.gitadaily.in",
         "body": message_text
     }
@@ -162,6 +162,17 @@ def send_commentary(waId, commentary_message):
 
     if response.status_code != 200:
         print("Error sending commentary. Sending again.")
+
+def send_thank_you(waId, shloka_number):
+    completed_percent = round((shloka_number / 700) * 100, 2)
+    reply_text = "That's great! You are now one step closer to self-realization. Thank you for reading Gita Daily. You have completed reading {completed_percent} of the Bhagavad Gita. Keep going!"
+    url = f"https://live-server-114563.wati.io/api/v1/sendSessionMessage/{waId}?messageText={reply_text}"
+    headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ"}
+    response = requests.post(url, headers=headers)  
+
+    if response.status_code != 200:
+        print("Error sending thank you message. Sending again.")
+
 
 def send_message(waId):
     print('sending message to ' + waId + '...')
@@ -291,9 +302,11 @@ def respond():
         print("the message is " + str(msg) + " from " + str(name) + "...")
 
         if user_exists(waId):
-            print(message_queue.qsize())
-            message_queue.put(waId)
-            return jsonify(status="received"), 200
+            if msg.lower().strip() == "I finished reading":
+                with open('wati-data.json', 'r') as file:
+                    main_data = json.load(file)
+                    user_data = main_data[waId]
+                send_thank_you(waId, user_data[1])
         
         else:
             if msg.lower().strip() == "hare krishna":
@@ -305,6 +318,7 @@ def respond():
                 response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})
                 print(response.json())
                 send_message(waId)
+    
     except Exception as e:
         print('error: ' + str(e))
 
