@@ -165,7 +165,7 @@ def send_commentary(waId, commentary_message):
 
 def send_thank_you(waId, shloka_number):
     completed_percent = round((shloka_number / 700) * 100, 2)
-    reply_text = "That's great! You are now one step closer to self-realization. Thank you for reading Gita Daily. You have completed reading {completed_percent} of the Bhagavad Gita. Keep going!"
+    reply_text = f"That's great! You are now one step closer to self-realization. Thank you for reading Gita Daily. You have completed reading {completed_percent} of the Bhagavad Gita. Keep going!"
     url = f"https://live-server-114563.wati.io/api/v1/sendSessionMessage/{waId}?messageText={reply_text}"
     headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ"}
     response = requests.post(url, headers=headers)  
@@ -302,7 +302,9 @@ def respond():
         print("the message is " + str(msg) + " from " + str(name) + "...")
 
         if user_exists(waId):
-            if msg.lower().strip() == "I finished reading":
+            print("user exists")
+            if msg.lower().strip() == "i finished reading":
+                print("user finished reading")
                 with open('wati-data.json', 'r') as file:
                     main_data = json.load(file)
                     user_data = main_data[waId]
@@ -332,7 +334,7 @@ if __name__ == '__main__':
 
     scheduler = BackgroundScheduler()
     scheduler.configure(timezone=timezone('Asia/Kolkata'))
-    scheduler.add_job(sendMessageToAllUsers, 'cron', hour=22, minute=39)
+    scheduler.add_job(sendMessageToAllUsers, 'cron', hour=23, minute=56)
     scheduler.start()
 
     app.run(host='0.0.0.0', port=5001, debug=False)    
