@@ -6,6 +6,9 @@ import razorpay
 import queue
 import threading
 import time
+from apscheduler.schedulers.background import BackgroundScheduler
+from pytz import timezone
+
 
 
 client = razorpay.Client(auth=("rzp_live_QqzWC0j38jO618", "gkq6eyHCkT1pvlx2Ma9IMV2v"))
@@ -44,13 +47,11 @@ def add_pmt_id(phone_number, pmt_id):
     data = load_pmt_data()
     phone_numbers = data.get("phone_numbers", {})
     pmt_id_lookup = data.get("pmt_id_lookup", {})    
-    # Add to main database
     if phone_number in phone_numbers:
         phone_numbers[phone_number].append(pmt_id)
     else:
         phone_numbers[phone_number] = [pmt_id]
 
-    # Update lookup database
     pmt_id_lookup[pmt_id] = phone_number
     save_pmt_data({"phone_numbers": phone_numbers, "pmt_id_lookup": pmt_id_lookup})
 
@@ -58,12 +59,10 @@ def process_pmt(pmt_id):
     data = load_pmt_data()
     phone_numbers = data.get("phone_numbers", {})
     pmt_id_lookup = data.get("pmt_id_lookup", {})      
-    # Find the phone number
     phone_number = pmt_id_lookup.get(pmt_id)
     if phone_number:
         print(f"Phone Number: {phone_number}")
 
-        # Remove PMT ID from both databases
         phone_numbers[phone_number].remove(pmt_id)
         del pmt_id_lookup[pmt_id]
     else:
@@ -116,7 +115,6 @@ def send_audio(waId, ch, sh):
 
     if response.status_code != 200:
         print("Error sending audio. Sending again.")        
-#        send_audio(waId, ch, sh)
 
 def send_main_shloka(waId, ch, sh, message_text):
     api_url = f"https://live-server-114563.wati.io/api/v1/sendInteractiveButtonsMessage?whatsappNumber={waId}"
@@ -138,7 +136,6 @@ def send_main_shloka(waId, ch, sh, message_text):
 
     if response.status_code != 200:
         print("Error sending main shloka. Sending again.")
-#        send_main_shloka(waId, ch, sh, message_text)
 
 def send_pmt_confirmed(waId):
     msg = "Payment confirmed. You will continue receiving Gita Daily messages for the next 30 days."
@@ -165,7 +162,6 @@ def send_commentary(waId, commentary_message):
 
     if response.status_code != 200:
         print("Error sending commentary. Sending again.")
-#        send_commentary(waId, commentary_message)  
 
 def send_message(waId):
     print('sending message to ' + waId + '...')
@@ -175,10 +171,6 @@ def send_message(waId):
 
             user_data = main_data[waId]
             if datetime.strptime(user_data[5], '%Y-%m-%d %H:%M:%S.%f') < datetime.now():
-                # Create payment link
-                # Send payment link
-                # Check if paid
-                # If yes, set user_data[5] to datetime.now() + timedelta(days=31)
                 uid = str(time.time() * 1000)
                 res = client.payment_link.create({
                     "upi_link": True,
@@ -201,7 +193,6 @@ def send_message(waId):
                 })  
 
                 print(res)
-                # pm_id = (res['id'][6:])
                 add_pmt_id(waId, uid)
 
                 url = res['short_url']
@@ -240,6 +231,16 @@ def send_message(waId):
     except Exception as e:
         print('error: ' + str(e))
 
+def sendMessageToAllUsers():
+    try:
+        with open('wati-data.json', 'r') as file:
+            users_data = json.load(file)
+            for waId in users_data.keys():
+                message_queue.put(waId)
+                print(f"Queued message for user: {waId}")
+    except Exception as e:
+        print(f"Error in sendMessageToAllUsers: {e}")
+
 app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
@@ -250,8 +251,6 @@ def index():
 def payment_handle():
     try:
         print('payment received')
-        # ph_no = request.json['']
-        # print(ph_no)
         res = (request.json)
         print(res)
         pmt_id = str(res['payload']['payment']['entity']['notes']['uid'])
@@ -285,32 +284,41 @@ def process_queue():
 
 @app.route('/webhook', methods=['POST'])
 def respond():
-    name = request.json['senderName']
-    msg = request.json['text']
-    waId = request.json['waId']
-    print("the message is " + str(msg) + " from " + str(name) + "...")
+    try:
+        name = request.json['senderName']
+        msg = request.json['text']
+        waId = request.json['waId']
+        print("the message is " + str(msg) + " from " + str(name) + "...")
 
-    if user_exists(waId):
-        print(message_queue.qsize())
-        message_queue.put(waId)
-        # send_message(waId)
-        return jsonify(status="received"), 200
-    
-    else:
-        if msg.lower().strip() == "hare krishna":
-            data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=2))]
-            save_number(waId, data)
+        if user_exists(waId):
+            print(message_queue.qsize())
+            message_queue.put(waId)
+            return jsonify(status="received"), 200
+        
+        else:
+            if msg.lower().strip() == "hare krishna":
+                data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=2))]
+                save_number(waId, data)
 
-            url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
-            reply = "Hare Krishna " + name + "! Welcome to Gita Daily. We are an organisation aimed at sharing the knowledge of the Bhagavad Gita through easy to digest WhatsApp messages. You can read the shlokas at your own pace by clicking the \"Next Shloka\" button in our messages. Your first shloka is on its way!"
-            response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})
-            print(response.json())
-            send_message(waId)
-        return jsonify(status="received"), 200
+                url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
+                reply = "Hare Krishna " + name + "! Welcome to Gita Daily. We are an organisation aimed at sharing the knowledge of the Bhagavad Gita through easy to digest WhatsApp messages. You can read the shlokas at your own pace by clicking the \"Next Shloka\" button in our messages. Your first shloka is on its way!"
+                response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})
+                print(response.json())
+                send_message(waId)
+    except Exception as e:
+        print('error: ' + str(e))
+
+    return jsonify(status="received"), 200
         
 
 
 if __name__ == '__main__':
     processing_thread = threading.Thread(target=process_queue, daemon=True)
     processing_thread.start()
-    app.run(host='0.0.0.0', port=5001, debug=False)
+
+    scheduler = BackgroundScheduler()
+    scheduler.configure(timezone=timezone('Asia/Kolkata'))
+    scheduler.add_job(sendMessageToAllUsers, 'cron', hour=22, minute=39)
+    scheduler.start()
+
+    app.run(host='0.0.0.0', port=5001, debug=False)    
