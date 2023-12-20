@@ -165,7 +165,7 @@ def send_commentary(waId, commentary_message):
 
 def send_thank_you(waId, shloka_number):
     completed_percent = round((shloka_number / 700) * 100, 2)
-    reply_text = f"That's great! You are now one step closer to self-realization. Thank you for reading Gita Daily. You have completed reading {completed_percent} of the Bhagavad Gita. Keep going!"
+    reply_text = f"That's great! You are now one step closer to self-realization. Thank you for reading Gita Daily. You have completed reading {completed_percent}% of the Bhagavad Gita. Keep going!"
     url = f"https://live-server-114563.wati.io/api/v1/sendSessionMessage/{waId}?messageText={reply_text}"
     headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ"}
     response = requests.post(url, headers=headers)  
@@ -210,32 +210,33 @@ def send_message(waId):
                 send_pmt_link(waId, url)
 
             else:
-                ch, sh = getChSh(user_data[1])
-                file_shlok = str(ch) + '/' + str(sh) + '.json'
-                with open(file_shlok, 'r') as file:
-                    shloka_data = json.load(file)
-                    
-                    verse = shloka_data["verse"][:-1]
-                    translation = remove_unnecessary_spaces(shloka_data["translation"].strip('\n'))
-                    newest_commentary = shloka_data.get("newest_commentary", "NONE").strip('\n')
-                    
-                    if len(verse) + len(translation) + len(newest_commentary) + len("*Chapter 12* Verse 12*\n\n\n\n*Translation*\n\n*Commentary*\n") > 1024:
-                        commentary_message = "*Commentary*\n" + newest_commentary
-                        newest_commentary = "NONE"
-                    
-                    if newest_commentary != "NONE":
-                        message_text = f"*Chapter {ch} Verse {sh}*\n\n{verse}\n\n*Translation*\n{translation}\n*Commentary*\n{newest_commentary}"
-                    else:
-                        message_text = f"*Chapter {ch} Verse {sh}*\n\n{verse}\n\n*Translation*\n{translation}"
+                if datetime.strptime(user_data[4], '%Y-%m-%d %H:%M:%S.%f') + timedelta(days=1) > datetime.now():
+                    ch, sh = getChSh(user_data[1])
+                    file_shlok = str(ch) + '/' + str(sh) + '.json'
+                    with open(file_shlok, 'r') as file:
+                        shloka_data = json.load(file)
+                        
+                        verse = shloka_data["verse"][:-1]
+                        translation = remove_unnecessary_spaces(shloka_data["translation"].strip('\n'))
+                        newest_commentary = shloka_data.get("newest_commentary", "NONE").strip('\n')
+                        
+                        if len(verse) + len(translation) + len(newest_commentary) + len("*Chapter 12* Verse 12*\n\n\n\n*Translation*\n\n*Commentary*\n") > 1024:
+                            commentary_message = "*Commentary*\n" + newest_commentary
+                            newest_commentary = "NONE"
+                        
+                        if newest_commentary != "NONE":
+                            message_text = f"*Chapter {ch} Verse {sh}*\n\n{verse}\n\n*Translation*\n{translation}\n*Commentary*\n{newest_commentary}"
+                        else:
+                            message_text = f"*Chapter {ch} Verse {sh}*\n\n{verse}\n\n*Translation*\n{translation}"
 
-                send_main_shloka(waId, ch, sh, message_text)
-                send_audio(waId, ch, sh)       
+                    send_main_shloka(waId, ch, sh, message_text)
+                    send_audio(waId, ch, sh)       
 
-                if 'commentary_message' in locals():
-                    send_commentary(waId, commentary_message)
+                    if 'commentary_message' in locals():
+                        send_commentary(waId, commentary_message)
 
-                user_data[1] = user_data[1] + shloka_data['next shlok'] - sh
-                main_data[waId] = user_data
+                    user_data[1] = user_data[1] + shloka_data['next shlok'] - sh
+                    main_data[waId] = user_data
         with open('wati-data.json', 'w') as file:
             json.dump(main_data, file)
     
@@ -308,6 +309,10 @@ def respond():
                 with open('wati-data.json', 'r') as file:
                     main_data = json.load(file)
                     user_data = main_data[waId]
+                    user_data[4] = str(datetime.now())
+                    main_data[waId] = user_data
+                with open('wati-data.json', 'w') as file:
+                    json.dump(main_data, file)                                     
                 send_thank_you(waId, user_data[1])
         
         else:
