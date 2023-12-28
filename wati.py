@@ -118,15 +118,24 @@ def send_audio(waId, ch, sh):
 
 def send_main_shloka(waId, ch, sh, message_text):
     api_url = f"https://live-server-114563.wati.io/api/v1/sendInteractiveButtonsMessage?whatsappNumber={waId}"
+    # payload = {
+    #     "header": {
+    #         "media": { "url": f"https://github.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images-New/blob/main/{ch}/{sh}.jpg?raw=true" },
+    #         "type": "Image"
+    #     },
+    #     "buttons": [{ "text": "I finished reading" }, { "text": "Next Shloka" }],
+    #     "footer": "www.gitadaily.in",
+    #     "body": message_text
+    # }
     payload = {
         "header": {
-            "media": { "url": f"https://github.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images/blob/main/{ch}_new/{sh}.png?raw=true" },
+            "media": { "url": f"https://github.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images-New/blob/main/{ch}/{sh}.jpg?raw=true" },
             "type": "Image"
         },
-        "buttons": [{ "text": "I finished reading" }, { "text": "Next Shloka" }],
+        "buttons": [{ "text": "I finished reading" }],
         "footer": "www.gitadaily.in",
         "body": message_text
-    }
+    }    
     headers = {
         "content-type": "text/json",
         "Authorization": access_token
@@ -315,9 +324,9 @@ def respond():
                     json.dump(main_data, file)                                     
                 send_thank_you(waId, user_data[1])
                 
-            if msg.lower().strip() == "next shloka":
-                print("user wants next shloka")
-                send_message(waId)
+            # if msg.lower().strip() == "next shloka":
+            #     print("user wants next shloka")
+            #     send_message(waId)
         
         else:
             if msg.lower().strip() == "hare krishna":
@@ -352,7 +361,7 @@ if __name__ == '__main__':
 
     scheduler = BackgroundScheduler()
     scheduler.configure(timezone=timezone('Asia/Kolkata'))
-    scheduler.add_job(sendMessageToAllUsers, 'cron', hour=23, minute=56)
+    scheduler.add_job(sendMessageToAllUsers, 'cron', hour=7, minute=0)
     scheduler.start()
 
     app.run(host='0.0.0.0', port=5001, debug=False)    
