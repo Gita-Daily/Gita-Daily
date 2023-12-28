@@ -325,7 +325,16 @@ def respond():
                 save_number(waId, data)
 
                 url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
-                reply = "Hare Krishna " + name + "! Welcome to Gita Daily. We are an organisation aimed at sharing the knowledge of the Bhagavad Gita through easy to digest WhatsApp messages. You can read the shlokas at your own pace by clicking the \"Next Shloka\" button in our messages. Your first shloka is on its way!"
+                reply = "Hare Krishna " + name + """! Welcome to Gita Daily. We are delighted to offer you the enriching wisdom of the Bhagavad Gita through easy-to-digest WhatsApp messages. As part of our commitment to quality service, please note that this is a paid subscription, primarily due to the costs associated with using WhatsApp for daily message delivery. However, to get you started, you are on a complimentary 7-day trial.
+
+                Here's how our service works:
+
+                1. *Daily Shloka:* You'll receive a shloka every day.
+                2. *Completion Confirmation:* After reading, click the 'I finished reading' button.
+                3. *Reminder:* If a shloka is not read, you'll receive a reminder to ensure you don't miss out.                
+
+                Your first shloka is already on its way! Embark on this spiritual journey at your own pace and immerse yourself in the timeless teachings of the Bhagavad Gita.
+                """
                 response = requests.post(url, headers={'Authorization' : access_token}, data={'messageText': reply})
                 print(response.json())
                 send_message(waId)

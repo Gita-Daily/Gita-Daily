@@ -25,10 +25,10 @@ def split_sentence(sentence):
 
 def overlay_text_on_random_image(shloka, translation, shloka_details, chapter_no, shloka_no):
     bg_text = "Bhagavad Gita"
-    subscribe_text = "To receive Daily Bhagavad Gita shlokas, \nWhatsApp 'Hare Krishna' to +919036504927"
+    subscribe_text = "To receive Daily Bhagavad Gita shlokas, \nWhatsApp 'Hare Krishna' to +917022312895"
 
     image_files = []
-    for root, dirs, files in os.walk("all-images"):
+    for root, dirs, files in os.walk("all-images-new"):
         for file in files:
             if file.endswith(".png") or file.endswith(".jpg") or file.endswith(".jpeg"):
                 image_files.append(os.path.join(root, file))
@@ -147,10 +147,10 @@ def overlay_text_on_random_image(shloka, translation, shloka_details, chapter_no
     draw.text((subscribe_text_x, subscribe_text_y), subscribe_text, fill="white", font=font)
 
     # save the image
-    os.makedirs(f"generated_images/{chapter_no}", exist_ok=True)
+    os.makedirs(f"generated_images_new/{chapter_no}", exist_ok=True)
 
     img_rgb = img.convert("RGB")
-    img_rgb.save(f"generated_images/{chapter_no}/{shloka_no}.jpg", "JPEG")
+    img_rgb.save(f"generated_images_new/{chapter_no}/{shloka_no}.jpg", "JPEG")
     print(f"Generated {chapter_no}/{shloka_no}.jpg")
 
 
