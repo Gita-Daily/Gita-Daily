@@ -194,7 +194,7 @@ def send_message(waId):
                 uid = str(time.time() * 1000)
                 res = client.payment_link.create({
                     "upi_link": True,
-                    "amount": 108,
+                    "amount": 10800,
                     "currency": "INR",
                     "accept_partial": False,
                     "description": "For Gita Daily 1 month subscription",
@@ -258,7 +258,7 @@ def sendReminder(waId):
         with open('wati-data.json', 'r') as file:
             users = json.load(file)
             user_data = users[waId]
-            if not user_data[6] and datetime.strptime(user_data[5], '%Y-%m-%d %H:%M:%S.%f') < datetime.now():
+            if not user_data[6] and datetime.strptime(user_data[5], '%Y-%m-%d %H:%M:%S.%f') > datetime.now():
                 url = f'https://live-server-114563.wati.io/api/v1/sendTemplateMessage?whatsappNumber={waId}'
 
                 headers = {
@@ -319,7 +319,7 @@ def payment_handle():
             with open('wati-data.json', 'r') as file:
                 main_data = json.load(file)
                 user_data = main_data[waId]
-                user_data[5] = str(datetime.now() + timedelta(days=3))
+                user_data[5] = str(datetime.now() + timedelta(days=31))
                 main_data[waId] = user_data
             with open('wati-data.json', 'w') as file:
                 json.dump(main_data, file)
@@ -369,7 +369,7 @@ def respond():
         
         else:
             if msg.lower().strip() == "hare krishna":
-                data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=2)), False]
+                data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=7)), False]
                 save_number(waId, data)
 
                 url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
