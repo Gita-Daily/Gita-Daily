@@ -245,12 +245,40 @@ def send_message(waId):
                         send_commentary(waId, commentary_message)
 
                     user_data[1] = user_data[1] + shloka_data['next shlok'] - sh
+                    user_data[6] = False
                     main_data[waId] = user_data
         with open('wati-data.json', 'w') as file:
             json.dump(main_data, file)
     
     except Exception as e:
         print('error: ' + str(e))
+
+def sendReminder(waId):
+    try:
+        with open('wati-data.json', 'r') as file:
+            users = json.load(file)
+            user_data = users[waId]
+            if not user_data[6] and datetime.strptime(user_data[5], '%Y-%m-%d %H:%M:%S.%f') < datetime.now():
+                url = f'https://live-server-114563.wati.io/api/v1/sendTemplateMessage?whatsappNumber={waId}'
+
+                headers = {
+                    'accept': '*/*',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZTk0YjdmYy01MDVlLTRkZjItYjMwYy0xOTlmNWE1NDhjODIiLCJ1bmlxdWVfbmFtZSI6ImthcnRoaWtAZG8ueW9nYSIsIm5hbWVpZCI6ImthcnRoaWtAZG8ueW9nYSIsImVtYWlsIjoia2FydGhpa0Bkby55b2dhIiwiYXV0aF90aW1lIjoiMDkvMDIvMjAyMyAwNTowNDo0NyIsImRiX25hbWUiOiIxMTQ1NjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBVE9SIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IkNsYXJlX0FJIiwiYXVkIjoiQ2xhcmVfQUkifQ.29IGlp4J9UKJ1G6vFxmbi2A12TRiFRCQB-lL-ew6vxQ',
+                    'Content-Type': 'application/json-patch+json'
+                }
+
+                data = {
+                    "template_name": "reminde_gita",
+                    "broadcast_name": "test 1",
+                }
+
+                response = requests.post(url, headers=headers, data=json.dumps(data))
+
+                print(response.text)
+
+    except Exception as e:
+        print(f"Error in sendReminder: {e}")
+
 
 def sendMessageToAllUsers():
     try:
@@ -261,6 +289,16 @@ def sendMessageToAllUsers():
                 print(f"Queued message for user: {waId}")
     except Exception as e:
         print(f"Error in sendMessageToAllUsers: {e}")
+
+def sendReminders():
+    try:
+        with open('wati-data.json', 'r') as file:
+            users_data = json.load(file)
+            for waId in users_data.keys():
+                sendReminder(waId)
+    except Exception as e:
+        print(f"Error in sendReminders: {e}")
+
 
 app = Flask(__name__)
 
@@ -319,6 +357,7 @@ def respond():
                     main_data = json.load(file)
                     user_data = main_data[waId]
                     user_data[4] = str(datetime.now())
+                    user_data[6] = True
                     main_data[waId] = user_data
                 with open('wati-data.json', 'w') as file:
                     json.dump(main_data, file)                                     
@@ -330,7 +369,7 @@ def respond():
         
         else:
             if msg.lower().strip() == "hare krishna":
-                data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=2))]
+                data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=2)), False]
                 save_number(waId, data)
 
                 url = f"{api_endpoint}/api/v1/sendSessionMessage/{waId}"
@@ -361,7 +400,12 @@ if __name__ == '__main__':
 
     scheduler = BackgroundScheduler()
     scheduler.configure(timezone=timezone('Asia/Kolkata'))
+
     scheduler.add_job(sendMessageToAllUsers, 'cron', hour=7, minute=0)
+
+    scheduler.add_job(sendReminders, 'cron', hour=19, minute=0)
+
     scheduler.start()
 
-    app.run(host='0.0.0.0', port=5001, debug=False)    
+    app.run(host='0.0.0.0', port=5001, debug=False)
+
