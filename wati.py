@@ -123,7 +123,7 @@ def send_main_shloka(waId, ch, sh, message_text):
             "media": { "url": f"https://github.com/LOLIPOP-INTELLIGENCE/Gita-Daily-Images/blob/main/{ch}_new/{sh}.png?raw=true" },
             "type": "Image"
         },
-        "buttons": [{ "text": "I finished reading" }],
+        "buttons": [{ "text": "I finished reading" }, { "text": "Next Shloka" }],
         "footer": "www.gitadaily.in",
         "body": message_text
     }
@@ -314,6 +314,10 @@ def respond():
                 with open('wati-data.json', 'w') as file:
                     json.dump(main_data, file)                                     
                 send_thank_you(waId, user_data[1])
+                
+            if msg.lower().strip() == "next shloka":
+                print("user wants next shloka")
+                send_message(waId)
         
         else:
             if msg.lower().strip() == "hare krishna":
