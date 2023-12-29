@@ -1416,3 +1416,108 @@ the message is Geeta Saar from Swapnil Wankhede...
 34.143.232.212 - - [28/Dec/2023 14:33:06] "POST /webhook HTTP/1.1" 200 -
 34.143.232.212 - - [28/Dec/2023 15:09:54] "POST /webhook HTTP/1.1" 200 -
 34.143.232.212 - - [28/Dec/2023 15:10:08] "POST /webhook HTTP/1.1" 200 -
+Queue processing thread started
+ * Serving Flask app 'wati'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.31.28.73:5001
+Press CTRL+C to quit
+34.143.232.212 - - [28/Dec/2023 19:47:49] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [28/Dec/2023 19:51:31] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [28/Dec/2023 19:55:02] "POST /webhook HTTP/1.1" 200 -
+167.248.133.187 - - [28/Dec/2023 23:31:35] "GET / HTTP/1.1" 200 -
+167.248.133.187 - - [28/Dec/2023 23:31:45] code 505, message Invalid HTTP version (2.0)
+167.248.133.187 - - [28/Dec/2023 23:31:45] "PRI * HTTP/2.0" HTTPStatus.HTTP_VERSION_NOT_SUPPORTED -
+167.248.133.187 - - [28/Dec/2023 23:31:46] "GET /favicon.ico HTTP/1.1" 404 -
+162.216.150.202 - - [29/Dec/2023 00:38:45] "GET / HTTP/1.1" 200 -
+198.235.24.154 - - [29/Dec/2023 00:40:06] code 400, message Bad request version ('À\x13À')
+198.235.24.154 - - [29/Dec/2023 00:40:06] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03Úm\x92Éü\x835*Á¥;TFø\x06O@\x08\x9bÞïþ\x02]\x8c¡¥/\x13\\\x89è Lb\x82kÛÓÃÝ«Ïît\x1dZîï\x9eëmL\x92©ËG!¾Úª|"ý~\x00&À+À/À,À0Ì©Ì¨À\x09À\x13À" HTTPStatus.BAD_REQUEST -
+198.235.24.154 - - [29/Dec/2023 00:40:07] code 400, message Bad request version ('À(À$À\x14À')
+198.235.24.154 - - [29/Dec/2023 00:40:07] "\x16\x03\x01\x00Ê\x01\x00\x00Æ\x03\x03#¬"(FÚíá¤,­ìÝô;é\x84íÕ³Õ\x1dLö-Z\x07âQþXØ\x00\x00hÌ\x14Ì\x13À/À+À0À,À\x11À\x07À'À#À\x13À\x09À(À$À\x14À" HTTPStatus.BAD_REQUEST -
+34.143.232.212 - - [29/Dec/2023 01:54:48] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 01:54:56] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 01:55:07] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 01:55:12] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 01:55:28] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 01:56:19] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 02:05:42] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 02:36:36] "POST /webhook HTTP/1.1" 200 -
+198.235.24.13 - - [29/Dec/2023 02:42:04] "GET / HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 02:48:37] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 02:48:47] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 02:56:29] "POST /webhook HTTP/1.1" 200 -
+52.66.76.63 - - [29/Dec/2023 03:04:49] "POST /pay HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:05:52] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:06:06] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:06:09] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:06:18] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:28:38] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:52:58] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:54:15] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:55:00] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 03:59:05] "POST /webhook HTTP/1.1" 200 -
+the message is hare krishna from Manas...
+{'ok': True, 'result': 'success', 'message': {'whatsappMessageId': 'wamid.HBgKNjU4ODY0NjgyMBUCABEYEjMzOEYzQzE2RkE1OTBFOEU2RQA=', 'localMessageId': '027260a9-db3e-4050-93a5-7acf2bf709ee', 'text': "Hare Krishna Manas! Welcome to Gita Daily. We are delighted to offer you the enriching wisdom of the Bhagavad Gita through easy-to-digest WhatsApp messages. As part of our commitment to quality service, please note that this is a paid subscription, primarily due to the costs associated with using WhatsApp for daily message delivery. However, to get you started, you are on a complimentary 7-day trial. \n\nHere's how our service works:\n1. *Daily Shloka:* You'll receive a shloka every day.\n2. *Completion Confirmation:* After reading, click the 'I finished reading' button.\n3. *Reminder:* If a shloka is not read, you'll receive a reminder to ensure you don't miss out.\n\nYour first shloka is already on its way! Embark on this spiritual journey at your own pace and immerse yourself in the timeless teachings of the Bhagavad Gita.\n                ", 'media': None, 'messageContact': None, 'location': None, 'type': 'text', 'time': '1703792866', 'status': 1, 'statusString': None, 'isOwner': True, 'isUnread': False, 'ticketId': '658d9e90be2ede63276614ea', 'avatarUrl': None, 'assignedId': '64f0578183787aa2f4ce8ca4', 'operatorName': None, 'replyContextId': None, 'sourceType': 0, 'failedDetail': None, 'messageReferral': None, 'messageProducts': None, 'orderProducts': None, 'orderDetails': None, 'paymentStatus': None, 'interactiveData': None, 'referenceOrderId': None, 'id': '658dd0e2be2ede632766159b', 'created': '2023-12-28T19:47:46.3293568Z', 'conversationId': '64f52c072d411a5ff79383de'}}
+sending message to 6588646820...
+the message is I finished reading from Manas...
+user exists
+user finished reading
+the message is hare krishna from Manas...
+user exists
+Queued message for user: 6588646820
+Processing message for waId: 6588646820
+sending message to 6588646820...
+the message is Next Shloka from SAMARTH...
+the message is I finished reading from SAMARTH...
+the message is Hare Krishna from SAMARTH...
+{'ok': True, 'result': 'success', 'message': {'whatsappMessageId': 'wamid.HBgMOTE3MzM3NjEwNzcxFQIAERgSQjY4NEUwNUVCMjQ5NzE1NjM5AA==', 'localMessageId': 'd878ca7c-d53e-4c8e-abd3-a7be80315feb', 'text': "Hare Krishna SAMARTH! Welcome to Gita Daily. We are delighted to offer you the enriching wisdom of the Bhagavad Gita through easy-to-digest WhatsApp messages. As part of our commitment to quality service, please note that this is a paid subscription, primarily due to the costs associated with using WhatsApp for daily message delivery. However, to get you started, you are on a complimentary 7-day trial. \n\nHere's how our service works:\n1. *Daily Shloka:* You'll receive a shloka every day.\n2. *Completion Confirmation:* After reading, click the 'I finished reading' button.\n3. *Reminder:* If a shloka is not read, you'll receive a reminder to ensure you don't miss out.\n\nYour first shloka is already on its way! Embark on this spiritual journey at your own pace and immerse yourself in the timeless teachings of the Bhagavad Gita.\n                ", 'media': None, 'messageContact': None, 'location': None, 'type': 'text', 'time': '1703814903', 'status': 1, 'statusString': None, 'isOwner': True, 'isUnread': False, 'ticketId': '658e26e7be2ede63276615af', 'avatarUrl': None, 'assignedId': '64f0578183787aa2f4ce8ca4', 'operatorName': None, 'replyContextId': None, 'sourceType': 0, 'failedDetail': None, 'messageReferral': None, 'messageProducts': None, 'orderProducts': None, 'orderDetails': None, 'paymentStatus': None, 'interactiveData': None, 'referenceOrderId': None, 'id': '658e26f7be2ede63276615c0', 'created': '2023-12-29T01:55:02.5366236Z', 'conversationId': '64f4b9612824b1b3cad857cd'}}
+sending message to 917337610771...
+the message is Hare Krishna from SAMARTH...
+user exists
+the message is I finished reading from SAMARTH...
+user exists
+user finished reading
+the message is Next shloka from SAMARTH...
+user exists
+the message is Hello! Can I get more info on this? from KODALI LENIN...
+the message is None from Diksha Srivastava...
+error: 'NoneType' object has no attribute 'lower'
+the message is Hello! Can I get more info on this? from 😃...
+the message is V nice from 😃...
+the message is Hello! Can I get more info on this? from Jai Mata Di 🙏 🌹...
+payment received
+{'account_id': 'acc_Hc4LTQzqUEJFjW', 'contains': ['payment'], 'created_at': 1703819088, 'entity': 'event', 'event': 'payment.captured', 'payload': {'payment': {'entity': {'acquirer_data': {'rrn': '336304035039'}, 'amount': 5000, 'amount_refunded': 0, 'amount_transferred': 0, 'bank': None, 'base_amount': 5000, 'captured': True, 'card_id': None, 'contact': '+919008251100', 'created_at': 1703819068, 'currency': 'INR', 'description': 'Live Class', 'email': 'ashwinidalwaipattan@gmail.com', 'entity': 'payment', 'error_code': None, 'error_description': None, 'error_reason': None, 'error_source': None, 'error_step': None, 'fee': 118, 'id': 'pay_NI0RONh7gv2G9G', 'international': False, 'invoice_id': None, 'method': 'upi', 'notes': {'address': 'Razorpay Corporate Office'}, 'order_id': 'order_NI0RDyEXbw9nfn', 'refund_status': None, 'status': 'captured', 'tax': 18, 'upi': {'payer_account_type': 'bank_account', 'vpa': 'ashwinidalwaipattan@okhdfcbank'}, 'vpa': 'ashwinidalwaipattan@okhdfcbank', 'wallet': None}}}}
+error: 'uid'
+the message is Hey from Ashwini Dalwaipattan...
+the message is I would like to take trial class on 2nd January from Ashwini Dalwaipattan...
+the message is Is it possible from Ashwini Dalwaipattan...
+the message is Not on 30th December from Ashwini Dalwaipattan...
+the message is Hello! Can I get more info on this? from Biswarup...
+the message is I finished reading from Manas...
+user exists
+user finished reading
+the message is Hare Krishna from Arati...
+{'ok': True, 'result': 'success', 'message': {'whatsappMessageId': 'wamid.HBgMOTE5ODQ1Mjg4NTU0FQIAERgSNUJFQTc2ODZCM0NGOUYyNkJCAA==', 'localMessageId': '5aa7f3ad-1d1d-4451-a253-d85838946e75', 'text': "Hare Krishna Arati! Welcome to Gita Daily. We are delighted to offer you the enriching wisdom of the Bhagavad Gita through easy-to-digest WhatsApp messages. As part of our commitment to quality service, please note that this is a paid subscription, primarily due to the costs associated with using WhatsApp for daily message delivery. However, to get you started, you are on a complimentary 7-day trial. \n\nHere's how our service works:\n1. *Daily Shloka:* You'll receive a shloka every day.\n2. *Completion Confirmation:* After reading, click the 'I finished reading' button.\n3. *Reminder:* If a shloka is not read, you'll receive a reminder to ensure you don't miss out.\n\nYour first shloka is already on its way! Embark on this spiritual journey at your own pace and immerse yourself in the timeless teachings of the Bhagavad Gita.\n                ", 'media': None, 'messageContact': None, 'location': None, 'type': 'text', 'time': '1703822050', 'status': 1, 'statusString': None, 'isOwner': True, 'isUnread': False, 'ticketId': '658e42e1be2ede6327661644', 'avatarUrl': None, 'assignedId': '64f0578183787aa2f4ce8ca4', 'operatorName': None, 'replyContextId': None, 'sourceType': 0, 'failedDetail': None, 'messageReferral': None, 'messageProducts': None, 'orderProducts': None, 'orderDetails': None, 'paymentStatus': None, 'interactiveData': None, 'referenceOrderId': None, 'id': '658e42e2be2ede632766164e', 'created': '2023-12-29T03:54:09.9514338Z', 'conversationId': '64fdfa74963b56f7db840b14'}}
+sending message to 919845288554...
+the message is Hare Krishna from Arati...
+user exists
+the message is Can I speak to someone? from Ashwini Dalwaipattan...
+the message is Hare Krishna from Neelesh...
+34.143.232.212 - - [29/Dec/2023 04:20:50] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 04:43:27] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 04:50:09] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 04:50:38] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 04:51:29] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 04:51:51] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 05:06:34] "POST /webhook HTTP/1.1" 200 -
+52.66.76.63 - - [29/Dec/2023 05:22:00] "POST /pay HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 05:37:05] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 05:37:17] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 05:50:10] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 05:55:56] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 05:57:13] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 06:08:50] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 06:13:25] "POST /webhook HTTP/1.1" 200 -
+34.143.232.212 - - [29/Dec/2023 06:13:54] "POST /webhook HTTP/1.1" 200 -
