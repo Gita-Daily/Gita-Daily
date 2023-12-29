@@ -8,6 +8,8 @@ import threading
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import timezone
+from fuzzywuzzy import fuzz
+
 
 
 
@@ -368,7 +370,7 @@ def respond():
             #     send_message(waId)
         
         else:
-            if msg.lower().strip() == "hare krishna":
+            if fuzz.ratio(msg.lower().strip(), "hare krishna") > 70:
                 data = [name, 1, True, "english", str(datetime.now()), str(datetime.now() + timedelta(days=7)), False]
                 save_number(waId, data)
 
